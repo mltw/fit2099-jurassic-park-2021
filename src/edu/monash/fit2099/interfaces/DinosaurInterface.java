@@ -7,6 +7,9 @@ import edu.monash.fit2099.engine.Item;
  * or downcasting references in the game.
  *
  * @see Item
+ * @see game.dinosaurs.Stegosaur
+ * @see game.dinosaurs.Brachiosaur
+ * @see game.dinosaurs.Allosaur
  */
 public interface DinosaurInterface {
 
