@@ -1,7 +1,9 @@
-package game;
+package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import edu.monash.fit2099.interfaces.DinosaurInterface;
+import game.Behaviour;
+import game.WanderBehaviour;
 
 /**
  * A herbivorous dinosaur.
