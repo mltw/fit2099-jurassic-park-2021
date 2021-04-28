@@ -1,6 +1,8 @@
 package edu.monash.fit2099.interfaces;
 
 import edu.monash.fit2099.engine.Item;
+import game.Behaviour;
+import game.WanderBehaviour;
 
 /**
  * This interface provides the ability to add methods to Dinosaur, without modifying code in the engine,
@@ -12,12 +14,6 @@ import edu.monash.fit2099.engine.Item;
  * @see game.dinosaurs.Allosaur
  */
 public interface DinosaurInterface {
-
-    /**
-     * Gets the food level of the dinosaur.
-     * @return food level of the dinosaur.
-     */
-    int getFoodLevel();
 
     /**
      * Gets the number of rounds the dinosaur has been unconscious. Different dinosaurs will die
