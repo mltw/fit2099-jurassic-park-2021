@@ -34,5 +34,16 @@ public interface DinosaurInterface {
      */
     boolean isPregnant();
 
+    /**
+     * Gets the hit points (= food level = health level) of the dinosaur.
+     * @return hit points of the dinosaur.
+     */
+    int getHitPoints();
+
+    /**
+     * Gets the gender of the dinosaur.
+     * @return gender of the dinosaur, 'M' for male, 'F' for female.
+     */
+    String getGender();
 
 }
