@@ -57,13 +57,4 @@ public class Allosaur extends Actor implements DinosaurInterface {
         return false;
     }
 
-    @Override
-    public void eat(Item item) {
-
-    }
-
-    @Override
-    public void breed() {
-
-    }
 }
