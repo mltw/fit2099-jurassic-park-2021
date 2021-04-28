@@ -50,6 +50,16 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	}
 
 	/**
+	 * Gets the food level of the dinosaur.
+	 *
+	 * @return food level of the dinosaur.
+	 */
+	@Override
+	public int getFoodLevel() {
+		return 0;
+	}
+
+	/**
 	 * Gets the number of rounds the dinosaur has been unconscious. Different dinosaurs will die
 	 * after different number of rounds(counts) of unconsciousness.
 	 *

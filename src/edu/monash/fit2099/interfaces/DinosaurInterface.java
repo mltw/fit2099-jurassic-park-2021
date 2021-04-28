@@ -14,7 +14,6 @@ import game.WanderBehaviour;
  * @see game.dinosaurs.Allosaur
  */
 public interface DinosaurInterface {
-
     /**
      * Gets the number of rounds the dinosaur has been unconscious. Different dinosaurs will die
      * after different number of rounds(counts) of unconsciousness.
