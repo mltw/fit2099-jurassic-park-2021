@@ -33,10 +33,10 @@ public class Brachiosaur extends Actor implements DinosaurInterface {
         return null;
     }
 
-    @Override
-    public int getFoodLevel() {
-        return hitPoints;
-    }
+//    @Override
+//    public int getFoodLevel() {
+//        return hitPoints;
+//    }
 
     @Override
     public int getUnconsciousCount() {
@@ -53,13 +53,5 @@ public class Brachiosaur extends Actor implements DinosaurInterface {
         return false;
     }
 
-    @Override
-    public void eat(Item item) {
 
-    }
-
-    @Override
-    public void breed() {
-
-    }
 }

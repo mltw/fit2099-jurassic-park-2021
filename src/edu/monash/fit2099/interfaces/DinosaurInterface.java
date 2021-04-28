@@ -34,15 +34,5 @@ public interface DinosaurInterface {
      */
     boolean isPregnant();
 
-    /**
-     * A method for the dinosaur to eat an Item instance.
-     * @param item an dinosaur's food, which is an Item instance.
-     */
-    void eat(Item item);
-
-    /**
-     * A method to let the dinosaur breed with another same specie, opposite sex dinosaur.
-     */
-    void breed();
 
 }

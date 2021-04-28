@@ -80,22 +80,4 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	public boolean isPregnant() {
 		return false;
 	}
-
-	/**
-	 * A method for the dinosaur to eat an Item instance.
-	 *
-	 * @param item an dinosaur's food, which is an Item instance.
-	 */
-	@Override
-	public void eat(Item item) {
-
-	}
-
-	/**
-	 * A method to let the dinosaur breed with another same specie, opposite sex dinosaur.
-	 */
-	@Override
-	public void breed() {
-
-	}
 }
