@@ -12,7 +12,6 @@ import edu.monash.fit2099.engine.Item;
  * @see game.dinosaurs.Allosaur
  */
 public interface DinosaurInterface {
-
     /**
      * Gets the food level of the dinosaur.
      * @return food level of the dinosaur.

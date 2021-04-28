@@ -15,5 +15,6 @@ public class Bush extends Ground {
      */
     public Bush() {
         super('v');
+        addCapability(Status.DEAD);
     }
 }

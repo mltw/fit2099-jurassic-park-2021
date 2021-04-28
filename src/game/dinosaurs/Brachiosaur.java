@@ -12,6 +12,9 @@ public class Brachiosaur extends Actor implements DinosaurInterface {
 
     // Will need to change this to a collection if Brachiosaur gets additional Behaviours.
     private Behaviour behaviour;
+    private int unconsciousCount;
+    private int pregnantCount;
+    private String gender;
 
     /**
      * Constructor.
@@ -32,17 +35,17 @@ public class Brachiosaur extends Actor implements DinosaurInterface {
 
     @Override
     public int getFoodLevel() {
-        return 0;
+        return hitPoints;
     }
 
     @Override
     public int getUnconsciousCount() {
-        return 0;
+        return unconsciousCount;
     }
 
     @Override
     public int getPregnantCount() {
-        return 0;
+        return pregnantCount;
     }
 
     @Override

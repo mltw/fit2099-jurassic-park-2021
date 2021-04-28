@@ -14,6 +14,9 @@ import game.WanderBehaviour;
 public class Stegosaur extends Actor implements DinosaurInterface {
 	// Will need to change this to a collection if Stegosaur gets additional Behaviours.
 	private Behaviour behaviour;
+	private int unconsciousCount;
+	private int pregnantCount;
+	private String gender;
 
 	/** 
 	 * Constructor.
@@ -22,7 +25,7 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	 * @param name the name of this Stegosaur
 	 */
 	public Stegosaur(String name) {
-		super(name, 'd', 100);
+		super(name, 'd', 50);
 		
 		behaviour = new WanderBehaviour();
 	}
@@ -56,7 +59,7 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	 */
 	@Override
 	public int getFoodLevel() {
-		return 0;
+		return hitPoints;
 	}
 
 	/**
@@ -67,7 +70,7 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	 */
 	@Override
 	public int getUnconsciousCount() {
-		return 0;
+		return unconsciousCount;
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	 */
 	@Override
 	public int getPregnantCount() {
-		return 0;
+		return pregnantCount;
 	}
 
 	/**
