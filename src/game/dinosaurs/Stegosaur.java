@@ -22,7 +22,7 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	 * @param name the name of this Stegosaur
 	 */
 	public Stegosaur(String name) {
-		super(name, 'd', 100);
+		super(name, 'd', 50);
 		
 		behaviour = new WanderBehaviour();
 	}
@@ -30,6 +30,26 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
 		return new Actions(new AttackAction(this));
+	}
+
+	/**
+	 * Gets the hit points (= food level = health level) of the dinosaur.
+	 *
+	 * @return hit points of the dinosaur.
+	 */
+	@Override
+	public int getHitPoints() {
+		return hitPoints;
+	}
+
+	/**
+	 * Gets the gender of the dinosaur.
+	 *
+	 * @return gender of the dinosaur, 'M' for male, 'F' for female.
+	 */
+	@Override
+	public String getGender() {
+		return null;
 	}
 
 	/**
@@ -42,10 +62,15 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		Action wander = behaviour.getAction(this, map);
-		if (wander != null)
-			return wander;
-		
+		// get Stegosaur's location
+		Location stegosaur1 = map.locationOf(this);
+//		if (hitPoints >50 && !isPregnant()){
+//
+//		}
+//		Action wander = behaviour.getAction(this, map);
+//		if (wander != null)
+//			return wander;
+//
 		return new DoNothingAction();
 	}
 
