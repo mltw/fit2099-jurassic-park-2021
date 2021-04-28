@@ -35,25 +35,7 @@ public class Stegosaur extends Actor implements DinosaurInterface {
 		return new Actions(new AttackAction(this));
 	}
 
-	/**
-	 * Gets the hit points (= food level = health level) of the dinosaur.
-	 *
-	 * @return hit points of the dinosaur.
-	 */
-	@Override
-	public int getHitPoints() {
-		return hitPoints;
-	}
 
-	/**
-	 * Gets the gender of the dinosaur.
-	 *
-	 * @return gender of the dinosaur, 'M' for male, 'F' for female.
-	 */
-	@Override
-	public String getGender() {
-		return null;
-	}
 
 	/**
 	 * Figure out what to do next.
