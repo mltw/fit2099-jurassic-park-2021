@@ -12,6 +12,9 @@ public class Allosaur extends Actor implements DinosaurInterface {
 
     // Will need to change this to a collection if Allosaur gets additional Behaviours.
     private Behaviour behaviour;
+    private int unconsciousCount;
+    private int pregnantCount;
+    private String gender;
 
     /**
      * Constructor.
@@ -23,28 +26,30 @@ public class Allosaur extends Actor implements DinosaurInterface {
         super(name, 'a', 100); //to be edited
 
         behaviour = new WanderBehaviour();
-    }
+        this.unconsciousCount = 0;
 
+    }
 
 
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        return null;
+        Action wander = behaviour.getAction(this, map);
+        if (wander != null)
+            return wander;
+
+        return new DoNothingAction();
     }
 
-    @Override
-    public int getFoodLevel() {
-        return 0;
-    }
+
 
     @Override
     public int getUnconsciousCount() {
-        return 0;
+        return unconsciousCount;
     }
 
     @Override
     public int getPregnantCount() {
-        return 0;
+        return pregnantCount;
     }
 
     @Override
