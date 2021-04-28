@@ -8,6 +8,9 @@ import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.FancyGroundFactory;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.World;
+import game.dinosaurs.Stegosaur;
+import game.ground.Dirt;
+import game.ground.Tree;
 
 /**
  * The main class for the Jurassic World game.
