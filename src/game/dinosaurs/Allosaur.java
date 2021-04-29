@@ -31,10 +31,25 @@ public class Allosaur extends Dinosaur {
 
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        // In each round, check and do the following:
+        // update count in cantAttack; after 20 turns of cantAttack, remove the stegosaur from cantAttack
+        cantAttack.replaceAll((stegosaurName, cantAttackCount) ->
+                (cantAttackCount +1) == 21 ? cantAttack.remove(stegosaurName) : cantAttackCount+1);
+
+        // check if allosaur is still unconscious
+        if (this.getHitPoints()>0)
+            this.setUnconsciousCount(0);
+
+        // update pregnant count, if it's pregnant
+        if (this.getPregnantCount() > 0)
+            this.setPregnantCount(this.getPregnantCount() + 1);
+
         int allosaurLocationX = map.locationOf(this).x();
         int allosaurLocationY = map.locationOf(this).y();
 
         Location here = map.locationOf(this);
+
+
 
 
         // NEW VERSION TO FIND ADJACENT AND NEARBY STUFF
@@ -44,16 +59,20 @@ public class Allosaur extends Dinosaur {
             List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
 //            exit.name is like North/North-East etc...
 
+
+            // ===========CHECK FOR PREGNANCY COUNT FIRST IF REACH n THEN LAY EGG================
             if (this.getHitPoints() > 50 && !isPregnant()) {
                 // found an adjacent Allosaur
                 if (destination.getDisplayChar() == 'a') {
                     Allosaur adjcAllosaur = (Allosaur) destination.getActor();
                     if (!this.isPregnant() && !adjcAllosaur.isPregnant()
                             && !(this.getGender().equals(adjcAllosaur.getGender()))) {
-                        return new BreedAction(this, adjcAllosaur);
+                        return new BreedAction(adjcAllosaur);
                     }
                 }
-            } else if (this.getHitPoints() < 90) {
+            }
+
+            else if (this.getHitPoints() < 90) {
                 // display hungry message
                 display.println("Allosaur at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting hungry!");
                 // if found a Stegosaur
@@ -65,8 +84,34 @@ public class Allosaur extends Dinosaur {
                         this.cantAttack.put(adjcStegosaur.toString(), 1); //add the Stegosaur into 'cantAttack'
                         return new AttackAction(adjcStegosaur);
                     }
-
                 }
+                // if found a Corpse
+                else if(destination.getDisplayChar() == '%' || destination.getDisplayChar() == '('
+                        || destination.getDisplayChar() == ')'){
+                    return new EatAction(destination.getItems());
+                }
+                // left with EGG
+//                else if (destination.getDisplayChar() == '')
+            }
+
+            // update allosaur's unconscious count if it remains unfed
+            else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() == 0){
+                this.setUnconsciousCount(this.getUnconsciousCount()+1);
+            }
+
+            // if allosaur has reached 20 turns of unconsciousness, it will turn into a corpse
+            else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() == 20){
+                Item corpse = new PortableItem("dead " + this, '%');
+
+                map.locationOf(this).addItem(corpse);
+
+                Actions dropActions = new Actions();
+                for (Item item : this.getInventory())
+                    dropActions.add(item.getDropAction());
+                for (Action drop : dropActions)
+                    drop.execute(this, map);
+
+                map.removeActor(this);
             }
 
 
