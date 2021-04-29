@@ -50,7 +50,17 @@ public class AttackAction extends Action {
 		actor.heal(damage);
 
 		if (!target.isConscious()) {
-			Item corpse = new PortableItem("dead " + target, '%');
+			Item corpse;
+
+			if (target.getDisplayChar() == 'a'){ //allosaur corpse
+				corpse = new PortableItem("dead " + target, '%');
+			}
+			else if (target.getDisplayChar() == 'b') { //brachiosaur corpse
+				corpse = new PortableItem("dead " + target, '(');
+			}
+			else { //stegosaur corpse
+				corpse = new PortableItem("dead " + target, ')');
+			}
 			map.locationOf(target).addItem(corpse);
 			
 			Actions dropActions = new Actions();
