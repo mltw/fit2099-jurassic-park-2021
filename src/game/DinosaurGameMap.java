@@ -28,6 +28,6 @@ public class DinosaurGameMap extends GameMap {
      */
     @Override
     protected Location makeNewLocation(int x, int y) {
-        return super.makeNewLocation(x, y);
+        return new DinosaurLocation(this,x,y);
     }
 }
