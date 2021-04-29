@@ -8,11 +8,10 @@ import edu.monash.fit2099.engine.GameMap;
  * Action for dinosaurs to breed with each other.
  */
 public class BreedAction extends Action {
-    Actor current;
     Actor target;
 
-    public BreedAction(Actor current, Actor target) {
-
+    public BreedAction(Actor target) {
+        this.target = target;
     }
 
     /**
@@ -23,6 +22,7 @@ public class BreedAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        // TODO: need to set female dinosaur to be pregnant and setPregnantCount(1)
         return menuDescription(actor);
     }
 
