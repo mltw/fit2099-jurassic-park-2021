@@ -51,7 +51,8 @@ public class Tree extends Ground {
 				location.removeItem(item);
 			}
 		}
-		if (dropped){
+		if (counter !=0){
+			// means fruit dropped before, counter activated
 			counter++;
 		}
 	}
