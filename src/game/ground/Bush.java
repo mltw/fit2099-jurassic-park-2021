@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * A class that represents bush.
  */
 public class Bush extends Ground {
-    private int foodCount;
+    private int foodCount = 0;
 
     /**
      * Constructor.
@@ -34,8 +34,9 @@ public class Bush extends Ground {
         // 29/4
         if(Math.random() == 0.1){
             // any turn, 10% to produce 1 ripe fruit
-            Fruit item = new Fruit("fruit" , 'f',false);
+            Fruit item = new Fruit("fruit" , 'f');
             foodCount++;
+            item.addCapability(Status.ON_GROUND); // check
             location.addItem(item);
 
         }
