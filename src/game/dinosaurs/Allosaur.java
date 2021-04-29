@@ -5,6 +5,7 @@ import edu.monash.fit2099.interfaces.DinosaurInterface;
 import game.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A carnivore dinosaur.
@@ -32,11 +33,25 @@ public class Allosaur extends Actor implements DinosaurInterface {
 
     }
 
-
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         int allosaurLocationX = map.locationOf(this).x();
         int allosaurLocationY = map.locationOf(this).y();
+
+        Location here = map.locationOf(this);
+
+        // NEW VERSION TO FIND ADJACENT AND NEARBY STUFF IDK 29/4/21
+        for (Exit exit: here.getExits()){ //for each possible exit for the allosaur to go to
+            Location destination = exit.getDestination(); //this represents each adjacent square of the current allosaur
+                                                        // regardless of whether that square has an Actor/Tree or wtv
+            List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
+//            exit.name is like North/North-East etc...
+            if (destination.getDisplayChar() == 'a'){
+                // do stuff
+            }
+
+        }
+
 
         if ((getHitPoints() > 50) && !isPregnant()){
             ArrayList result = (checkAdjacentAndNearbySquares(allosaurLocationX, allosaurLocationY, map, 'a'));
