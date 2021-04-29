@@ -45,6 +45,10 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 
 		target.hurt(damage);
+
+		// newly added, to counter the case for Allosaur attack
+		actor.heal(damage);
+
 		if (!target.isConscious()) {
 			Item corpse = new PortableItem("dead " + target, '%');
 			map.locationOf(target).addItem(corpse);

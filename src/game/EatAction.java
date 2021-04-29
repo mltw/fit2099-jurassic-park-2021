@@ -3,8 +3,18 @@ package game;
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.Item;
+
+import java.util.Collection;
+import java.util.List;
 
 public class EatAction extends Action {
+    Item itemToBeEaten;
+
+    public EatAction(List<Item> items){
+        // item to be eaten is the one displayed on the ground, which = the last item in List items
+        this.itemToBeEaten = items.get(items.size() - 1);
+    }
     /**
      * Perform the Action.
      *
@@ -14,7 +24,20 @@ public class EatAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        return null;
+        String message ="";
+        map.locationOf(actor).removeItem(itemToBeEaten);
+        // allosaur or stegosaur corpse
+        if (itemToBeEaten.getDisplayChar() == '%' || itemToBeEaten.getDisplayChar() == ')'){
+            actor.heal(50);
+            message = actor + " ate " + "Allosaur/Stegosaur corpse to restore 50 food level";
+        }
+        // brachiosaur corpse
+        else if (itemToBeEaten.getDisplayChar() == '('){
+            actor.heal(100 );
+            message = actor + " ate " + "Allosaur/Stegosaur corpse to restore food level to max";
+        }
+
+        return message;
     }
 
     /**
