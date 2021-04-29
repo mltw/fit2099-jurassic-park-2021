@@ -1,20 +1,12 @@
 package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
-import edu.monash.fit2099.interfaces.DinosaurInterface;
-import game.Behaviour;
 import game.WanderBehaviour;
 
 /**
  * A herbivorous dinosaur.
  */
-public class Brachiosaur extends Actor implements DinosaurInterface {
-
-    // Will need to change this to a collection if Brachiosaur gets additional Behaviours.
-    private Behaviour behaviour;
-    private int unconsciousCount;
-    private int pregnantCount;
-    private String gender;
+public class Brachiosaur extends Dinosaur {
 
     /**
      * Constructor.
@@ -25,7 +17,7 @@ public class Brachiosaur extends Actor implements DinosaurInterface {
     public Brachiosaur(String name) {
         super(name, 'b', 100); //to be edited
 
-        behaviour = new WanderBehaviour();
+        setBehaviour(new WanderBehaviour());
     }
 
     @Override
@@ -38,38 +30,4 @@ public class Brachiosaur extends Actor implements DinosaurInterface {
 //        return hitPoints;
 //    }
 
-    @Override
-    public int getUnconsciousCount() {
-        return unconsciousCount;
-    }
-
-    @Override
-    public int getPregnantCount() {
-        return pregnantCount;
-    }
-
-    @Override
-    public boolean isPregnant() {
-        return false;
-    }
-
-    /**
-     * Gets the hit points (= food level = health level) of the dinosaur.
-     *
-     * @return hit points of the dinosaur.
-     */
-    @Override
-    public int getHitPoints() {
-        return hitPoints;
-    }
-
-    /**
-     * Gets the gender of the dinosaur.
-     *
-     * @return gender of the dinosaur, 'M' for male, 'F' for female.
-     */
-    @Override
-    public String getGender() {
-        return null;
-    }
 }
