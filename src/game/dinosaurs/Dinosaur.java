@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public abstract class Dinosaur extends Actor {
 
-    private ArrayList<Behaviour> behaviour;
+    private ArrayList<Behaviour> behaviour = new ArrayList<Behaviour>();
     private int unconsciousCount;
     private int pregnantCount;
     private String gender;
