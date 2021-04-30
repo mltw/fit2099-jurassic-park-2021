@@ -98,7 +98,7 @@ public class Stegosaur extends Dinosaur {
 				// display hungry message
 				if (!displayed){
 					display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
-					display.println("Hit point is "+ this.getHitPoints());
+					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
 					displayed = true;
 				}
 				// if fruit on bush/on ground under a tree
