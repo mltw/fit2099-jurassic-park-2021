@@ -8,16 +8,22 @@ import game.WanderBehaviour;
  */
 public class Brachiosaur extends Dinosaur {
 
+    private static int brachiosaurCount = 1;
+
     /**
      * Constructor.
      * All Brachiosaurs are represented by a 'b' and have 100 hit points.
-     *
-     * @param name the name of the Brachiosaur
      */
-    public Brachiosaur(String name) {
-        super(name, 'b', 100); //to be edited
+    public Brachiosaur(Enum status) {
+        super("Brachiosaur" + brachiosaurCount, 'b', 100);
+        addCapability(status);
 
-        setBehaviour(new WanderBehaviour());
+        if(hasCapability(Status.BABY)) {
+            this.setBabyCount(1);
+            this.setHitPoints(10); //if is baby, overwrite its hit points
+        }
+
+        brachiosaurCount++;
     }
 
     @Override
