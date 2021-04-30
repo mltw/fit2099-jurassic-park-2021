@@ -10,18 +10,26 @@ import game.WanderBehaviour;
  *
  */
 public class Stegosaur extends Dinosaur {
+	private static int stegosaurCount = 1;
 
 	/** 
 	 * Constructor.
-	 * All Stegosaurs are represented by a 'd' and have 100 hit points.
+	 * All Stegosaurs are represented by a 'd' and have 50 hit points.
 	 * 
-	 * @param name the name of this Stegosaur
+	 * @param status an enum value of either BABY or ALIVE
 	 */
-	public Stegosaur(String name) {
-		super(name, 'd', 50);
-		
-		setBehaviour(new WanderBehaviour());
+	public Stegosaur(Enum status) {
+		super("Stegosaur" + stegosaurCount, 'd', 50);
+		addCapability(status);
+
+		if(hasCapability(Status.BABY)) {
+			this.setBabyCount(1);
+			this.setHitPoints(10); //if is baby, overwrite its hit points
+		}
+
+		stegosaurCount++;
 	}
+
 
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
