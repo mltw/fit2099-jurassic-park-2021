@@ -3,48 +3,53 @@ package game;
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
+import game.dinosaurs.Dinosaur;
 
 /**
  * Action for dinosaurs to breed with each other.
  */
 public class BreedAction extends Action {
-    Actor target;
+    Dinosaur target;
 
-    public BreedAction(Actor target) {
+    /**
+     * Constructor.
+     *
+     * @param target the Dinosaur to mate with
+     */
+    public BreedAction(Dinosaur target) {
         this.target = target;
     }
 
     /**
+     * Two dinosaurs breed.
      *
-     * @param actor The actor performing the action.
-     * @param map The map the actor is on.
-     * @return
+     * @param actor The dinosaur actor performing the action.
+     * @param map The map the dinosaur actor is on.
+     * @return a message saying which dinosaur is pregnant after successfully mating.
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        // TODO: need to set female dinosaur to be pregnant and setPregnantCount(1)
-        return menuDescription(actor);
+
+        if (((Dinosaur) actor).getGender().equals("F")){
+            ((Dinosaur) actor).setPregnant(true);
+            ((Dinosaur) actor).setPregnantCount(1);
+            return menuDescription(actor);
+        }
+        else{
+            target.setPregnant(true);
+            target.setPregnantCount(1);
+            return menuDescription(target);
+        }
     }
 
+    /**
+     * A string describing the action suitable for displaying in the UI menu.
+     *
+     * @param actor The actor that becomes pregnant after successfully mating.
+     * @return a String, e.g. "Allosaur1 is pregnant now".
+     */
     @Override
     public String menuDescription(Actor actor) {
-        return null;
+        return actor + "is pregnant now";
     }
 }
-//    @Override
-//    public String execute(Actor actor, GameMap map) {
-//        actor.removeItemFromInventory(item);
-//        map.locationOf(actor).addItem(item);
-//        return menuDescription(actor);
-//    }
-//
-//    /**
-//     * A string describing the action suitable for displaying in the UI menu.
-//     *
-//     * @param actor The actor performing the action.
-//     * @return a String, e.g. "Player drops the potato"
-//     */
-//    @Override
-//    public String menuDescription(Actor actor) {
-//        return actor + " drops the " + item;
-//    }
