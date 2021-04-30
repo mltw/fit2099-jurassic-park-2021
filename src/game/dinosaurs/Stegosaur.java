@@ -3,6 +3,7 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
+import game.portableItems.Fruit;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class Stegosaur extends Dinosaur {
 	// used to give a unique name for each stegosaur
 	private static int stegosaurCount = 1;
+	private boolean displayed = false;
 
 	/** 
 	 * Constructor.
@@ -47,14 +49,14 @@ public class Stegosaur extends Dinosaur {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// check if stegosaur is still unconscious
-		if (this.getHitPoints() > 0)
+		if (this.getHitPoints() < 0) // check
 			this.setUnconsciousCount(0);
 
-		// update pregnant count, if it's pregnant
+		// if pregnant: update pregnant count
 		if (this.getPregnantCount() > 0)
 			this.setPregnantCount(this.getPregnantCount() + 1);
 
-		// update maturity status, ie baby or adult
+		// update maturity status
 		if (this.hasCapability(Status.BABY) && this.getBabyCount() >= 30) {
 			this.removeCapability(Status.BABY);
 			this.setBabyCount(0);
@@ -63,7 +65,7 @@ public class Stegosaur extends Dinosaur {
 			this.setBabyCount(this.getBabyCount() + 1);
 		}
 
-		// update (minus) food level by 1 each turn
+		// update food level by 1 each turn
 		this.setHitPoints(this.getHitPoints() - 1);
 
 		int stegosaurLocationX = map.locationOf(this).x();
@@ -72,11 +74,7 @@ public class Stegosaur extends Dinosaur {
 		Location here = map.locationOf(this);
 
 		for (Exit exit : here.getExits()) { //for each possible exit for the stegosaur to go to
-			Location destination = exit.getDestination(); //this represents each adjacent square of the current allosaur
-			// regardless of whether that square has an Actor/Tree or wtv
-			List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
-//            exit.name is like North/North-East etc...
-
+			Location destination = exit.getDestination(); //each adjacent square of the current stegosaur
 			if (this.getPregnantCount() >= 10) {
 				return new LayEggAction();
 			}
@@ -98,17 +96,30 @@ public class Stegosaur extends Dinosaur {
 			// if can't breed, then search for food if hungry
 			else if (this.getHitPoints() < 90) {
 				// display hungry message
-				display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
-
+				if (!displayed){
+					display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
+					display.println("Hit point is "+ this.getHitPoints());
+					displayed = true;
+				}
 				// if fruit on bush/on ground under a tree
 				if (destination.getDisplayChar() == 'f') {
 					return new EatAction(destination.getItems());
 				}
+				// adjacent square has player & has fruit
+				else if(destination.getDisplayChar() == '@'){
+					Player player = (Player) destination.getActor();
+					for (Item item: player.getInventory()){
+						if (item.getDisplayChar() =='f'){
+							return new EatAction(player.getInventory());
+						}
+					}// check
+
+				}
 			}
 
 
-
 		}
+		displayed = false; // reset
 		return new DoNothingAction();
 	}
 
