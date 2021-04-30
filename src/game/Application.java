@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.FancyGroundFactory;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.World;
+import game.dinosaurs.Status;
 import game.dinosaurs.Stegosaur;
 import game.ground.Dirt;
 import game.ground.Tree;
@@ -56,8 +57,11 @@ public class Application {
 		world.addPlayer(player, gameMap.at(9, 4));
 		
 		// Place a pair of stegosaurs in the middle of the map
-		gameMap.at(30, 12).addActor(new Stegosaur("Stegosaur"));
-		gameMap.at(32, 12).addActor(new Stegosaur("Stegosaur"));
+
+		// 30/4: removed name of stegosaurs, to be auto-generated with a unique count number,
+		// and used enum status to differentiate baby/adult dinosaurs
+		gameMap.at(30, 12).addActor(new Stegosaur(Status.ADULT));
+		gameMap.at(32, 12).addActor(new Stegosaur(Status.ADULT));
 		
 			
 		world.run();
