@@ -55,6 +55,10 @@ public class Application {
 		
 		Actor player = new Player("Player", '@', 100);
 		world.addPlayer(player, gameMap.at(9, 4));
+		// add a vending machine in the map
+		gameMap.at(8,4).addItem(new VendingMachine());
+
+		// add 2 male 2 female brachiosaur in the map
 		
 		// Place a pair of stegosaurs in the middle of the map
 
