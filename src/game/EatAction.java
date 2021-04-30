@@ -4,6 +4,8 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
+import game.portableItems.Egg;
+import game.portableItems.EggType;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,6 +38,13 @@ public class EatAction extends Action {
             actor.heal(100 );
             message = actor + " ate " + "Allosaur/Stegosaur corpse to restore food level to max";
         }
+        // egg
+        else if (itemToBeEaten.getDisplayChar() == 'e'){
+            actor.heal(10);
+            message = actor + " ate an egg to restore 10 food level";
+        }
+        // fruit
+        // else if...
 
         return message;
     }
