@@ -19,7 +19,7 @@ public class Egg extends PortableItem {
      * @param eggType which kind/type of dinosaur this egg is of
      */
     public Egg(Enum eggType) {
-        super("egg", 'e');
+        super("egg("+eggType+")", 'e');
         addCapability(eggType);
         this.eggTickCount = 0;
     }
