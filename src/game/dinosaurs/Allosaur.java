@@ -19,11 +19,15 @@ public class Allosaur extends Dinosaur {
 
     /**
      * Constructor.
-     * All Allosaurs are represented by an 'a' and have 100 hit points.
+     * All Allosaurs are represented by an 'a' and have 20 hit points.
      * Their name is represented as "Allosaur" followed by a unique number, eg "Allosaur1".
      */
-    public Allosaur() {
-        super("Allosaur"+allosaurCount, 'a', 100);
+    public Allosaur(Enum status) {
+        // Allosaurs always start as baby (hatch from egg)
+        super("Allosaur"+allosaurCount, 'a', 20);
+        addCapability(status);
+        this.setBabyCount(1);
+
 
         allosaurCount++;
 
@@ -42,7 +46,21 @@ public class Allosaur extends Dinosaur {
 
         // update pregnant count, if it's pregnant
         if (this.getPregnantCount() > 0)
-            this.setPregnantCount(this.getPregnantCount() + 1);
+            this.setPregnantCount( this.getPregnantCount()+1 );
+
+        // update maturity status, ie baby or adult
+        if (this.hasCapability(Status.BABY) && this.getBabyCount() >= 50){
+            this.removeCapability(Status.BABY);
+            this.setBabyCount(0);
+            this.addCapability(Status.ADULT);
+        }
+        else if (this.hasCapability(Status.BABY)) {
+            this.setBabyCount( this.getBabyCount()+1 );
+        }
+
+        // update (minus) food level by 1 each turn
+        this.setHitPoints( this.getHitPoints()-1 );
+
 
         int allosaurLocationX = map.locationOf(this).x();
         int allosaurLocationY = map.locationOf(this).y();
@@ -50,28 +68,31 @@ public class Allosaur extends Dinosaur {
         Location here = map.locationOf(this);
 
 
-
-
-        // NEW VERSION TO FIND ADJACENT AND NEARBY STUFF
         for (Exit exit : here.getExits()) { //for each possible exit for the allosaur to go to
             Location destination = exit.getDestination(); //this represents each adjacent square of the current allosaur
             // regardless of whether that square has an Actor/Tree or wtv
             List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
 //            exit.name is like North/North-East etc...
 
+            if (this.getPregnantCount()>=20){
+                return new LayEggAction();
+            }
 
-            // ===========CHECK FOR PREGNANCY COUNT FIRST IF REACH n THEN LAY EGG================
-            if (this.getHitPoints() > 50 && !isPregnant()) {
+            // if allsoaur has possibility to breed, search for mating partner
+            else if (this.getHitPoints() > 50 && !isPregnant() && this.hasCapability(Status.ADULT)) {
                 // found an adjacent Allosaur
                 if (destination.getDisplayChar() == 'a') {
                     Allosaur adjcAllosaur = (Allosaur) destination.getActor();
-                    if (!this.isPregnant() && !adjcAllosaur.isPregnant()
+                    if (!this.isPregnant()
+                            && !adjcAllosaur.isPregnant()
+                            && adjcAllosaur.hasCapability(Status.ADULT)
                             && !(this.getGender().equals(adjcAllosaur.getGender()))) {
                         return new BreedAction(adjcAllosaur);
                     }
                 }
             }
 
+            // if can't breed, then search for food if hungry
             else if (this.getHitPoints() < 90) {
                 // display hungry message
                 display.println("Allosaur at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting hungry!");
@@ -90,13 +111,15 @@ public class Allosaur extends Dinosaur {
                         || destination.getDisplayChar() == ')'){
                     return new EatAction(destination.getItems());
                 }
-                // left with EGG
-//                else if (destination.getDisplayChar() == '')
+                // if found an Egg
+                else if (destination.getDisplayChar() == 'e')
+                    return new EatAction(destination.getItems());
             }
 
             // update allosaur's unconscious count if it remains unfed
             else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() == 0){
                 this.setUnconsciousCount(this.getUnconsciousCount()+1);
+                return new DoNothingAction();
             }
 
             // if allosaur has reached 20 turns of unconsciousness, it will turn into a corpse
@@ -211,13 +234,16 @@ public class Allosaur extends Dinosaur {
 
     /**
      * Creates and returns an intrinsic weapon.
-     * For Allosaur, its intrinsic weapon would be its sharp, pointy teeth. Thus its verb is "bites",
-     * and it'll deal 20 damage to the Stegosaur attacked.
+     * For Allosaur, its intrinsic weapon would be its sharp, pointy teeth. Thus its verb is "bites".
+     * Baby Allosaurs deal 10 damage to the Stegosaur attacked, adult Allosaurs deal 20 damage.
      *
      * @return a freshly-instantiated IntrinsicWeapon
      */
     @Override
     protected IntrinsicWeapon getIntrinsicWeapon() {
+        if (this.hasCapability(Status.BABY))
+            return new IntrinsicWeapon(10, "bites");
+
         return new IntrinsicWeapon(20, "bites");
     }
 
