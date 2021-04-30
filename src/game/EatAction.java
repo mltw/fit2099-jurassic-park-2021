@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
+import game.ground.Status;
 import game.portableItems.Egg;
 import game.portableItems.EggType;
 
@@ -43,8 +44,15 @@ public class EatAction extends Action {
             actor.heal(10);
             message = actor + " ate an egg to restore 10 food level";
         }
-        // fruit
-        // else if...
+        // fruits
+        else if (itemToBeEaten.getDisplayChar() =='f'){
+            // check on bush / on ground of a tree
+            if (itemToBeEaten.hasCapability(Status.ON_GROUND)){
+                actor.heal(10);
+                message = actor + "ate a fruit on bush or a fruit laying on ground under a tree.";
+            }
+
+        }
 
         return message;
     }
