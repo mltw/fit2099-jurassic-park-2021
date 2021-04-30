@@ -1,11 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Menu;
+import edu.monash.fit2099.engine.*;
 
 /**
  * Class representing the Player.
@@ -30,6 +25,23 @@ public class Player extends Actor {
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
+
+		// find if there's a Vending Machine instance in adjacent square
+		for (Exit exit : map.locationOf(this).getExits()){
+			if (exit.getDestination().getDisplayChar() == '$'){
+				actions.add(new PurchaseAction());
+				break;
+			}
+		}
+
 		return menu.showMenu(this, actions, display);
+	}
+
+	/**
+	 * A getter for the Player's hit points.
+	 * @return the player's hit points.
+	 */
+	public int getHitPoints(){
+		return this.hitPoints;
 	}
 }

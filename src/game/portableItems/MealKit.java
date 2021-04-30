@@ -9,10 +9,10 @@ public class MealKit extends PortableItem {
 
     /**
      * Constructor
-     * @param name
-     * @param displayChar
+     * @param mealKitType the type of meal kit, either vegetarian or carnivore
      */
-    public MealKit(String name, char displayChar) {
-        super(name, displayChar);
+    public MealKit(Enum mealKitType) {
+        super("mealKit("+mealKitType+")", 'm');
+        this.capabilities.addCapability(mealKitType);
     }
 }
