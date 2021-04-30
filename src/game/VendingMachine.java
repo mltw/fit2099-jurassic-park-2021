@@ -14,6 +14,5 @@ public class VendingMachine extends Item {
      */
     public VendingMachine() {
         super("vendingMachine",'$',false);
-        ;
     }
 }
