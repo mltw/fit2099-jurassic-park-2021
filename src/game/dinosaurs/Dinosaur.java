@@ -19,6 +19,7 @@ public abstract class Dinosaur extends Actor {
     private int pregnantCount;
     private String gender;
     private boolean isPregnant;
+    private int babyCount;
 
     /**
      * Constructor.
@@ -27,7 +28,7 @@ public abstract class Dinosaur extends Actor {
      * @param displayChar the character that will represent the Dinosaur in the display
      * @param hitPoints   the Dinosaur's starting hit points
      */
-    public Dinosaur(String name, char displayChar, int hitPoints) {
+    public Dinosaur(String name, char displayChar, int hitPoints ) {
         super(name, displayChar, hitPoints);
         setBehaviour(new WanderBehaviour());
         setUnconsciousCount(0);
@@ -139,4 +140,20 @@ public abstract class Dinosaur extends Actor {
         this.hitPoints = hitPoints;
     }
 
+    /**
+     * Gets the number of rounds the dinosaur has been a baby.
+     * @return the number of rounds the dinosaur has been a baby.
+     */
+    public int getBabyCount() {
+        return babyCount;
+    }
+
+    /**
+     * Sets the number of rounds the dinosaur has been a baby. After a specific number of rounds,
+     * the dinosaur will turn into an adult.
+     * @param babyCount the number of rounds the dinosaur has been a baby
+     */
+    public void setBabyCount(int babyCount) {
+        this.babyCount = babyCount;
+    }
 }
