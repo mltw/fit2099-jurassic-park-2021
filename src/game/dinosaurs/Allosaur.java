@@ -105,12 +105,16 @@ public class Allosaur extends Dinosaur {
                 // if found a Corpse
                 else if(destination.getDisplayChar() == '%' || destination.getDisplayChar() == '('
                         || destination.getDisplayChar() == ')'){
+                    // moveActor to food source
+                    map.moveActor(this,destination);
                     return new EatAction(destination.getItems());
                 }
 
                 // if found an Egg
-                else if (destination.getDisplayChar() == 'e')
-                    return new EatAction(destination.getItems());
+                else if (destination.getDisplayChar() == 'e'){
+                    // moveActor to food source
+                    map.moveActor(this,destination);
+                    return new EatAction(destination.getItems());}
 
                 // if allosaur has reached 20 turns of unconsciousness, it will turn into a corpse
                 else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() >= 20){
