@@ -51,6 +51,10 @@ public class EatAction extends Action {
                 actor.heal(10);
                 message = actor + "ate a fruit on bush or a fruit laying on ground under a tree.";
             }
+            else if(itemToBeEaten.hasCapability(Status.ON_TREE)){
+                // check
+                message = actor + "ate a fruit on tree.";
+            }
 
         }
 
