@@ -4,6 +4,7 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.*;
 import game.portableItems.Fruit;
+import game.portableItems.MealKitType;
 
 import java.util.List;
 
@@ -119,12 +120,14 @@ public class Stegosaur extends Dinosaur {
 					Player player = (Player) destination.getActor();
 					for (Item item: player.getInventory()){
 						if (item.getDisplayChar() =='f'){
-							action = new EatAction(player.getInventory());
+							action = new EatAction(item);
 						}
-					}// check
-
+						// player fed vmk
+						else if(item.getDisplayChar() =='f' && item.hasCapability(MealKitType.VEGETARIAN)){
+							action = new EatAction(item);
+						}
+					}
 				}
-				// player fed vmk
 			}
 			else{
 				Action wander = getBehaviour().get(0).getAction(this, map);
