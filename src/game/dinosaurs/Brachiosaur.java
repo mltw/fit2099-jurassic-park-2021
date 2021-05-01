@@ -2,6 +2,7 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
+import game.portableItems.MealKitType;
 
 import java.util.List;
 
@@ -95,7 +96,15 @@ public class Brachiosaur extends Dinosaur {
                 // adjacent square has player & has fruit
                 else if(destination.getDisplayChar() == '@') {
                     Player player = (Player) destination.getActor();
-                    // havent complete
+                    for (Item item: player.getInventory()){
+                        if (item.getDisplayChar() =='f'){
+                            action = new EatAction(item);
+                        }
+                        // player fed vmk
+                        else if(item.getDisplayChar() =='f' && item.hasCapability(MealKitType.VEGETARIAN)){
+                            action = new EatAction(item);
+                        }
+                    }
                 }
 
 
