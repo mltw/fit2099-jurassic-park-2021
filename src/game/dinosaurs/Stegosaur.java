@@ -55,13 +55,7 @@ public class Stegosaur extends Dinosaur {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		Action action = new DoNothingAction();
 
-		display.println("Before update: " + this.getHitPoints());
-			// update food level by 1 each turn
-
 		eachTurnUpdates(30);
-//		this.setHitPoints( Math.max(this.getHitPoints()-1,0));
-			// after each turn, count will be
-		display.println("After update: " + this.getHitPoints());
 
 		int stegosaurLocationX = map.locationOf(this).x();
 		int stegosaurLocationY = map.locationOf(this).y();
@@ -122,19 +116,16 @@ public class Stegosaur extends Dinosaur {
 					return wander;
 			}
 		}
-		// check if stegosaur is unconscious, first turn;
+		// check if stegosaur is unconscious, first turn
 		if (this.getHitPoints() == 0 && this.getUnconsciousCount()==0) { // check
-			this.setUnconsciousCount(this.getUnconsciousCount() + 1);
+			boolean alive = this.isConscious();
+			alive = false;
+			this.setUnconsciousCount(this.getUnconsciousCount()+1);
 		}
-		// if previous turn is unconscious dy
-		else if(this.getHitPoints() == 0 && this.getUnconsciousCount()>0 ) {
-			this.setUnconsciousCount(this.getUnconsciousCount() + 1);
-			if (this.getUnconsciousCount()==20){
-				Item corpse = new PortableItem("dead " + this, '%');
-				map.locationOf(this).addItem(corpse);
-				map.removeActor(this);
-			}else{
-				action = new DoNothingAction();}
+		else if (this.getUnconsciousCount()==20){
+			Item corpse = new PortableItem("dead " + this, '%');
+			map.locationOf(this).addItem(corpse);
+			map.removeActor(this);
 		}
 		displayed = false; // reset
 		return action;
