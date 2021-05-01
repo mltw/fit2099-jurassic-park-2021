@@ -142,6 +142,8 @@ public class Stegosaur extends Dinosaur {
 			Item corpse = new PortableItem("dead " + this, '%');
 			map.locationOf(this).addItem(corpse);
 			map.removeActor(this);
+			display.println(this + "is dead at (" + map.locationOf(this).x() + ","
+					+ map.locationOf(this).y() +")");
 		}
 		displayed = false; // reset
 		return action;
