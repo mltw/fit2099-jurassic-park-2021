@@ -25,7 +25,7 @@ public class Stegosaur extends Dinosaur {
 	public Stegosaur(Enum status) {
 		super("Stegosaur" + stegosaurCount, 'd', 50);
 		addCapability(status);
-
+		maxHitPoints = 100;
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
 			this.setHitPoints(10); //if is baby, starting hit points
@@ -48,10 +48,15 @@ public class Stegosaur extends Dinosaur {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		Action output = new DoNothingAction();
-		// check if stegosaur is still unconscious
-		if (this.getHitPoints() < 0) // check
-			this.setUnconsciousCount(0);
+		Action action = new DoNothingAction();
+
+		display.println("Before update: " + this.getHitPoints());
+			// update food level by 1 each turn
+
+		this.setHitPoints( Math.max(this.getHitPoints()-1,0));
+			// after each turn, count will be
+		display.println("After update: " + this.getHitPoints());
+
 
 		// if pregnant: update pregnant count
 		if (this.getPregnantCount() > 0)
@@ -66,9 +71,6 @@ public class Stegosaur extends Dinosaur {
 			this.setBabyCount(this.getBabyCount() + 1);
 		}
 
-		// update food level by 1 each turn
-		this.setHitPoints(this.getHitPoints() - 1);
-
 		int stegosaurLocationX = map.locationOf(this).x();
 		int stegosaurLocationY = map.locationOf(this).y();
 
@@ -77,7 +79,7 @@ public class Stegosaur extends Dinosaur {
 		for (Exit exit : here.getExits()) { //for each possible exit for the stegosaur to go to
 			Location destination = exit.getDestination(); //each adjacent square of the current stegosaur
 			if (this.getPregnantCount() >= 10) {
-				output = new LayEggAction();
+				action = new LayEggAction();
 			}
 
 			// if stegosaur has possibility to breed, search for mating partner
@@ -89,7 +91,7 @@ public class Stegosaur extends Dinosaur {
 							&& !adjcStegosaur.isPregnant()
 							&& adjcStegosaur.hasCapability(Status.ADULT)
 							&& !(this.getGender().equals(adjcStegosaur.getGender()))) {
-						output =  new BreedAction(adjcStegosaur);
+						action =  new BreedAction(adjcStegosaur);
 					}
 				}
 			}
@@ -102,39 +104,25 @@ public class Stegosaur extends Dinosaur {
 					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
 					displayed = true;
 				}
-				// if fruit on bush/on ground under a tree
-				if (destination.getDisplayChar() == 'f') {
-					output = new EatAction(destination.getItems());
+				// if fruit on bush/on ground under a tree & still can be move
+				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0) {
+					action = new EatAction(destination.getItems());
+					Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
+					destination.removeItem(itemToBeEaten);
+//					String result = action.execute(this, map);
+//					display.println(result);
 				}
 				// adjacent square has player & has fruit
 				else if(destination.getDisplayChar() == '@'){
 					Player player = (Player) destination.getActor();
 					for (Item item: player.getInventory()){
 						if (item.getDisplayChar() =='f'){
-							output = new EatAction(player.getInventory());
+							action = new EatAction(player.getInventory());
 						}
 					}// check
 
 				}
 				// player fed vmk
-			}
-			// if still unfed: update stegosaur's unconscious count
-			else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() == 0){
-				this.setUnconsciousCount(this.getUnconsciousCount()+1);
-				output = new DoNothingAction();
-			}
-
-			// turn into a corpse if stegosaur reached 20 turns of unconsciousness
-			else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() == 20){
-				Item corpse = new PortableItem("dead " + this, '%');
-				map.locationOf(this).addItem(corpse);
-				Actions dropActions = new Actions();
-				for (Item item : this.getInventory())
-					dropActions.add(item.getDropAction());
-				for (Action drop : dropActions)
-					drop.execute(this, map);
-
-				map.removeActor(this);
 			}
 			else{
 				Action wander = getBehaviour().get(0).getAction(this, map);
@@ -142,9 +130,22 @@ public class Stegosaur extends Dinosaur {
 					return wander;
 			}
 		}
+		// check if stegosaur is unconscious, first turn;
+		if (this.getHitPoints() == 0 && this.getUnconsciousCount()==0) { // check
+			this.setUnconsciousCount(this.getUnconsciousCount() + 1);
+		}
+		// if previous turn is unconscious dy
+		else if(this.getHitPoints() == 0 && this.getUnconsciousCount()>0 ) {
+			this.setUnconsciousCount(this.getUnconsciousCount() + 1);
+			if (this.getUnconsciousCount()==20){
+				Item corpse = new PortableItem("dead " + this, '%');
+				map.locationOf(this).addItem(corpse);
+				map.removeActor(this);
+			}else{
+				action = new DoNothingAction();}
+		}
 		displayed = false; // reset
-//		return new DoNothingAction();
-		return output;
+		return action;
 	}
 
 }

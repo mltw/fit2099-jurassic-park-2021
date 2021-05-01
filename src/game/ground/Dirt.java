@@ -37,9 +37,13 @@ public class Dirt extends Ground {
 			boolean growBushSmallPossibility = new Random().nextInt(200) == 0;
 			// any square of dirt next to >=2 bushes have 10% chance to grow a bush
 			boolean growBushPossibility = new Random().nextInt(10) == 0;
+
+//			boolean read = false;
 			if ((aliveBushNeighbours >= 2 && aliveTreeNeighbours < 1) && growBushPossibility) {
 				location.setGround(new Bush());
-			} else if (aliveTreeNeighbours < 1 && growBushSmallPossibility) {
+			}
+//			else if (aliveTreeNeighbours < 1 && !read) {
+			else if (aliveTreeNeighbours < 1 && growBushSmallPossibility) {
 				location.setGround(new Bush());
 			}
 

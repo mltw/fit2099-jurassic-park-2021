@@ -1,5 +1,6 @@
 package game.ground;
 
+import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
@@ -23,6 +24,17 @@ public class Bush extends Ground {
     }
 
     /**
+     * Override this to implement impassable terrain, or terrain that is only passable if conditions are met.
+     *
+     * @param actor the Actor to check
+     * @return true
+     */
+    @Override
+    public boolean canActorEnter(Actor actor) {
+        return true;
+    }
+
+    /**
      * Ground can also experience the joy of time.
      *
      * @param location The location of the Ground
@@ -30,15 +42,16 @@ public class Bush extends Ground {
     @Override
     public void tick(Location location) {
         super.tick(location);
-
+        boolean read = false;
         // 29/4
+//        if(!read){
+//        if(Math.random() == 1.0){
         if(Math.random() == 0.1){
             // any turn, 10% to produce 1 ripe fruit
             Fruit item = new Fruit("fruit" , 'f');
             foodCount++;
             item.addCapability(Status.ON_GROUND); // check
             location.addItem(item);
-
         }
     }
 }
