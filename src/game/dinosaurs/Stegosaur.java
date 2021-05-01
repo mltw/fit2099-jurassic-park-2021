@@ -37,10 +37,15 @@ public class Stegosaur extends Dinosaur {
 
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
-		return new Actions(new AttackAction(this));
-	}
 
+		Actions actions = new Actions();
 
+		// a Stegosaur can be attacked or fed by Player
+		actions.add(new AttackAction(this));
+		actions.add(new FeedAction(this));
+
+		return actions;
+}
 
 	/**
 	 * 
@@ -53,23 +58,10 @@ public class Stegosaur extends Dinosaur {
 		display.println("Before update: " + this.getHitPoints());
 			// update food level by 1 each turn
 
-		this.setHitPoints( Math.max(this.getHitPoints()-1,0));
+		eachTurnUpdates(30);
+//		this.setHitPoints( Math.max(this.getHitPoints()-1,0));
 			// after each turn, count will be
 		display.println("After update: " + this.getHitPoints());
-
-
-		// if pregnant: update pregnant count
-		if (this.getPregnantCount() > 0)
-			this.setPregnantCount(this.getPregnantCount() + 1);
-
-		// update maturity status
-		if (this.hasCapability(Status.BABY) && this.getBabyCount() >= 30) {
-			this.removeCapability(Status.BABY);
-			this.setBabyCount(0);
-			this.addCapability(Status.ADULT);
-		} else if (this.hasCapability(Status.BABY)) {
-			this.setBabyCount(this.getBabyCount() + 1);
-		}
 
 		int stegosaurLocationX = map.locationOf(this).x();
 		int stegosaurLocationY = map.locationOf(this).y();
