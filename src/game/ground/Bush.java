@@ -47,7 +47,7 @@ public class Bush extends Ground {
 //        if(!read){
 //        if(Math.random() == 1.0){
         double rand = Math.random();
-        if(rand == 0.10){
+        if(rand <= 0.10){
             // any turn, 10%:0.1 to produce 1 ripe fruit
             Fruit item = new Fruit("fruit" , 'f');
             foodCount++;
