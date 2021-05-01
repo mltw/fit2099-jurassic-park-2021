@@ -7,17 +7,26 @@ import edu.monash.fit2099.engine.Item;
 import game.ground.Status;
 import game.portableItems.Egg;
 import game.portableItems.EggType;
+import game.portableItems.MealKitType;
 
 import java.util.Collection;
 import java.util.List;
 
 public class EatAction extends Action {
     Item itemToBeEaten;
+    boolean fedByPlayer; // fruits fed by Player will increase different level of hit points
 
     public EatAction(List<Item> items){
         // item to be eaten is the one displayed on the ground, which = the last item in List items
         this.itemToBeEaten = items.get(items.size() - 1);
+        this.fedByPlayer= false;
     }
+
+    public EatAction(Item item){
+        this.itemToBeEaten = item;
+        this.fedByPlayer = true;
+    }
+
     /**
      * Perform the Action.
      *
@@ -37,7 +46,7 @@ public class EatAction extends Action {
         // brachiosaur corpse
         else if (itemToBeEaten.getDisplayChar() == '('){
             actor.heal(100 );
-            message = actor + " ate " + "Allosaur/Stegosaur corpse to restore food level to max";
+            message = actor + " ate " + "Brachiosaur corpse to restore food level to max";
         }
         // egg
         else if (itemToBeEaten.getDisplayChar() == 'e'){
@@ -46,12 +55,26 @@ public class EatAction extends Action {
         }
         // fruits
         else if (itemToBeEaten.getDisplayChar() =='f'){
+            // check if this fruit is fed by player
+            if (this.fedByPlayer){
+                actor.heal(20);
+                message = actor + "ate a fruit fed by Player";
+            }
             // check on bush / on ground of a tree
-            if (itemToBeEaten.hasCapability(Status.ON_GROUND)){
+            else if (itemToBeEaten.hasCapability(Status.ON_GROUND)){
                 actor.heal(10);
                 message = actor + "ate a fruit on bush or a fruit laying on ground under a tree.";
             }
-
+        }
+        // vegetarian meal kit
+        else if (itemToBeEaten.hasCapability(MealKitType.VEGETARIAN)){
+            actor.heal(160);
+            message = actor + " ate " + "vegetarian meal kit to restore food level to max";
+        }
+        // carnivore meal kit
+        else if (itemToBeEaten.hasCapability(MealKitType.CARNIVORE)){
+            actor.heal(100);
+            message = actor + " ate " + "carnivore meal kit to restore food level to max";
         }
 
         return message;
