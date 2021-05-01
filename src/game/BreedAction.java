@@ -50,6 +50,6 @@ public class BreedAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + "is pregnant now";
+        return actor + " is pregnant now";
     }
 }

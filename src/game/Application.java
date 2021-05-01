@@ -59,7 +59,8 @@ public class Application {
 		Actor player = new Player("Player", '@', 100);
 //		// testing
 //		world.addPlayer(player, gameMap.at(0, 1));
-//		gameMap.at(2, 1).addActor(new Stegosaur(Status.ADULT));
+//		gameMap.at(1, 1).addActor(new Stegosaur(Status.ADULT));
+//		gameMap.at(3, 1).addActor(new Stegosaur(Status.ADULT));
 
 		world.addPlayer(player, gameMap.at(9, 4));
 		// add a vending machine in the map

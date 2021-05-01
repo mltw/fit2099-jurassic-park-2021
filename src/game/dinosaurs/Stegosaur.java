@@ -15,6 +15,7 @@ public class Stegosaur extends Dinosaur {
 	// used to give a unique name for each stegosaur
 	private static int stegosaurCount = 1;
 	private boolean displayed = false;
+	private boolean moved = false;
 
 	/** 
 	 * Constructor.
@@ -23,7 +24,7 @@ public class Stegosaur extends Dinosaur {
 	 * @param status an enum value of either BABY or ALIVE
 	 */
 	public Stegosaur(Enum status) {
-		super("Stegosaur" + stegosaurCount, 'd', 50);
+		super("Stegosaur" + stegosaurCount, 'd', 60);
 		addCapability(status);
 		maxHitPoints = 100;
 		if(hasCapability(Status.BABY)) {
@@ -64,6 +65,20 @@ public class Stegosaur extends Dinosaur {
 
 		for (Exit exit : here.getExits()) { //for each possible exit for the stegosaur to go to
 			Location destination = exit.getDestination(); //each adjacent square of the current stegosaur
+
+			// check nearby if got stegosaur, if yes, move towards it & breed
+			List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
+			for (Exit there : nearby){
+				if (there.getDestination().getDisplayChar()=='d' && !moved && there.getDestination().getActor()!=this){
+					// follow behaviour
+					Action actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
+					if (actionBreed != null){
+						actionBreed.execute(this,map);
+						moved = true;
+					}
+				}
+			}
+
 			if (this.getPregnantCount() >= 10) {
 				action = new LayEggAction();
 			}
@@ -77,7 +92,7 @@ public class Stegosaur extends Dinosaur {
 							&& !adjcStegosaur.isPregnant()
 							&& adjcStegosaur.hasCapability(Status.ADULT)
 							&& !(this.getGender().equals(adjcStegosaur.getGender()))) {
-						action =  new BreedAction(adjcStegosaur);
+						return  new BreedAction(adjcStegosaur);
 					}
 				}
 			}
