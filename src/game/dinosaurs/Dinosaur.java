@@ -43,6 +43,40 @@ public abstract class Dinosaur extends Actor {
     }
 
     /**
+     * A method similar to tick() in other classes, handles udpates of the dinosaur
+     * on each turn, eg deduct hit points by 1, update pregnant count etc.
+     * Input parameters are values that differ on each dinosaur,
+     * eg babyCount (number of counts before the baby dinosaur turns into an adult),
+     * Stegosaur's = 30 while Brachiosaur and Allosaur's = 50
+     * @param babyCount number of counts upon the baby turns into an adult dinosaur
+     */
+    public void eachTurnUpdates(int babyCount){
+        // do basic updates and checking for each dinosaur on each turn
+        // if dinosaur is unconscious, update unconsciousCount
+        if (!this.isConscious()){
+            this.setUnconsciousCount( this.getUnconsciousCount() + 1);
+        }
+        else
+            // else if dinosaur is conscious, deduct 1 food level each turn
+            this.setHitPoints(this.getHitPoints() - 1);
+
+        // if pregnant: update pregnant count
+        if (this.getPregnantCount() > 0)
+            this.setPregnantCount(this.getPregnantCount() + 1);
+
+        // update maturity status
+        if (this.hasCapability(Status.BABY) && this.getBabyCount() >= babyCount) {
+            this.removeCapability(Status.BABY);
+            this.setBabyCount(0);
+            this.addCapability(Status.ADULT);
+        } else if (this.hasCapability(Status.BABY)) {
+            this.setBabyCount(this.getBabyCount() + 1);
+        }
+    }
+
+
+
+    /**
      * A getter for the dinosaur's behaviour.
      * @return An array list to store all behaviours of the dinosaur.
      */
