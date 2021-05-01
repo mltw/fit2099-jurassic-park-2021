@@ -87,16 +87,17 @@ public class Stegosaur extends Dinosaur {
 				// display hungry message
 				if (!displayed){
 					display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
-					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
+//					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
 					displayed = true;
 				}
 				// if fruit on bush/on ground under a tree & still can be move
 				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0) {
+					// moveActor to food source
+					map.moveActor(this,destination);
+					// then eat it
 					action = new EatAction(destination.getItems());
-					Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
-					destination.removeItem(itemToBeEaten);
-//					String result = action.execute(this, map);
-//					display.println(result);
+//					Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
+//					destination.removeItem(itemToBeEaten);
 				}
 				// adjacent square has player & has fruit
 				else if(destination.getDisplayChar() == '@'){
@@ -116,13 +117,13 @@ public class Stegosaur extends Dinosaur {
 					return wander;
 			}
 		}
-		// check if stegosaur is unconscious, first turn
-		if (this.getHitPoints() == 0 && this.getUnconsciousCount()==0) { // check
-			boolean alive = this.isConscious();
-			alive = false;
-			this.setUnconsciousCount(this.getUnconsciousCount()+1);
-		}
-		else if (this.getUnconsciousCount()==20){
+//		// check if stegosaur is unconscious, first turn
+//		if (this.getHitPoints() == 0 && this.getUnconsciousCount()==0) { // check
+//			boolean alive = this.isConscious();
+//			alive = false;
+//			this.setUnconsciousCount(this.getUnconsciousCount()+1);
+//		}
+		if (this.getUnconsciousCount()==20){
 			Item corpse = new PortableItem("dead " + this, '%');
 			map.locationOf(this).addItem(corpse);
 			map.removeActor(this);

@@ -58,16 +58,17 @@ public class EatAction extends Action {
             // check if this fruit is fed by player
             if (this.fedByPlayer){
                 actor.heal(20);
-                message = actor + "ate a fruit fed by Player";
+                message = actor + " ate a fruit fed by Player";
             }
             // check on bush / on ground of a tree
             else if (itemToBeEaten.hasCapability(Status.ON_GROUND)){
                 actor.heal(10);
-                message = actor + "ate a fruit on bush or a fruit laying on ground under a tree.";
+                map.locationOf(actor).removeItem(itemToBeEaten); // remove from map
+                message = actor + " ate a fruit on bush or a fruit laying on ground under a tree.";
             }
             else if(itemToBeEaten.hasCapability(Status.ON_TREE)){
                 // check
-                message = actor + "ate a fruit on tree.";
+                message = actor + " ate a fruit on tree.";
             }
 
         }
