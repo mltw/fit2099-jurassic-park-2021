@@ -23,12 +23,12 @@ public class LayEggAction extends Action {
             map.locationOf(actor).addItem(new Egg(EggType.STEGOSAUR));
         }
 
-        return menuDescription(actor) + map.locationOf(actor).x() + "," +map.locationOf(actor).y() +")!";
+        return actor + " just laid an egg at (" + map.locationOf(actor).x() + "," +map.locationOf(actor).y() +")!";
 
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + "just laid an egg at (" ;
+        return null ;
     }
 }
