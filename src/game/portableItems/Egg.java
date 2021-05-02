@@ -12,7 +12,7 @@ import java.awt.*;
  * A class for a dinosaur's Egg
  */
 public class Egg extends PortableItem {
-    private int eggTickCount;
+//    private int eggTickCount;
 
     /**
      * Constructor.
@@ -22,7 +22,7 @@ public class Egg extends PortableItem {
     public Egg(Enum eggType) {
         super("egg("+eggType+")", 'e');
         addCapability(eggType);
-        this.eggTickCount = 0;
+//        this.eggTickCount = 0;
     }
 
     /**
@@ -32,18 +32,19 @@ public class Egg extends PortableItem {
      */
     @Override
     public void tick(Location currentLocation) {
-        this.eggTickCount ++;
+//        this.eggTickCount ++;
+        this.setCount( this.getCount()+1 );
 
         Display display = new Display();
         Dinosaur newBorn = new Stegosaur(Status.BABY); // let default be a Stegosaur
         boolean hatched = false;
 
-        if (this.eggTickCount == 30 || this.eggTickCount == 40 || this.eggTickCount == 50) {
+        if (this.getCount() == 30 || this.getCount() == 40 || this.getCount() == 50) {
             try {
-                if (this.hasCapability(EggType.ALLOSAUR) && this.eggTickCount == 50) {
+                if (this.hasCapability(EggType.ALLOSAUR) && this.getCount() == 50) {
                     newBorn = new Allosaur(Status.BABY);
                 }
-                else if (this.hasCapability(EggType.BRACHIOSAUR) && this.eggTickCount == 30) {
+                else if (this.hasCapability(EggType.BRACHIOSAUR) && this.getCount() == 30) {
                     newBorn = new Brachiosaur(Status.BABY);
                 }
 
@@ -68,7 +69,9 @@ public class Egg extends PortableItem {
                     }
                 }
                 if (!hatched){
-                    this.eggTickCount--;
+                    // if don't have suitable place for the baby dinosaur to be instantiated, deduct a count
+                    // and see if next turn, there is suitable place
+                    this.setCount( this.getCount()-1 );
                     display.println(this + "'s surrounding are occupied by actors, can't hatch till " +
                             "an actor moves away!");
                 }

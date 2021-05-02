@@ -7,9 +7,11 @@ import edu.monash.fit2099.engine.PickUpItemAction;
  * Base class for any item that can be picked up and dropped.
  */
 public class PortableItem extends Item {
+	int count;
 
 	public PortableItem(String name, char displayChar) {
 		super(name, displayChar, true);
+		this.count=0;
 	}
 
 	/**
@@ -21,5 +23,13 @@ public class PortableItem extends Item {
 	@Override
 	public PickUpItemAction getPickUpAction() {
 		return super.getPickUpAction();
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 }
