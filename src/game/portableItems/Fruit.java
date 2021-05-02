@@ -8,10 +8,11 @@ import game.ground.Status;
  * A class for fruits
  */
 public class Fruit extends PortableItem {
-
+    private int count;
 
     public Fruit(String name, char displayChar) {
         super(name, displayChar);
+        this.count = 0;
     }
 
 
@@ -38,6 +39,12 @@ public class Fruit extends PortableItem {
     @Override
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
+        count++;
+        Display display = new Display();
+//        display.println("Fruit count: " + this.count);
+        if (this.count == 15){
+            currentLocation.removeItem(this);
+        }
     }
 
     /**
