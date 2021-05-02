@@ -13,7 +13,7 @@ import java.util.List;
 public class Allosaur extends Dinosaur {
 
     //    private ArrayList<String> cantAttack;
-    private HashMap<String, Integer> cantAttack;
+    private HashMap<String, Integer> cantAttack = new HashMap<>();
     // used to give a unique name for each Allosaur
     private static int allosaurCount = 1;
 
@@ -41,6 +41,10 @@ public class Allosaur extends Dinosaur {
 
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        Action action = getBehaviour().get(0).getAction(this, map);
+        int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
+        Location toBeMovedLocation = null;
+
         boolean displayed = false;
 
         eachTurnUpdates(50);
@@ -56,7 +60,7 @@ public class Allosaur extends Dinosaur {
 
         for (Exit exit : here.getExits()) { //for each possible exit for the allosaur to go to
             Location destination = exit.getDestination(); //this represents each adjacent square of the current allosaur
-            // regardless of whether that square has an Actor/Tree or wtv
+
             List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
 
             if (this.getPregnantCount()>=20){
@@ -98,6 +102,7 @@ public class Allosaur extends Dinosaur {
                     // if the Stegosaur is not attacked by this Allosaur within the previous 20 turns
                     if (!this.cantAttack.containsKey(adjcStegosaur.toString())) {
                         this.cantAttack.put(adjcStegosaur.toString(), 1); //add the Stegosaur into 'cantAttack'
+                        display.println(this.cantAttack.toString());
                         return new AttackAction(adjcStegosaur);
                     }
                 }
@@ -105,16 +110,34 @@ public class Allosaur extends Dinosaur {
                 // if found a Corpse
                 else if(destination.getDisplayChar() == '%' || destination.getDisplayChar() == '('
                         || destination.getDisplayChar() == ')'){
-                    // moveActor to food source
-                    map.moveActor(this,destination);
-                    return new EatAction(destination.getItems());
+
+
+                    // brachiosaur corpses restore food level to max, hence straight away let allosaur to eat it
+                    if (destination.getDisplayChar() == '('){
+                        // moveActor to food source
+                        map.moveActor(this,destination);
+                        return new EatAction(destination.getItems());
+                    }
+                    else{
+                        if(toBeAddedHitPoints < 50) {
+                            toBeAddedHitPoints = 50;
+                            toBeMovedLocation = destination;
+                            action = new EatAction(destination.getItems());
+                        }
+                    }
                 }
 
                 // if found an Egg
                 else if (destination.getDisplayChar() == 'e'){
                     // moveActor to food source
-                    map.moveActor(this,destination);
-                    return new EatAction(destination.getItems());}
+                    if (toBeAddedHitPoints < 10){
+                        toBeAddedHitPoints = 10;
+                        toBeMovedLocation = destination;
+                        action = new EatAction(destination.getItems());
+                    }
+//                    map.moveActor(this,destination);
+//                    return new EatAction(destination.getItems());
+                }
 
                 // if allosaur has reached 20 turns of unconsciousness, it will turn into a corpse
                 else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() >= 20){
@@ -139,17 +162,19 @@ public class Allosaur extends Dinosaur {
                 else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() >= 0){
                     return new DoNothingAction();
                 }
-                else{
-                    Action wander = getBehaviour().get(0).getAction(this, map);
-                    if (wander != null)
-                        return wander;
-                }
             }
+        }
+
+        if (toBeMovedLocation != null){
+            map.moveActor(this, toBeMovedLocation);
+            return action;
+        }
+        else{
             Action wander = getBehaviour().get(0).getAction(this, map);
             if (wander != null)
                 return wander;
+            return new DoNothingAction();
         }
-        return new DoNothingAction();
     }
 
     /**
