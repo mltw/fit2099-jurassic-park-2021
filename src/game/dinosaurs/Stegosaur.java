@@ -76,8 +76,8 @@ public class Stegosaur extends Dinosaur {
 					// follow behaviour
 					actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
 					if (actionBreed != null){
-						actionBreed.execute(this,map);
 						moved = true;
+						return actionBreed;
 					}
 				}
 			}

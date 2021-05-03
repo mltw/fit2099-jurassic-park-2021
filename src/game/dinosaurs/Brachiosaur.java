@@ -54,8 +54,8 @@ public class Brachiosaur extends Dinosaur {
                     // follow behaviour
                     Action actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
                     if (actionBreed != null){
-                        actionBreed.execute(this,map);
                         moved = true;
+                        return actionBreed;
                     }
                 }
             }
