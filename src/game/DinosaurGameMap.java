@@ -6,6 +6,9 @@ import edu.monash.fit2099.engine.Location;
 
 import java.util.List;
 
+/**
+ * Create a map from dinosaurs.
+ */
 public class DinosaurGameMap extends GameMap {
     /**
      * Constructor that creates a map from a sequence of ASCII strings.
