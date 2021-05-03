@@ -100,10 +100,6 @@ public class Brachiosaur extends Dinosaur {
                         if (item.getDisplayChar() =='f'){
                             action = new EatAction(item);
                         }
-                        // player fed vmk
-                        else if(item.getDisplayChar() =='f' && item.hasCapability(MealKitType.VEGETARIAN)){
-                            action = new EatAction(item);
-                        }
                     }
                 }
 
