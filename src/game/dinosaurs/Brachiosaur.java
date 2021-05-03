@@ -21,7 +21,7 @@ public class Brachiosaur extends Dinosaur {
      * All Brachiosaurs are represented by a 'b' and have 100 hit points.
      */
     public Brachiosaur(Enum status) {
-        super("Brachiosaur" + brachiosaurCount, 'b', 60);
+        super("Brachiosaur" + brachiosaurCount, 'b', 100);
         addCapability(status);
         maxHitPoints = 160;
         if (hasCapability(Status.BABY)) {

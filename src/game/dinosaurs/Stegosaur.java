@@ -18,6 +18,7 @@ public class Stegosaur extends Dinosaur {
 	private boolean displayed = false;
 	private boolean moved = false;
 	private boolean eaten = false;
+	Action actionBreed;
 
 	/** 
 	 * Constructor.
@@ -73,7 +74,7 @@ public class Stegosaur extends Dinosaur {
 			for (Exit there : nearby){
 				if (there.getDestination().getDisplayChar()=='d' && !moved && there.getDestination().getActor()!=this){
 					// follow behaviour
-					Action actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
+					actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
 					if (actionBreed != null){
 						actionBreed.execute(this,map);
 						moved = true;
