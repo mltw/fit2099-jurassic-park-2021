@@ -59,7 +59,7 @@ public class Application {
 		world.addGameMap(gameMap);
 		
 		Actor player = new Player("Player", '@', 100);
-//		// testing (Ke Xin)
+//		 testing (Ke Xin)
 //		world.addPlayer(player, gameMap.at(0, 1));
 //		gameMap.at(1, 1).addActor(new Stegosaur(Status.ADULT));
 //		gameMap.at(3, 1).addActor(new Stegosaur(Status.ADULT));

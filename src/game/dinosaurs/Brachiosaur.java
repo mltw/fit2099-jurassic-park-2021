@@ -21,7 +21,7 @@ public class Brachiosaur extends Dinosaur {
      * All Brachiosaurs are represented by a 'b' and have 100 hit points.
      */
     public Brachiosaur(Enum status) {
-        super("Brachiosaur" + brachiosaurCount, 'b', 100);
+        super("Brachiosaur" + brachiosaurCount, 'b', 60);
         addCapability(status);
         maxHitPoints = 160;
         if (hasCapability(Status.BABY)) {
@@ -82,12 +82,12 @@ public class Brachiosaur extends Dinosaur {
                 // display hungry message
                 if (!displayed) {
                     display.println("Brachiosaur at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
-//                    display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
+                    display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
                     displayed = true;
                 }
                 // if fruit on bush/on ground under a tree & still can move
                 // can eat multiple fruits in a tree
-                if (destination.getDisplayChar() == 'f' && this.getHitPoints() != 0) {
+                if (destination.getDisplayChar() == 'F' && this.getHitPoints() != 0) {
                     int listFruits = destination.getItems().size();
                     for (int i=0;i < listFruits;i++){
                         if (destination.getItems().get(destination.getItems().size()-1).hasCapability(game.ground.Status.ON_TREE)){
@@ -115,12 +115,13 @@ public class Brachiosaur extends Dinosaur {
                     return wander;
             }
         }
-        if (this.getUnconsciousCount()== 15){
-            Item corpse = new PortableItem("dead " + this, '%');
+        if (this.getUnconsciousCount()== 15) {
+            Item corpse = new PortableItem("dead " + this, '(');
             map.locationOf(this).addItem(corpse);
-            map.removeActor(this);}
+            map.removeActor(this);
             display.println(this + "is dead at (" + map.locationOf(this).x() + ","
-                + map.locationOf(this).y() +")");
+                    + map.locationOf(this).y() + ")");
+        }
 
         displayed = false; // reset
         return action;

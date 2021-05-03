@@ -58,9 +58,11 @@ public class Tree extends Ground {
 //			if (item.hasCapability(Status.ON_TREE)){
 			double random= Math.random();
 			if (random <= 0.05 && item.hasCapability(Status.ON_TREE)){
+//			if (random >= 0.5 && item.hasCapability(Status.ON_TREE)){
 				// any turn, 5%:0.05 for ripe fruits to fall
 				item.removeCapability(Status.ON_TREE); // remove capability of being on tree
 				item.addCapability(Status.ON_GROUND);  // now capability of being on ground
+				displayChar = 'F'; 					   // to indicate fruit is on tree
 				item.getDropAction(); 				   // an action to drop this item
 				dropped = true;
 				counter++;
