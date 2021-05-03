@@ -35,8 +35,15 @@ public class Brachiosaur extends Dinosaur {
     }
 
     @Override
-    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+    public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
+        Actions actions = new Actions();
+        actions.add(new FeedAction(this)); // a Brachiosaur can be fed by Player
+        return actions;
+    }
 
+    @Override
+    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        Action actionBreed = null;
         Action action = getBehaviour().get(0).getAction(this, map);
 //        Action action = new DoNothingAction();
 
@@ -53,18 +60,18 @@ public class Brachiosaur extends Dinosaur {
             // check nearby if got brachiosaur, if yes, move towards it & breed
             List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
             for (Exit there : nearby){
-                if (there.getDestination().getDisplayChar()=='d' && !moved && there.getDestination().getActor()!=this){
+                if (there.getDestination().getDisplayChar()=='b' && !moved && there.getDestination().getActor()!=this){
                     // follow behaviour
-                    Action actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
+                    actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
                     if (actionBreed != null){
                         moved = true;
-                        return actionBreed;
+//                        return actionBreed;
                     }
                 }
             }
 
             if (this.getPregnantCount() >= 30) {
-                action = new LayEggAction();
+                return new LayEggAction();
             }
 
             // if brachiosaur has possibility to breed, search for mating partner
@@ -102,31 +109,35 @@ public class Brachiosaur extends Dinosaur {
                 // can eat multiple fruits in a tree
                 else if (destination.getDisplayChar() == 'f' && this.getHitPoints() != 0) {
                     int listFruits = destination.getItems().size();
+                    int count = 0;
                     for (int i=0;i < listFruits;i++){
                         if (destination.getItems().get(destination.getItems().size()-1).hasCapability(game.ground.Status.ON_TREE)){
-                            map.moveActor(this,destination);
-                            new EatAction(destination.getItems()).execute(this,map);
+                                count++;  // count number of fruits found by Brachiosaur
+//                            map.moveActor(this,destination);
+//                            new EatAction(destination.getItems()).execute(this,map);
                         }
                     }
-//                    Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
-//                    destination.removeItem(itemToBeEaten);
+                    int temp = count;
+                    // count > 0 means found at least 1 fruit, now to consume:
+                    if (count > 0){
+                        // move Brachiosaur to that location first
+                        map.moveActor(this,destination);
+                        // do EatAction for each fruit found, leaving one last fruit to be used to return an EatAction
+                        while (count > 1){
+                            new EatAction(destination.getItems()).execute(this,map);
+                            count--;
+                        }
+                        display.println(this + " eats " + temp + " fruits");
+                        return new EatAction(destination.getItems());
+                    }
+
                 }
-                // adjacent square has player & has fruit
-//                else if(destination.getDisplayChar() == '@') {
-//                    Player player = (Player) destination.getActor();
-//                    for (Item item: player.getInventory()){
-//                        if (item.getDisplayChar() =='f'){
-//                            action = new EatAction(item);
-//                        }
-//
-//                    }
-//                }
             }
-            else{
-                Action wander = getBehaviour().get(0).getAction(this, map);
-                if (wander != null)
-                    return wander;
-            }
+//            else{
+//                Action wander = getBehaviour().get(0).getAction(this, map);
+//                if (wander != null)
+//                    return wander;
+//            }
         }
         if (this.getUnconsciousCount()== 15) {
             return new DieAction();
@@ -134,9 +145,17 @@ public class Brachiosaur extends Dinosaur {
 
         displayed = false; // reset
 
-        if (action!= null)
-            return action;
-        return new DoNothingAction();
+        // finally choose which action to return if previously never returned any actions.
+        // here prioritise following another dinosaur to prepare to breed, then wandering around,
+        // then lastly do nothing
+        if (actionBreed != null)
+            return actionBreed;
+        else{
+            Action wander = getBehaviour().get(0).getAction(this, map);
+            if (wander != null)
+                return wander;
+            return new DoNothingAction();
+        }
     }
 }
 
