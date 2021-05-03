@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.ground.Status;
 import game.portableItems.*;
 
 public class PurchaseAction extends Action {
@@ -34,6 +35,7 @@ public class PurchaseAction extends Action {
 //                    ((Player) actor).setEcoPoints( ((Player) actor).getEcoPoints() - 30);
                     Player.addEcoPoints(-30);
                     itemPurchased = new Fruit("fruit", 'f');
+                    itemPurchased.addCapability(Status.ON_GROUND);
                 }
                 else if (playerOption == '2' && ((Player) actor).getEcoPoints() - 100 >= 0) {
 //                    ((Player) actor).setEcoPoints(-100);
