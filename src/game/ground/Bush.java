@@ -44,8 +44,6 @@ public class Bush extends Ground {
         super.tick(location);
         boolean read = false;
         // 29/4
-//        if(!read){
-//        if(Math.random() == 1.0){
         double rand = Math.random();
         if(rand <= 0.10){
             // any turn, 10%:0.1 to produce 1 ripe fruit
