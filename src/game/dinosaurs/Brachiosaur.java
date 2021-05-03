@@ -2,6 +2,7 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
+import game.ground.Dirt;
 import game.portableItems.MealKitType;
 
 import java.util.List;
@@ -91,9 +92,13 @@ public class Brachiosaur extends Dinosaur {
                     }
                     displayed = true;
                 }
+                // if step on bush, 50% to kill
+                if(destination.getGround().getDisplayChar()=='v' && Math.random()>=0.5){
+                    destination.setGround(new Dirt());
+                }
                 // if fruit on bush/on ground under a tree & still can move
                 // can eat multiple fruits in a tree
-                if (destination.getDisplayChar() == 'F' && this.getHitPoints() != 0) {
+                else if (destination.getDisplayChar() == 'F' && this.getHitPoints() != 0) {
                     int listFruits = destination.getItems().size();
                     for (int i=0;i < listFruits;i++){
                         if (destination.getItems().get(destination.getItems().size()-1).hasCapability(game.ground.Status.ON_TREE)){
