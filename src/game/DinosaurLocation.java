@@ -9,6 +9,9 @@ import game.ground.Bush;
 
 import java.util.Random;
 
+/**
+ * Location for dinosaur's map.
+ */
 public class DinosaurLocation extends Location {
 
     public DinosaurLocation(GameMap map, int x, int y) {
