@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * An abstract class for a Dinosaur.
+ * This is an abstract class for a Dinosaur.
+ * Since all different dinosaur will have same attributes but with different values, this
+ * abstract class is used to implements methods related.
+ * Subclasses(eg: a specific Dinosaur type, Stegosaur) will provides implementations for the methods this class.
  */
 public abstract class Dinosaur extends Actor {
 
@@ -42,22 +45,25 @@ public abstract class Dinosaur extends Actor {
         setGender(gender[randomIndex]);
     }
 
-    /**
-     * A method similar to tick() in other classes, handles udpates of the dinosaur
-     * on each turn, eg deduct hit points by 1, update pregnant count etc.
-     * Input parameters are values that differ on each dinosaur,
-     * eg babyCount (number of counts before the baby dinosaur turns into an adult),
-     * Stegosaur's = 30 while Brachiosaur and Allosaur's = 50
+    /** This is a method similar to tick() in other classes.
+     * It handles all necessary updates of the dinosaur & perform checks on the dinosaur
+     * on each turn(will be called in each dinosaur's playTurn).
+     * Since number of turns needed to turn into an adult is dependent on each dinosaur, it will be the
+     * input parameter here.
+     * Updates will be done:
+     * - Increase unconsciousCount by 1 if remain unconscious
+     * - Deduct hit points by 1 if is still conscious
+     * - Increase pregnant count by 1 if it's pregnant
+     * - Update maturity status accordingly
      * @param babyCount number of counts upon the baby turns into an adult dinosaur
      */
     public void eachTurnUpdates(int babyCount){
-        // do basic updates and checking for each dinosaur on each turn
-        // if dinosaur is unconscious, update unconsciousCount
+        // if dinosaur is unconscious: update unconsciousCount
         if (!this.isConscious()){
             this.setUnconsciousCount( this.getUnconsciousCount() + 1);
         }
         else
-            // else if dinosaur is conscious, deduct 1 food level each turn
+            // else dinosaur is conscious: deduct food level by 1 each turn
             this.setHitPoints(this.getHitPoints() - 1);
 
         // if pregnant: update pregnant count
@@ -76,66 +82,66 @@ public abstract class Dinosaur extends Actor {
 
 
 
-    /**
-     * A getter for the dinosaur's behaviour.
+    /** Getter
+     * For the dinosaur's behaviour.
      * @return An array list to store all behaviours of the dinosaur.
      */
     public ArrayList<Behaviour> getBehaviour() {
         return behaviour;
     }
 
-    /**
-     * A setter to add dinosaur's behaviour.
+    /** Setter
+     * To add dinosaur's behaviour.
      * @param behaviour the dinosaur's behaviour.
      */
     public void setBehaviour(Behaviour behaviour) {
         this.behaviour.add(behaviour);
     }
 
-    /**
-     * Gets the number of rounds the dinosaur has been unconscious. Different dinosaurs will die
-     * after different number of rounds(counts) of unconsciousness.
-     * @return an integer, representing the number of rounds of unconsciousness of the dinosaur.
+    /** Getter
+     * Retrieve the number of rounds the dinosaur has been unconscious.
+     * Different dinosaurs will die after different number of turns(counts) of unconsciousness.
+     * @return An integer: the number of rounds of unconsciousness of the dinosaur.
      */
     public int getUnconsciousCount() {
         return unconsciousCount;
     }
 
-    /**
-     * A setter for number of rounds the dinosaur has been unconscious.
+    /** Setter
+     * For number of turns the dinosaur has been unconscious.
      * @param unconsciousCount number of rounds the dinosaur has been unconscious.
      */
     public void setUnconsciousCount(int unconsciousCount) {
         this.unconsciousCount = unconsciousCount;
     }
 
-    /**
-     * Gets the number of rounds the dinosaur has been pregnant. After a specific number of rounds,
-     * the dinosaur will lay an egg.
-     * @return an integer, representing the the number of rounds the dinosaur has been pregnant.
+    /** Getter
+     * Retrieve the number of turns the dinosaur has been pregnant.
+     * After a specific number of turns, the dinosaur will lay an egg.
+     * @return An integer: the number of turns the dinosaur has been pregnant.
      */
     public int getPregnantCount() {
         return pregnantCount;
     }
 
-    /**
-     *  A setter for number of rounds the dinosaur has been pregnant.
-     * @param pregnantCount number of rounds the dinosaur has been pregnant.
+    /** Setter
+     *  For number of turns the dinosaur has been pregnant.
+     * @param pregnantCount number of turns the dinosaur has been pregnant.
      */
     public void setPregnantCount(int pregnantCount) {
         this.pregnantCount = pregnantCount;
     }
 
-    /**
-     * A getter for the dinosaur's gender.
+    /** Getter
+     * For the dinosaur's gender.
      * @return the dinosaur's gender.
      */
     public String getGender() {
         return gender;
     }
 
-    /**
-     * A setter for the dinosaur's gender.
+    /** Setter
+     * For the dinosaur's gender.
      * @param gender the dinosaur's gender. "M" for male, "F" for female
      */
     public void setGender(String gender) {
@@ -150,41 +156,41 @@ public abstract class Dinosaur extends Actor {
         return this.isPregnant;
     }
 
-    /**
-     * A setter for the pregnancy status of the dinosaur.
+    /** Setter
+     * For the pregnancy status of the dinosaur.
      * @param pregnant true if dinosaur is pregnant; false otherwise.
      */
     public void setPregnant(boolean pregnant) {
         isPregnant = pregnant;
     }
 
-    /**
-     * Gets the hit points (= food level = health level) of the dinosaur.
+    /** Getter
+     * Retrieve the hit points (which is also the food level,health level) of the dinosaur.
      * @return hit points of the dinosaur.
      */
     public int getHitPoints(){
         return this.hitPoints;
     }
 
-    /**
-     * A setter for the dinosaur's hit points.
+    /** Setter
+     * For the dinosaur's hit points.
      * @param hitPoints amount of hit points
      */
     public void setHitPoints(int hitPoints){
         this.hitPoints = hitPoints;
     }
 
-    /**
-     * Gets the number of rounds the dinosaur has been a baby.
-     * @return the number of rounds the dinosaur has been a baby.
+    /** Getter
+     * Retrieve the number of turns the dinosaur has been a baby.
+     * @return the number of turns the dinosaur has been a baby.
      */
     public int getBabyCount() {
         return babyCount;
     }
 
-    /**
-     * Sets the number of rounds the dinosaur has been a baby. After a specific number of rounds,
-     * the dinosaur will turn into an adult.
+    /** Setter
+     * Sets the number of rounds the dinosaur has been a baby.
+     * After a specific number of rounds,the dinosaur will turn into an adult.
      * @param babyCount the number of rounds the dinosaur has been a baby
      */
     public void setBabyCount(int babyCount) {
