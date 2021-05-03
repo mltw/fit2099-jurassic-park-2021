@@ -3,7 +3,8 @@ package game.portableItems;
 import game.PortableItem;
 
 /**
- * A class for meal kits (vegetarian or carnivore)
+ * A class for meal kits (vegetarian or carnivore).
+ * A meal kit is portable item.
  */
 public class MealKit extends PortableItem {
 
