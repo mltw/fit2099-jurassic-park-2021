@@ -8,12 +8,12 @@ import game.actions.*;
 import java.util.List;
 
 /**
- * A herbivorous dinosaur.
- *
+ * Stegosaur is a herbivorous dinosaur which only eats fruit from bush or a fruit laying on ground
+ * under a tree.
+ * It's main actions will be handled in the playTurn method.
  */
 public class Stegosaur extends Dinosaur {
-	// used to give a unique name for each stegosaur
-	private static int stegosaurCount = 1;
+	private static int stegosaurCount = 1; // // used to give a unique name for each stegosaur
 	private boolean displayed = false;
 	private boolean moved = false;
 	private boolean eaten = false;
@@ -21,7 +21,7 @@ public class Stegosaur extends Dinosaur {
 
 	/** 
 	 * Constructor.
-	 * All Stegosaurs are represented by a 'd' and have 50 hit points.
+	 * All Stegosaurs are represented by a 'd' and have 50 hit points initially.
 	 * 
 	 * @param status an enum value of either BABY or ALIVE
 	 */
@@ -31,19 +31,22 @@ public class Stegosaur extends Dinosaur {
 		maxHitPoints = 100;
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
-			this.setHitPoints(10); //if is baby, starting hit points
+			this.setHitPoints(10); //if is baby, starting hit points is 10
 		}
 
 		stegosaurCount++;
 	}
 
-
+	/**
+	 * A stegosaur can be attacked or fed by a player.
+	 * @param otherActor the Actor that might be performing attack
+	 * @param direction  String representing the direction of the other Actor
+	 * @param map        current GameMap
+	 * @return
+	 */
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
-
 		Actions actions = new Actions();
-
-		// a Stegosaur can be attacked or fed by Player
 		actions.add(new AttackAction(this));
 		actions.add(new FeedAction(this));
 
@@ -51,38 +54,36 @@ public class Stegosaur extends Dinosaur {
 }
 
 	/**
-	 * 
+	 * This method will determine what action a stegosaur to perform, considering it's hitpoints,
+	 * and its surrounding(adjacent square)
 	 * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-
-//		Action action = new DoNothingAction();
 		Action action = getBehaviour().get(0).getAction(this, map);
 
-		eachTurnUpdates(30);
+		eachTurnUpdates(30); 							// to handle necessary updates for each turn
 
 		int stegosaurLocationX = map.locationOf(this).x();
 		int stegosaurLocationY = map.locationOf(this).y();
 
 		Location here = map.locationOf(this);
 
-		for (Exit exit : here.getExits()) { //for each possible exit for the stegosaur to go to
-			Location destination = exit.getDestination(); //each adjacent square of the current stegosaur
+		for (Exit exit : here.getExits()) { 					//for each possible exit for the stegosaur to go to
+			Location destination = exit.getDestination(); 		//each adjacent square of the current stegosaur
 
-			// check nearby if got stegosaur, if yes, move towards it & breed
-			List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
+			// check nearby if has a stegosaur, if yes, move towards it & breed
+			List<Exit> nearby = destination.getExits(); 		//all exits of the adjacent square, ie nearby locations
 			for (Exit there : nearby){
 				if (there.getDestination().getDisplayChar()=='d' && !moved && there.getDestination().getActor()!=this){
-					// follow behaviour
 					actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
 					if (actionBreed != null){
 						moved = true;
-//						return actionBreed;
 					}
 				}
 			}
 
+			// Egg hatched & should turn into a baby stegosaur
 			if (this.getPregnantCount() >= 10) {
 				return new LayEggAction();
 			}
@@ -107,15 +108,15 @@ public class Stegosaur extends Dinosaur {
 				if (!displayed){
 					if (this.isConscious()) {
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
-//					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
 					}
+					// display unconscious message
 					else if (!this.isConscious() && this.getUnconsciousCount() <20){
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Feed it");
 						display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
 					}
 					displayed = true;
 				}
-				// if fruit on bush/on ground under a tree & still can be move
+				// if fruit on bush/on ground under a tree & stegosaur still able to move
 				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0 && !eaten) {
 					// check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
 					if (destination.getItems().get(destination.getItems().size() - 1).hasCapability(game.ground.Status.ON_GROUND)){
@@ -126,13 +127,9 @@ public class Stegosaur extends Dinosaur {
 				}
 
 			}
-//			else{
-//				Action wander = getBehaviour().get(0).getAction(this, map);
-//				if (wander != null)
-//					return wander;
-//			}
 		}
 
+		// if remain unconscious for 20 turns, stegosaur is dead & will turn into a corpse
 		if (this.getUnconsciousCount()==20){
 			return new DieAction();
 		}
@@ -140,9 +137,9 @@ public class Stegosaur extends Dinosaur {
 		displayed = false; // reset
 		eaten = false; // reset
 
-		// finally choose which action to return if previously never returned any actions.
-		// here prioritise eating, then following another dinosaur to prepare to breed,
-		// then wandering around, then lastly do nothing
+		// finally choose which action to return if previously never return any action.
+		// Eating is prioritised here, followed, then following another dinosaur to prepare to breed,
+		// then wandering around, then lastly do nothing.
 		if (action!=null)
 			return action;
 		else if (actionBreed != null)
