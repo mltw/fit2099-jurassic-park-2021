@@ -81,8 +81,14 @@ public class Brachiosaur extends Dinosaur {
             else if (this.getHitPoints() < 140) {
                 // display hungry message
                 if (!displayed) {
-                    display.println("Brachiosaur at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
-                    display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
+                    if (this.isConscious()) {
+                        display.println("Brachiosaur at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
+                        display.println("Hit point is " + this.getHitPoints()); // for checking purpose only, will delete
+                    }
+                    else if (!this.isConscious() && this.getUnconsciousCount() <20){
+                        display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is unconscious! Feed it");
+                        display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+                    }
                     displayed = true;
                 }
                 // if fruit on bush/on ground under a tree & still can move
