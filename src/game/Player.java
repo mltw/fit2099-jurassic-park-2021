@@ -32,6 +32,12 @@ public class Player extends Actor {
 				actions.add(new PurchaseAction());
 				break;
 			}
+			else if(exit.getDestination().getDisplayChar() == 'f'){
+				// pick a fruit that is lying on ground/bush
+				PortableItem itemToBePicked = (PortableItem) exit.getDestination().getItems().get(exit.getDestination().getItems().size()-1);
+				actions.add(new PickUpAction(itemToBePicked));
+				break;
+			}
 		}
 
 		return menu.showMenu(this, actions, display);
