@@ -19,9 +19,7 @@ public class Bush extends Ground {
         addCapability(Status.ALIVE);
     }
 
-    /**
-     * Override this to implement impassable terrain, or terrain that is only passable if conditions are met.
-     *
+    /** Actor is able to enter bush.
      * @param actor the Actor to check
      * @return true
      */
