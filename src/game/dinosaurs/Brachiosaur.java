@@ -100,12 +100,12 @@ public class Brachiosaur extends Dinosaur {
                 }
                 // if fruit on bush/on ground under a tree & still can move
                 // can eat multiple fruits in a tree
-                else if (destination.getDisplayChar() == 'F' && this.getHitPoints() != 0) {
+                else if (destination.getDisplayChar() == 'f' && this.getHitPoints() != 0) {
                     int listFruits = destination.getItems().size();
                     for (int i=0;i < listFruits;i++){
                         if (destination.getItems().get(destination.getItems().size()-1).hasCapability(game.ground.Status.ON_TREE)){
                             map.moveActor(this,destination);
-                            action = new EatAction(destination.getItems());
+                            new EatAction(destination.getItems()).execute(this,map);
                         }
                     }
 //                    Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
