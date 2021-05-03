@@ -2,9 +2,8 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
+import game.actions.*;
 import game.ground.Dirt;
-import game.portableItems.Corpse;
-import game.portableItems.MealKitType;
 
 import java.util.List;
 
