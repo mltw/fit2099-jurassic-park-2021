@@ -20,6 +20,10 @@ public class Allosaur extends Dinosaur {
     private ConcurrentHashMap<String, Integer> cantAttack = new ConcurrentHashMap<>();
     // used to give a unique name for each Allosaur
     private static int allosaurCount = 1;
+    boolean moved = false;
+    boolean displayed = false;
+
+
 
     /**
      * Constructor.
@@ -45,11 +49,10 @@ public class Allosaur extends Dinosaur {
 
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        Action actionBreed = null;
         Action action = getBehaviour().get(0).getAction(this, map);
         int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
         Location toBeMovedLocation = null;
-
-        boolean displayed = false;
 
         eachTurnUpdates(50);
 
@@ -66,6 +69,18 @@ public class Allosaur extends Dinosaur {
             Location destination = exit.getDestination(); //this represents each adjacent square of the current allosaur
 
             List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
+
+            // check nearby if got Allosaur, if yes, move towards it & breed
+            for (Exit there : nearby){
+                if (there.getDestination().getDisplayChar()=='a' && !moved && there.getDestination().getActor()!=this){
+                    // follow behaviour
+                    actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
+                    if (actionBreed != null){
+                        moved = true;
+
+                    }
+                }
+            }
 
             if (this.getPregnantCount()>=20){
                 return new LayEggAction();
@@ -103,13 +118,6 @@ public class Allosaur extends Dinosaur {
                 if (destination.getDisplayChar() == 'd') {
                     Stegosaur adjcStegosaur = (Stegosaur) destination.getActor();
 
-                    // if the Stegosaur is not attacked by this Allosaur within the previous 20 turns
-//                    if (!adjcStegosaur.hasCapability(Status.CANT_BE_ATTACKED)){
-//                        adjcStegosaur.hasCapability(Status.CANT_BE_ATTACKED);
-//                        display.println("cant attack added");
-//                        return new AttackAction(adjcStegosaur);
-//                    }
-
                     if (!this.cantAttack.containsKey(adjcStegosaur.toString())) {
                         this.cantAttack.put(adjcStegosaur.toString(), 1); //add the Stegosaur into 'cantAttack'
                         display.println(this.cantAttack.toString());
@@ -120,7 +128,6 @@ public class Allosaur extends Dinosaur {
                 // if found a Corpse
                 else if(destination.getDisplayChar() == '%' || destination.getDisplayChar() == '('
                         || destination.getDisplayChar() == ')'){
-
 
                     // brachiosaur corpses restore food level to max, hence straight away let allosaur to eat it
                     if (destination.getDisplayChar() == '('){
@@ -145,8 +152,6 @@ public class Allosaur extends Dinosaur {
                         toBeMovedLocation = destination;
                         action = new EatAction(destination.getItems());
                     }
-//                    map.moveActor(this,destination);
-//                    return new EatAction(destination.getItems());
                 }
 
                 // if allosaur has reached 20 turns of unconsciousness, it will turn into a corpse
@@ -161,10 +166,15 @@ public class Allosaur extends Dinosaur {
             }
         }
 
+        // finally choose which action to return if previously never returned any actions.
+        // here prioritise eating, then following another dinosaur to prepare to breed,
+        // then wandering around, and lastly do nothing
         if (toBeMovedLocation != null){
             map.moveActor(this, toBeMovedLocation);
             return action;
         }
+        else if (actionBreed != null)
+            return actionBreed;
         else{
             Action wander = getBehaviour().get(0).getAction(this, map);
             if (wander != null)
