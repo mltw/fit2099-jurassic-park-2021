@@ -31,17 +31,15 @@ public class Player extends Actor {
 			if (exit.getDestination().getDisplayChar() == '$'){
 				actions.add(new PurchaseAction());
 			}
-			else if(exit.getDestination().getDisplayChar() == 'f'){
-				// pick a fruit that is lying on ground/bush
-				PortableItem itemToBePicked = (PortableItem) exit.getDestination().getItems().get(exit.getDestination().getItems().size()-1);
-				actions.add(new PickUpAction(itemToBePicked));
-			}
-			else if(exit.getDestination().getDisplayChar() == '%'
-					|| exit.getDestination().getDisplayChar() == ')'
-					|| exit.getDestination().getDisplayChar() == '('){
-				PortableItem itemToBePicked = (PortableItem) exit.getDestination().getItems().get(exit.getDestination().getItems().size()-1);
-				actions.add(new PickUpItemAction(itemToBePicked));
-			}
+		}
+
+		if (map.locationOf(this).getGround().getDisplayChar() == 'v'){
+			actions.add(new SearchFruitAction("bush"));
+		}
+		else if (map.locationOf(this).getGround().getDisplayChar() == '+'
+				|| map.locationOf(this).getGround().getDisplayChar() == 't'
+				|| map.locationOf(this).getGround().getDisplayChar() == 'T'){
+			actions.add(new SearchFruitAction("tree"));
 		}
 
 		return menu.showMenu(this, actions, display);
