@@ -103,8 +103,14 @@ public class Stegosaur extends Dinosaur {
 			else if (this.getHitPoints() < 90) {
 				// display hungry message
 				if (!displayed){
-					display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
+					if (this.isConscious()) {
+						display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
 //					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
+					}
+					else if (!this.isConscious() && this.getUnconsciousCount() <20){
+						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Feed it");
+						display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+					}
 					displayed = true;
 				}
 				// if fruit on bush/on ground under a tree & still can be move
