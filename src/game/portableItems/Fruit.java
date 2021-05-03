@@ -5,10 +5,14 @@ import game.PortableItem;
 import game.ground.Status;
 
 /**
- * A class for fruits
+ * A class for fruits.
+ * A fruit is a portable item.
  */
 public class Fruit extends PortableItem {
-
+    /** Constructor
+     * @param name name of fruit
+     * @param displayChar   displayChar for fruit is 'f'
+     */
     public Fruit(String name, char displayChar) {
         super(name, displayChar);
     }
@@ -38,6 +42,13 @@ public class Fruit extends PortableItem {
         this.setCount( this.getCount()+1);
         Display display = new Display();
 
+            // TODO: CHECK : Only dropped fruit will rot in 15 turns
+//        if (this.hasCapability(Status.ON_GROUND)){
+//            this.setCount( this.getCount()+1);
+//        }
+//        if (this.hasCapability(Status.ON_GROUND) && this.getCount() > 15){
+//            currentLocation.removeItem(this);
+//        }
         // after 15 turns, remove the fruit
         if (this.getCount() > 15){
             currentLocation.removeItem(this);
