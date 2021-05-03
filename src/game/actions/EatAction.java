@@ -1,4 +1,4 @@
-package game;
+package game.actions;
 
 import edu.monash.fit2099.engine.*;
 import game.ground.Status;

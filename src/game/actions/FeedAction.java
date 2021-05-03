@@ -1,6 +1,7 @@
-package game;
+package game.actions;
 
 import edu.monash.fit2099.engine.*;
+import game.Player;
 import game.portableItems.*;
 
 public class FeedAction extends Action {

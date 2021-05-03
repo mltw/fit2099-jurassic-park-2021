@@ -1,6 +1,8 @@
-package game;
+package game.actions;
 
 import edu.monash.fit2099.engine.*;
+import game.LaserGun;
+import game.Player;
 import game.ground.Status;
 import game.portableItems.*;
 

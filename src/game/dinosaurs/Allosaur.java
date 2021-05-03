@@ -2,10 +2,8 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
-import game.portableItems.Corpse;
+import game.actions.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
