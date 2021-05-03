@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.FancyGroundFactory;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.World;
 import game.dinosaurs.Allosaur;
+import game.dinosaurs.Brachiosaur;
 import game.dinosaurs.Status;
 import game.dinosaurs.Stegosaur;
 import game.ground.Dirt;
@@ -71,7 +72,23 @@ public class Application {
 //		gameMap.at(7,4).addActor(new Stegosaur(Status.ADULT));
 //		gameMap.at(7,3).addActor(new Allosaur(Status.ADULT));
 
-		// TODO: add 2 male 2 female brachiosaur in the map
+		// placed 2 male 2 female brachiosaurs in the map
+		Brachiosaur maleBrachiosaur1 = new Brachiosaur(Status.ADULT);
+		maleBrachiosaur1.setGender("M");
+		gameMap.at(20,20).addActor(maleBrachiosaur1);
+
+		Brachiosaur femaleBrachiosaur1 = new Brachiosaur(Status.ADULT);
+		femaleBrachiosaur1.setGender("F");
+		gameMap.at(22,20).addActor(femaleBrachiosaur1);
+
+		Brachiosaur maleBrachiosaur2 = new Brachiosaur(Status.ADULT);
+		maleBrachiosaur2.setGender("M");
+		gameMap.at(40,20).addActor(maleBrachiosaur2);
+
+		Brachiosaur femaleBrachiosaur2 = new Brachiosaur(Status.ADULT);
+		femaleBrachiosaur2.setGender("F");
+		gameMap.at(42,20).addActor(femaleBrachiosaur2);
+
 
 		// Place a pair of stegosaurs in the middle of the map
 		gameMap.at(30, 12).addActor(new Stegosaur(Status.ADULT));
