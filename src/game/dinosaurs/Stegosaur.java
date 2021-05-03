@@ -80,13 +80,13 @@ public class Stegosaur extends Dinosaur {
 					actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
 					if (actionBreed != null){
 						moved = true;
-						return actionBreed;
+//						return actionBreed;
 					}
 				}
 			}
 
 			if (this.getPregnantCount() >= 10) {
-				action = new LayEggAction();
+				return new LayEggAction();
 			}
 
 			// if stegosaur has possibility to breed, search for mating partner
@@ -125,24 +125,14 @@ public class Stegosaur extends Dinosaur {
 						action = new EatAction(destination.getItems());	// eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
 						eaten = true;
 					}
-//					Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
-//					destination.removeItem(itemToBeEaten);
 				}
-				// adjacent square has player & has fruit
-//				else if(destination.getDisplayChar() == '@'){
-//					Player player = (Player) destination.getActor();
-//					for (Item item: player.getInventory()){
-//						if (item.getDisplayChar() =='f'){
-//							action = new EatAction(item);
-//						}
-//					}
-//				}
+
 			}
-			else{
-				Action wander = getBehaviour().get(0).getAction(this, map);
-				if (wander != null)
-					return wander;
-			}
+//			else{
+//				Action wander = getBehaviour().get(0).getAction(this, map);
+//				if (wander != null)
+//					return wander;
+//			}
 		}
 
 		if (this.getUnconsciousCount()==20){
@@ -152,9 +142,19 @@ public class Stegosaur extends Dinosaur {
 		displayed = false; // reset
 		eaten = false; // reset
 
-		if (action!= null)
+		// finally choose which action to return if previously never returned any actions.
+		// here prioritise eating, then following another dinosaur to prepare to breed,
+		// then wandering around, then lastly do nothing
+		if (action!=null)
 			return action;
-		return new DoNothingAction();
+		else if (actionBreed != null)
+			return actionBreed;
+		else{
+			Action wander = getBehaviour().get(0).getAction(this, map);
+			if (wander != null)
+				return wander;
+			return new DoNothingAction();
+		}
 	}
 
 }
