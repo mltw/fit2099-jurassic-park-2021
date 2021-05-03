@@ -37,9 +37,11 @@ public class Player extends Actor {
 			}
 		}
 
+		// player able to pick up fruits from bush: perform SearchFruitAction
 		if (map.locationOf(this).getGround().getDisplayChar() == 'v'){
 			actions.add(new SearchFruitAction("bush"));
 		}
+		// player able to pick up fruits from a tree/fruits lying on the ground of tree : perform SearchFruitAction
 		else if (map.locationOf(this).getGround().getDisplayChar() == '+'
 				|| map.locationOf(this).getGround().getDisplayChar() == 't'
 				|| map.locationOf(this).getGround().getDisplayChar() == 'T'){
@@ -49,22 +51,34 @@ public class Player extends Actor {
 		return menu.showMenu(this, actions, display);
 	}
 
-	/**
-	 * A getter for the Player's hit points.
+	/** Getter
+	 * Retrieve player's hit points.
 	 * @return the player's hit points.
 	 */
 	public int getHitPoints(){
 		return this.hitPoints;
 	}
 
+	/** Getter
+	 * Retrieve player's eco points.
+	 * @return the player's eco points.
+	 */
 	public int getEcoPoints() {
 		return ecoPoints;
 	}
 
+	/** Setter
+	 * For Player's eco points.
+	 * @param points
+	 */
 	public void setEcoPoints(int points) {
 		ecoPoints = points;
 	}
 
+	/**
+	 * To increment player's eco points
+	 * @param points points to be incremented
+	 */
 	public static void addEcoPoints(int points){
 		ecoPoints += points;
 	}
