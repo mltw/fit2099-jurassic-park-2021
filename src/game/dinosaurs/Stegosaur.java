@@ -13,7 +13,7 @@ import java.util.List;
  * It's main actions will be handled in the playTurn method.
  */
 public class Stegosaur extends Dinosaur {
-	private static int stegosaurCount = 1; // // used to give a unique name for each stegosaur
+	private static int stegosaurCount = 1; // used to give a unique name for each stegosaur
 	private boolean displayed = false;
 	private boolean moved = false;
 	private boolean eaten = false;
@@ -54,7 +54,7 @@ public class Stegosaur extends Dinosaur {
 }
 
 	/**
-	 * This method will determine what action a stegosaur to perform, considering it's hitpoints,
+	 * This method will determine what action a stegosaur can perform, considering it's hitpoints,
 	 * and its surrounding(adjacent square)
 	 * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
 	 */
@@ -72,7 +72,7 @@ public class Stegosaur extends Dinosaur {
 		for (Exit exit : here.getExits()) { 					//for each possible exit for the stegosaur to go to
 			Location destination = exit.getDestination(); 		//each adjacent square of the current stegosaur
 
-			// check nearby if has a stegosaur, if yes, move towards it & breed
+			// check if nearby has a stegosaur, if yes, move towards it & breed
 			List<Exit> nearby = destination.getExits(); 		//all exits of the adjacent square, ie nearby locations
 			for (Exit there : nearby){
 				if (there.getDestination().getDisplayChar()=='d' && !moved && there.getDestination().getActor()!=this){
