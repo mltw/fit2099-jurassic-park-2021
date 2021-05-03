@@ -9,7 +9,7 @@ public class PurchaseAction extends Action {
         Display display = new Display();
         Item itemPurchased = null;
 
-        display.println(actor + " has $" + ((Player) actor).getHitPoints());
+        display.println(actor + " has $" + ((Player) actor).getEcoPoints());
 
         display.println("+==============================+");
         display.println("|        Items for sale:       |");
@@ -30,30 +30,45 @@ public class PurchaseAction extends Action {
             flag = false;
             try {
                 char playerOption = display.readChar();
-                if (playerOption == '1' && ((Player) actor).getHitPoints() - 30 >= 0) {
-                    actor.hurt(30);
+                if (playerOption == '1' && ((Player) actor).getEcoPoints() - 30 >= 0) {
+//                    ((Player) actor).setEcoPoints( ((Player) actor).getEcoPoints() - 30);
+                    Player.addEcoPoints(-30);
                     itemPurchased = new Fruit("fruit", 'f');
-                } else if (playerOption == '2' && ((Player) actor).getHitPoints() - 100 >= 0) {
-                    actor.hurt(100);
+                }
+                else if (playerOption == '2' && ((Player) actor).getEcoPoints() - 100 >= 0) {
+//                    ((Player) actor).setEcoPoints(-100);
+                    Player.addEcoPoints(-100);
                     itemPurchased = new MealKit(MealKitType.VEGETARIAN);
-                } else if (playerOption == '3' && ((Player) actor).getHitPoints() - 500 >= 0) {
-                    actor.hurt(500);
+                }
+                else if (playerOption == '3' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+//                    ((Player) actor).setEcoPoints(-500);
+                    Player.addEcoPoints(-500);
                     itemPurchased = new MealKit(MealKitType.CARNIVORE);
-                } else if (playerOption == '4' && ((Player) actor).getHitPoints() - 200 >= 0) {
-                    actor.hurt(200);
+                }
+                else if (playerOption == '4' && ((Player) actor).getEcoPoints() - 200 >= 0) {
+//                    ((Player) actor).setEcoPoints(-200);
+                    Player.addEcoPoints(-200);
                     itemPurchased = new Egg(EggType.STEGOSAUR);
-                } else if (playerOption == '5' && ((Player) actor).getHitPoints() - 500 >= 0) {
-                    actor.hurt(500);
+                }
+                else if (playerOption == '5' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+//                    ((Player) actor).setEcoPoints(-500);
+                    Player.addEcoPoints(-500);
                     itemPurchased = new Egg(EggType.BRACHIOSAUR);
-                } else if (playerOption == '6' && ((Player) actor).getHitPoints() - 1000 >= 0) {
-                    actor.hurt(1000);
+                }
+                else if (playerOption == '6' && ((Player) actor).getEcoPoints() - 1000 >= 0) {
+//                    ((Player) actor).setEcoPoints(-1000);
+                    Player.addEcoPoints(-1000);
                     itemPurchased = new Egg(EggType.ALLOSAUR);
-                } else if (playerOption == '7' && ((Player) actor).getHitPoints() - 500 >= 0) {
-                    actor.hurt(500);
+                }
+                else if (playerOption == '7' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+//                    ((Player) actor).setEcoPoints(-500);
+                    Player.addEcoPoints(-500);
                     itemPurchased = new LaserGun("laserGun", '~', 70, "zaps");
-                } else if (playerOption == '8') {
+                }
+                else if (playerOption == '8') {
                     return actor + " didn't purchase anything";
-                } else {
+                }
+                else {
                     throw new Exception();
                 }
 

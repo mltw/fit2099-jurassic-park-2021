@@ -21,6 +21,10 @@ public class SearchFruitAction extends Action {
                 // successfully picked up
                 new PickUpItemAction(item).execute(actor, map);
                 flag = true;
+
+                // when a fruit is harvested from a bush or tree, 10 eco points is gained
+                Player.addEcoPoints(10);
+
                 break;
             }
         }

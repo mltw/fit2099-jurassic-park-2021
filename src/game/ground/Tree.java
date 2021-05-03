@@ -2,6 +2,7 @@ package game.ground;
 
 import edu.monash.fit2099.demo.conwayslife.ConwayLocation;
 import edu.monash.fit2099.engine.*;
+import game.Player;
 import game.portableItems.Fruit;
 
 import java.util.Random;
@@ -48,6 +49,9 @@ public class Tree extends Ground {
 			foodCount++;
 			item.addCapability(Status.ON_TREE);
 			location.addItem(item); // add item onto this square
+
+			// when a fruit is produced by a tree, 1 eco point is gained
+			Player.addEcoPoints(1);
 		}
 
 		// 29/4
@@ -57,7 +61,7 @@ public class Tree extends Ground {
 				// any turn, 5%:0.05 for ripe fruits to fall
 				item.removeCapability(Status.ON_TREE); // remove capability of being on tree
 				item.addCapability(Status.ON_GROUND);  // now capability of being on ground
-				displayChar = 'F'; 					   // to indicate fruit is on tree
+				displayChar = 'f';
 				item.getDropAction(); 				   // an action to drop this item
 				dropped = true;
 			}

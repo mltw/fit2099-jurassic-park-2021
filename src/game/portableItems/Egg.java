@@ -3,6 +3,7 @@ package game.portableItems;
 import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.Exit;
 import edu.monash.fit2099.engine.Location;
+import game.Player;
 import game.PortableItem;
 import game.dinosaurs.*;
 
@@ -72,10 +73,20 @@ public class Egg extends PortableItem {
                     // if don't have suitable place for the baby dinosaur to be instantiated, deduct a count
                     // and see if next turn, there is suitable place
                     this.setCount( this.getCount()-1 );
-                    display.println(this + "'s surrounding are occupied by actors, can't hatch till " +
+                    display.println(this + "'s surrounding are occupied, can't hatch till " +
                             "an actor moves away!");
                 }
             }
         }
+        if (hatched){
+            // when a Stegosaur hatches, 100 eco points is gained
+            if (this.hasCapability(EggType.STEGOSAUR))
+                Player.addEcoPoints(100);
+            // when a Brachiosaur/Allosaur hatches, 1000 eco points is gained
+            else
+                Player.addEcoPoints(1000);
+            hatched = false;
+        }
+
     }
 }

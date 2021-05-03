@@ -45,6 +45,10 @@ public class FeedAction extends Action {
                                 || itemToFeed.getDisplayChar() == 'f')){
                     actor.removeItemFromInventory(itemToFeed);
                     output = new EatAction(itemToFeed).execute(target, map);
+
+                    // when a fruit is fed to a dinosaur, 10 eco points is gained
+                    if (itemToFeed.getDisplayChar() == 'f')
+                        Player.addEcoPoints(10);
                 }
                 else {
                     throw new Exception();
