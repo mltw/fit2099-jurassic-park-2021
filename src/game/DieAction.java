@@ -35,6 +35,6 @@ public class DieAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return "smlj";
+        return null;
     }
 }
