@@ -10,7 +10,7 @@ public class VendingMachine extends Item {
 
     /**
      * Constructor.
-     * A vending machine is displayed by a char '8'
+     * A vending machine is displayed by a char '$'
      */
     public VendingMachine() {
         super("vendingMachine",'$',false);
