@@ -12,7 +12,7 @@ public class Bush extends Ground {
     /**
      * Constructor.
      * All bushes are represented by a 'v' character.
-     * Bush has a Capability of being ALIVE, since it can grow fruits on it,
+     * Bush has a Capability of being ALIVE, since it can grow fruits on it.
      */
     public Bush() {
         super('v');
