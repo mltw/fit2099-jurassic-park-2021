@@ -12,15 +12,14 @@ import java.util.ArrayList;
  * A class that represents bush.
  */
 public class Bush extends Ground {
-    private int foodCount = 0;
-
     /**
      * Constructor.
      * All bushes are represented by a 'v' character.
      */
     public Bush() {
         super('v');
-        addCapability(Status.ALIVE); // since it can grow something: 29/4
+        // Status.ALIVE: since bush can grow fruits on it
+        addCapability(Status.ALIVE);
     }
 
     /**
@@ -36,19 +35,18 @@ public class Bush extends Ground {
 
     /**
      * Ground can also experience the joy of time.
-     *
+     * In any turn, each square has 10% to produce 1 ripe fruit.
+     * Fruits produced from bush will be on ground, therefore it has a Capability of
+     * being ON_GROUND.
+     * This produced fruit will be added to the current location.
      * @param location The location of the Ground
      */
     @Override
     public void tick(Location location) {
         super.tick(location);
-        boolean read = false;
-        // 29/4
         double rand = Math.random();
-        if(rand <= 0.10){
-            // any turn, 10%:0.1 to produce 1 ripe fruit
+        if(rand <= 0.1){
             Fruit item = new Fruit("fruit" , 'f');
-            foodCount++;
             item.addCapability(Status.ON_GROUND); // check
             location.addItem(item);
         }
