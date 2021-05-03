@@ -112,10 +112,9 @@ public class Stegosaur extends Dinosaur {
 					// check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
 					if (destination.getItems().get(destination.getItems().size() - 1).hasCapability(game.ground.Status.ON_GROUND)){
 						map.moveActor(this,destination);			// moveActor to food source
-						action = new EatAction(destination.getItems());
+						action = new EatAction(destination.getItems());	// eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
 						eaten = true;
 					}
-				 // eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
 //					Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
 //					destination.removeItem(itemToBeEaten);
 				}
