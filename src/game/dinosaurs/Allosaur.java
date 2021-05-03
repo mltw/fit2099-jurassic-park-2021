@@ -2,10 +2,12 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
+import game.portableItems.Corpse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A carnivore dinosaur.
@@ -13,7 +15,9 @@ import java.util.List;
 public class Allosaur extends Dinosaur {
 
     //    private ArrayList<String> cantAttack;
-    private HashMap<String, Integer> cantAttack = new HashMap<>();
+
+    // use ConcurrentHashMap to prevent from throwing ConcurrentModificationException
+    private ConcurrentHashMap<String, Integer> cantAttack = new ConcurrentHashMap<>();
     // used to give a unique name for each Allosaur
     private static int allosaurCount = 1;
 
@@ -100,6 +104,12 @@ public class Allosaur extends Dinosaur {
                     Stegosaur adjcStegosaur = (Stegosaur) destination.getActor();
 
                     // if the Stegosaur is not attacked by this Allosaur within the previous 20 turns
+//                    if (!adjcStegosaur.hasCapability(Status.CANT_BE_ATTACKED)){
+//                        adjcStegosaur.hasCapability(Status.CANT_BE_ATTACKED);
+//                        display.println("cant attack added");
+//                        return new AttackAction(adjcStegosaur);
+//                    }
+
                     if (!this.cantAttack.containsKey(adjcStegosaur.toString())) {
                         this.cantAttack.put(adjcStegosaur.toString(), 1); //add the Stegosaur into 'cantAttack'
                         display.println(this.cantAttack.toString());
@@ -141,21 +151,7 @@ public class Allosaur extends Dinosaur {
 
                 // if allosaur has reached 20 turns of unconsciousness, it will turn into a corpse
                 else if (this.getHitPoints() <= 0 && this.getUnconsciousCount() >= 20){
-                    Item corpse = new PortableItem("dead " + this, '%');
-
-                    map.locationOf(this).addItem(corpse);
-
-                    Actions dropActions = new Actions();
-                    for (Item item : this.getInventory())
-                        dropActions.add(item.getDropAction());
-                    for (Action drop : dropActions)
-                        drop.execute(this, map);
-
-                    display.println(this + "is dead at (" + map.locationOf(this).x() + ","
-                                    + map.locationOf(this).y() +")");
-
-                    map.removeActor(this);
-                    return new DoNothingAction();
+                    return new DieAction();
                 }
 
                 // if allosaur is still unfed and unconsicous, do nothing

@@ -3,6 +3,7 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.*;
+import game.portableItems.Corpse;
 import game.portableItems.Fruit;
 import game.portableItems.MealKitType;
 
@@ -57,7 +58,9 @@ public class Stegosaur extends Dinosaur {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		Action action = new DoNothingAction();
+
+//		Action action = new DoNothingAction();
+		Action action = getBehaviour().get(0).getAction(this, map);
 
 		eachTurnUpdates(30);
 
@@ -105,7 +108,7 @@ public class Stegosaur extends Dinosaur {
 				// display hungry message
 				if (!displayed){
 					if (this.isConscious()) {
-						display.println("Stegosaur at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
+						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
 //					display.println("Hit point is "+ this.getHitPoints()); // for checking purpose only, will delete
 					}
 					else if (!this.isConscious() && this.getUnconsciousCount() <20){
@@ -126,14 +129,14 @@ public class Stegosaur extends Dinosaur {
 //					destination.removeItem(itemToBeEaten);
 				}
 				// adjacent square has player & has fruit
-				else if(destination.getDisplayChar() == '@'){
-					Player player = (Player) destination.getActor();
-					for (Item item: player.getInventory()){
-						if (item.getDisplayChar() =='f'){
-							action = new EatAction(item);
-						}
-					}
-				}
+//				else if(destination.getDisplayChar() == '@'){
+//					Player player = (Player) destination.getActor();
+//					for (Item item: player.getInventory()){
+//						if (item.getDisplayChar() =='f'){
+//							action = new EatAction(item);
+//						}
+//					}
+//				}
 			}
 			else{
 				Action wander = getBehaviour().get(0).getAction(this, map);
@@ -143,15 +146,15 @@ public class Stegosaur extends Dinosaur {
 		}
 
 		if (this.getUnconsciousCount()==20){
-			Item corpse = new PortableItem("dead " + this, '%');
-			map.locationOf(this).addItem(corpse);
-			map.removeActor(this);
-			display.println(this + "is dead at (" + map.locationOf(this).x() + ","
-					+ map.locationOf(this).y() +")");
+			return new DieAction();
 		}
+
 		displayed = false; // reset
 		eaten = false; // reset
-		return action;
+
+		if (action!= null)
+			return action;
+		return new DoNothingAction();
 	}
 
 }

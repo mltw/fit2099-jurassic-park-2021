@@ -30,13 +30,17 @@ public class Player extends Actor {
 		for (Exit exit : map.locationOf(this).getExits()){
 			if (exit.getDestination().getDisplayChar() == '$'){
 				actions.add(new PurchaseAction());
-				break;
 			}
 			else if(exit.getDestination().getDisplayChar() == 'f'){
 				// pick a fruit that is lying on ground/bush
 				PortableItem itemToBePicked = (PortableItem) exit.getDestination().getItems().get(exit.getDestination().getItems().size()-1);
 				actions.add(new PickUpAction(itemToBePicked));
-				break;
+			}
+			else if(exit.getDestination().getDisplayChar() == '%'
+					|| exit.getDestination().getDisplayChar() == ')'
+					|| exit.getDestination().getDisplayChar() == '('){
+				PortableItem itemToBePicked = (PortableItem) exit.getDestination().getItems().get(exit.getDestination().getItems().size()-1);
+				actions.add(new PickUpItemAction(itemToBePicked));
 			}
 		}
 

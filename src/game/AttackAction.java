@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
 import edu.monash.fit2099.engine.Weapon;
+import game.portableItems.Corpse;
 
 /**
  * Special Action for attacking other Actors.
@@ -53,22 +54,22 @@ public class AttackAction extends Action {
 			Item corpse;
 
 			if (target.getDisplayChar() == 'a'){ //allosaur corpse
-				corpse = new PortableItem("dead " + target, '%');
+				corpse = new Corpse("dead "+ target, '%');
 			}
 			else if (target.getDisplayChar() == 'b') { //brachiosaur corpse
-				corpse = new PortableItem("dead " + target, '(');
+				corpse = new Corpse("dead " + target, '(');
 			}
 			else { //stegosaur corpse
-				corpse = new PortableItem("dead " + target, ')');
+				corpse = new Corpse("dead " + target, ')');
 			}
 			map.locationOf(target).addItem(corpse);
-			
+
 			Actions dropActions = new Actions();
 			for (Item item : target.getInventory())
 				dropActions.add(item.getDropAction());
-			for (Action drop : dropActions)		
+			for (Action drop : dropActions)
 				drop.execute(target, map);
-			map.removeActor(target);	
+			map.removeActor(target);
 			
 			result += System.lineSeparator() + target + " is killed.";
 		}

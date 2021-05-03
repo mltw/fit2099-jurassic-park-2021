@@ -3,6 +3,7 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.*;
 import game.ground.Dirt;
+import game.portableItems.Corpse;
 import game.portableItems.MealKitType;
 
 import java.util.List;
@@ -36,7 +37,8 @@ public class Brachiosaur extends Dinosaur {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 
-        Action action = new DoNothingAction();
+        Action action = getBehaviour().get(0).getAction(this, map);
+//        Action action = new DoNothingAction();
 
         eachTurnUpdates(50);
 
@@ -83,7 +85,7 @@ public class Brachiosaur extends Dinosaur {
                 // display hungry message
                 if (!displayed) {
                     if (this.isConscious()) {
-                        display.println("Brachiosaur at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
+                        display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
                         display.println("Hit point is " + this.getHitPoints()); // for checking purpose only, will delete
                     }
                     else if (!this.isConscious() && this.getUnconsciousCount() <20){
@@ -110,15 +112,15 @@ public class Brachiosaur extends Dinosaur {
 //                    destination.removeItem(itemToBeEaten);
                 }
                 // adjacent square has player & has fruit
-                else if(destination.getDisplayChar() == '@') {
-                    Player player = (Player) destination.getActor();
-                    for (Item item: player.getInventory()){
-                        if (item.getDisplayChar() =='f'){
-                            action = new EatAction(item);
-                        }
-
-                    }
-                }
+//                else if(destination.getDisplayChar() == '@') {
+//                    Player player = (Player) destination.getActor();
+//                    for (Item item: player.getInventory()){
+//                        if (item.getDisplayChar() =='f'){
+//                            action = new EatAction(item);
+//                        }
+//
+//                    }
+//                }
             }
             else{
                 Action wander = getBehaviour().get(0).getAction(this, map);
@@ -127,15 +129,14 @@ public class Brachiosaur extends Dinosaur {
             }
         }
         if (this.getUnconsciousCount()== 15) {
-            Item corpse = new PortableItem("dead " + this, '(');
-            map.locationOf(this).addItem(corpse);
-            map.removeActor(this);
-            display.println(this + "is dead at (" + map.locationOf(this).x() + ","
-                    + map.locationOf(this).y() + ")");
+            return new DieAction();
         }
 
         displayed = false; // reset
-        return action;
+
+        if (action!= null)
+            return action;
+        return new DoNothingAction();
     }
 }
 
