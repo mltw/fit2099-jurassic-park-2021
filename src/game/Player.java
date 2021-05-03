@@ -6,7 +6,8 @@ import edu.monash.fit2099.engine.*;
  * Class representing the Player.
  */
 public class Player extends Actor {
-
+//	private static int ecoPointsFromPreviousRound = 0;
+	private static int ecoPoints = 100;
 	private Menu menu = new Menu();
 
 	/**
@@ -22,6 +23,7 @@ public class Player extends Actor {
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
@@ -51,5 +53,17 @@ public class Player extends Actor {
 	 */
 	public int getHitPoints(){
 		return this.hitPoints;
+	}
+
+	public int getEcoPoints() {
+		return ecoPoints;
+	}
+
+	public void setEcoPoints(int points) {
+		ecoPoints = points;
+	}
+
+	public static void addEcoPoints(int points){
+		ecoPoints += points;
 	}
 }
