@@ -1,9 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Item;
+import edu.monash.fit2099.engine.*;
 import game.ground.Status;
 import game.portableItems.Egg;
 import game.portableItems.EggType;
@@ -15,6 +12,8 @@ import java.util.List;
 public class EatAction extends Action {
     Item itemToBeEaten;
     boolean fedByPlayer; // fruits fed by Player will increase different level of hit points
+    Actor actor;
+    Location location;
 
     public EatAction(List<Item> items){
         // item to be eaten is the one displayed on the ground, which = the last item in List items

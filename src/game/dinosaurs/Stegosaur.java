@@ -17,6 +17,7 @@ public class Stegosaur extends Dinosaur {
 	private static int stegosaurCount = 1;
 	private boolean displayed = false;
 	private boolean moved = false;
+	private boolean eaten = false;
 
 	/** 
 	 * Constructor.
@@ -107,11 +108,14 @@ public class Stegosaur extends Dinosaur {
 					displayed = true;
 				}
 				// if fruit on bush/on ground under a tree & still can be move
-				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0) {
-					// moveActor to food source
-					map.moveActor(this,destination);
-					// then eat it
-					action = new EatAction(destination.getItems());
+				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0 && !eaten) {
+					// check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
+					if (destination.getItems().get(destination.getItems().size() - 1).hasCapability(game.ground.Status.ON_GROUND)){
+						map.moveActor(this,destination);			// moveActor to food source
+						action = new EatAction(destination.getItems());
+						eaten = true;
+					}
+				 // eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
 //					Item itemToBeEaten = destination.getItems().get(destination.getItems().size() - 1);
 //					destination.removeItem(itemToBeEaten);
 				}
@@ -140,6 +144,7 @@ public class Stegosaur extends Dinosaur {
 					+ map.locationOf(this).y() +")");
 		}
 		displayed = false; // reset
+		eaten = false; // reset
 		return action;
 	}
 
