@@ -37,23 +37,11 @@ public class Fruit extends PortableItem {
         super.tick(currentLocation);
         this.setCount( this.getCount()+1);
         Display display = new Display();
-//        display.println("Fruit count: " + this.count);
-        if (this.getCount() == 15){
+
+        // after 15 turns, remove the fruit
+        if (this.getCount() > 15){
             currentLocation.removeItem(this);
         }
     }
 
-    /**
-     * Inform a carried Item of the passage of time.
-     * <p>
-     * This method is called once per turn, if the Item is being carried.
-     *
-     * @param currentLocation The location of the actor carrying this Item.
-     * @param actor           The actor carrying this Item.
-     */
-    @Override
-    public void tick(Location currentLocation, Actor actor) {
-        super.tick(currentLocation, actor);
-
-    }
 }
