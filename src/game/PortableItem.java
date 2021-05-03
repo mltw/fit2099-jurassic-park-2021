@@ -9,6 +9,11 @@ import edu.monash.fit2099.engine.PickUpItemAction;
 public class PortableItem extends Item {
 	int count;
 
+	/**
+	 * Constructor
+	 * @param name name of portable item
+	 * @param displayChar displayChar of portable item varies (depends on the portable item)
+	 */
 	public PortableItem(String name, char displayChar) {
 		super(name, displayChar, true);
 		this.count=1;
@@ -25,10 +30,18 @@ public class PortableItem extends Item {
 		return super.getPickUpAction();
 	}
 
+	/** TODO: update javadoc
+	 * Getter to retrieve count
+	 * @return
+	 */
 	public int getCount() {
 		return count;
 	}
 
+	/** TODO: update javadoc
+	 * Setter for count
+	 * @param count
+	 */
 	public void setCount(int count) {
 		this.count = count;
 	}
