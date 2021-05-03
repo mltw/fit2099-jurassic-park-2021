@@ -10,7 +10,8 @@ import game.dinosaurs.*;
 import java.awt.*;
 
 /**
- * A class for a dinosaur's Egg
+ * A class for a dinosaur's Egg.
+ * Egg is a portable item.
  */
 public class Egg extends PortableItem {
 //    private int eggTickCount;
@@ -40,6 +41,7 @@ public class Egg extends PortableItem {
         Dinosaur newBorn = new Stegosaur(Status.BABY); // let default be a Stegosaur
         boolean hatched = false;
 
+        // if reach specific count: the dinosaur hatched the eggs & turn into a baby dinosaur
         if (this.getCount() == 30 || this.getCount() == 40 || this.getCount() == 50) {
             try {
                 if (this.hasCapability(EggType.ALLOSAUR) && this.getCount() == 50) {
