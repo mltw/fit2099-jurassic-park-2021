@@ -12,8 +12,8 @@ public class Corpse extends PortableItem {
 
     /**
      * Constructor
-     * @param name
-     * @param displayChar
+     * @param name name of corpse
+     * @param displayChar displayChar for corpse varies(depends on type of dinosaur)
      */
     public Corpse(String name, char displayChar) {
         super(name, displayChar);
