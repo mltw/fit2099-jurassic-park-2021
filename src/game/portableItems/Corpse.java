@@ -5,7 +5,8 @@ import edu.monash.fit2099.engine.Location;
 import game.PortableItem;
 
 /**
- * A class that represents a dinosaur corpse.
+ * A class that represents a dinosaur(Stegosaur,Brachiosaur,Allosaur) corpse.
+ * Corpse is a portable item.
  */
 public class Corpse extends PortableItem {
 
@@ -18,6 +19,10 @@ public class Corpse extends PortableItem {
         super(name, displayChar);
     }
 
+    /**
+     *
+     * @param currentLocation The location of the ground on which we lie.
+     */
     @Override
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
@@ -25,15 +30,15 @@ public class Corpse extends PortableItem {
         this.setCount( this.getCount()+1);
         Display display = new Display();
 
-        // allosaur corpse
+        // if allosaur corpse remain in the game for more than 30 turns, remove it
         if ((this.getDisplayChar() == '%') && (this.getCount() > 30)){
             currentLocation.removeItem(this);
         }
-        // stegosaur corpse
+        // if stegosaur corpse remain in the game for more than 20 turns, remove it
         else if ((this.getDisplayChar() == ')') && (this.getCount() > 20)){
             currentLocation.removeItem(this);
         }
-        // brachiosaur corpse
+        // if brachiosaur corpse remain in the game for more than 25 turns, remove it
         else if ((this.getDisplayChar() == '(') && (this.getCount() > 25)){
             currentLocation.removeItem(this);
         }
