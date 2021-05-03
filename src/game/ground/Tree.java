@@ -9,18 +9,18 @@ import java.util.Random;
 
 public class Tree extends Ground {
 	private int age = 0;
-	private int foodCount = 0;
 	boolean dropped = false;
 
+	/** Constructor
+	 * All trees are represented by a '+' character OR 't' character OR 'T' character.
+	 * Trees has a Capability of being ALIVE, since it can grow fruits on it.
+	 */
 	public Tree() {
-
 		super('+');
 		addCapability(Status.ALIVE);
 	}
 
-	/**
-	 * Override this to implement impassable terrain, or terrain that is only passable if conditions are met.
-	 *
+	/** Actors are able to enter trees.
 	 * @param actor the Actor to check
 	 * @return true
 	 */
@@ -29,36 +29,38 @@ public class Tree extends Ground {
 		return true;
 	}
 
+	/** Ground can also experience the joy of time.
+	 * age act as a counter here:
+	 * - if age reaches 10, means tree can grow from '+' small trees to 't' medium trees.
+	 * - if age reaches 20, means tree can grow from 't' medium trees to 'T' big trees.
+	 * There are 2 possibilities here, in any turn:
+	 * - any tree has 50% to produce 1 ripe fruit(still on tree)
+	 * - any ripe fruit in a tree has 5% chance to fall (dropped on ground)
+	 * @param location The location of the Ground
+	 */
 	@Override
 	public void tick(Location location) {
 		super.tick(location);
-
 		age++;
 		if (age == 10)
 			displayChar = 't';
 		if (age == 20)
 			displayChar = 'T';
 
-		// 29/4
-		boolean read = false;
-//		if(!read){
 		double rand = Math.random();
 		if(rand >= 0.5){
 			// any turn, 50% to produce 1 ripe fruit(still on tree)
 			Fruit item = new Fruit("fruit" , 'f');
-			foodCount++;
 			item.addCapability(Status.ON_TREE);
-			location.addItem(item); // add item onto this square
-
+			location.addItem(item);
 			// when a fruit is produced by a tree, 1 eco point is gained
 			Player.addEcoPoints(1);
 		}
 
-		// 29/4
 		for (Item item : location.getItems()) {
 			double random= Math.random();
 			if (random <= 0.05 && item.hasCapability(Status.ON_TREE)){
-				// any turn, 5%:0.05 for ripe fruits to fall
+				// any turn, 5%: for ripe fruits to fall
 				item.removeCapability(Status.ON_TREE); // remove capability of being on tree
 				item.addCapability(Status.ON_GROUND);  // now capability of being on ground
 				displayChar = 'f';

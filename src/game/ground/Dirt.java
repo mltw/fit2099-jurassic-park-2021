@@ -13,19 +13,26 @@ import java.util.Random;
 public class Dirt extends Ground {
 	private boolean read = false;
 
+	/**
+	 * Constructor
+	 * All dirt are represented by a '.' character.
+	 * Since dirt are not able to grow fruits, there it's Capability is set to DEAD.
+	 */
 	public Dirt() {
-
 		super('.');
 		addCapability(Status.DEAD);
 	}
 
 	/**
 	 * Ground can also experience the joy of time.
-	 *
+	 * Here, we have 3 possibilities which will happen in any turn, on any square of dirt:
+	 * - each square of dirt has 0.5% chances to grow a bush
+	 * - any square of dirt that is next to at least 2 square of bushes has a 10% to grow a bush.
+	 * - any square of dirt that is next to a tree:
+	 * Ground will be converted from Dirt to Bush if it met the conditions above.
 	 * @param location The location of the Ground
 	 */
 	@Override
-	// update: 30/4
 	public void tick(Location location) {
 		super.tick(location);
 		read = !read;
@@ -38,19 +45,32 @@ public class Dirt extends Ground {
 			// any square of dirt next to >=2 bushes have 10% chance to grow a bush
 			boolean growBushPossibility = new Random().nextInt(10) == 0;
 
+			// handle cases: where there is 10% chance to grow a bush
 			if ((aliveBushNeighbours >= 2 && aliveTreeNeighbours < 1) && growBushPossibility) {
 				location.setGround(new Bush());
 			}
+			// handles cases: where bush are unable to grow due to existence of tree & 0.5% chance to grow a bush
 			else if (aliveTreeNeighbours < 1 && growBushSmallPossibility) {
 				location.setGround(new Bush());
 			}
 		}
 	}
+
+	/** This method is used to calculate the number of alive Bush in the adjacent squares of current location.
+	 *
+	 * @param location The location of the Ground
+	 * @return An integer represents the total number of alive bush in the adjacent square of the current location.
+	 */
 	private int aliveBushCount(Location location) {
 		return (int) location.getExits().stream().map(exit -> exit.getDestination().getGround())
 				.filter(ground -> ground.hasCapability(Status.ALIVE) && ground.getDisplayChar()=='v').count();
 	}
 
+	/** This method is used to calculate the number of alive Tree in the adjacent squares of current location.
+	 *
+	 * @param location The location of the Ground
+	 * @return An integer represents the total number of alive tree in the adjacent square of the current location.
+	 */
 	private int aliveTreeCount(Location location) {
 		return (int) location.getExits().stream().map(exit -> exit.getDestination().getGround())
 				.filter(ground -> ground.hasCapability(Status.ALIVE) && ((ground.getDisplayChar() == '+') ||
