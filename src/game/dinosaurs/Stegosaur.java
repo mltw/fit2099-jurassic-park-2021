@@ -25,7 +25,7 @@ public class Stegosaur extends Dinosaur {
 	 * @param status an enum value of either BABY or ALIVE
 	 */
 	public Stegosaur(Enum status) {
-		super("Stegosaur" + stegosaurCount, 'd', 60);
+		super("Stegosaur" + stegosaurCount, 'd', 50);
 		addCapability(status);
 		maxHitPoints = 100;
 		if(hasCapability(Status.BABY)) {
@@ -122,10 +122,6 @@ public class Stegosaur extends Dinosaur {
 						if (item.getDisplayChar() =='f'){
 							action = new EatAction(item);
 						}
-						// player fed vmk
-						else if(item.getDisplayChar() =='f' && item.hasCapability(MealKitType.VEGETARIAN)){
-							action = new EatAction(item);
-						}
 					}
 				}
 			}
@@ -135,12 +131,7 @@ public class Stegosaur extends Dinosaur {
 					return wander;
 			}
 		}
-//		// check if stegosaur is unconscious, first turn
-//		if (this.getHitPoints() == 0 && this.getUnconsciousCount()==0) { // check
-//			boolean alive = this.isConscious();
-//			alive = false;
-//			this.setUnconsciousCount(this.getUnconsciousCount()+1);
-//		}
+
 		if (this.getUnconsciousCount()==20){
 			Item corpse = new PortableItem("dead " + this, '%');
 			map.locationOf(this).addItem(corpse);
