@@ -1,12 +1,9 @@
 package game.ground;
-
 import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 import game.portableItems.Fruit;
 
-import java.util.ArrayList;
 
 /**
  * A class that represents bush.
@@ -15,10 +12,10 @@ public class Bush extends Ground {
     /**
      * Constructor.
      * All bushes are represented by a 'v' character.
+     * Bush has a Capability of being ALIVE, since it can grow fruits on it,
      */
     public Bush() {
         super('v');
-        // Status.ALIVE: since bush can grow fruits on it
         addCapability(Status.ALIVE);
     }
 
