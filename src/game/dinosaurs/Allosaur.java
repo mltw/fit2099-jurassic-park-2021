@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A carnivore dinosaur.
+ * Allosaur is a carnivore dinosaur which eats meats.
+ * It's main actions will be handled in the playTurn method.
  */
 public class Allosaur extends Dinosaur {
 
@@ -16,8 +17,7 @@ public class Allosaur extends Dinosaur {
 
     // use ConcurrentHashMap to prevent from throwing ConcurrentModificationException
     private ConcurrentHashMap<String, Integer> cantAttack = new ConcurrentHashMap<>();
-    // used to give a unique name for each Allosaur
-    private static int allosaurCount = 1;
+    private static int allosaurCount = 1;       // used to give a unique name for each Allosaur
     boolean moved = false;
     boolean displayed = false;
 
@@ -25,7 +25,7 @@ public class Allosaur extends Dinosaur {
 
     /**
      * Constructor.
-     * All Allosaurs are represented by an 'a' and have 50 hit points.
+     * All Allosaurs are represented by an 'a' and have 50 hit points initially.
      * Their name is represented as "Allosaur" followed by a unique number, eg "Allosaur1".
      */
     public Allosaur(Enum status) {
@@ -34,17 +34,32 @@ public class Allosaur extends Dinosaur {
         addCapability(status);
         this.setBabyCount(1);
         this.maxHitPoints = 100;
-
         allosaurCount++;
     }
 
+    /**
+     * A allosaur can be fed by a player.
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return
+     */
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
-        actions.add(new FeedAction(this)); // an Allosaur can be fed by Player
+        actions.add(new FeedAction(this));
         return actions;
     }
 
+    /**
+     * This method will determine what action a allosaur can perform, considering it's hitpoints,
+     * and its surrounding(adjacent square)
+     * @param actions    collection of possible Actions for this Actor
+     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+     * @param map        the map containing the Actor
+     * @param display    the I/O object to which messages may be written
+     * @return
+     */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action actionBreed = null;
@@ -63,15 +78,13 @@ public class Allosaur extends Dinosaur {
 
         Location here = map.locationOf(this);
 
-        for (Exit exit : here.getExits()) { //for each possible exit for the allosaur to go to
-            Location destination = exit.getDestination(); //this represents each adjacent square of the current allosaur
+        for (Exit exit : here.getExits()) {                 //for each possible exit for the allosaur to go to
+            Location destination = exit.getDestination();   //this represents each adjacent square of the current allosaur
 
-            List<Exit> nearby = destination.getExits(); //all exits of the adjacent square, ie nearby locations
-
-            // check nearby if got Allosaur, if yes, move towards it & breed
+            List<Exit> nearby = destination.getExits();     //all exits of the adjacent square, ie nearby locations
+            // check if nearby has a Allosaur, if yes, move towards it & breed
             for (Exit there : nearby){
                 if (there.getDestination().getDisplayChar()=='a' && !moved && there.getDestination().getActor()!=this){
-                    // follow behaviour
                     actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
                     if (actionBreed != null){
                         moved = true;
@@ -80,6 +93,7 @@ public class Allosaur extends Dinosaur {
                 }
             }
 
+            // Egg hatched & should turn into a baby brachiosaur
             if (this.getPregnantCount()>=20){
                 return new LayEggAction();
             }
@@ -105,6 +119,7 @@ public class Allosaur extends Dinosaur {
                         display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting hungry!");
                         display.println("Hit point is " + this.getHitPoints()); // for checking purpose only, will delete
                     }
+                    // display unconscious message
                     else if (!this.isConscious() && this.getUnconsciousCount() <20){
                         display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is unconscious! Feed it");
                         display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
@@ -123,14 +138,14 @@ public class Allosaur extends Dinosaur {
                     }
                 }
 
-                // if found a Corpse
+                // if found a Corpse: '%' represents allosaur corpse, '(' represents brachiosaur corpse
+                // ')' represents stegosaur corpse
                 else if(destination.getDisplayChar() == '%' || destination.getDisplayChar() == '('
                         || destination.getDisplayChar() == ')'){
 
                     // brachiosaur corpses restore food level to max, hence straight away let allosaur to eat it
                     if (destination.getDisplayChar() == '('){
-                        // moveActor to food source
-                        map.moveActor(this,destination);
+                        map.moveActor(this,destination);        // moveActor to food source
                         return new EatAction(destination.getItems());
                     }
                     else{
@@ -144,7 +159,7 @@ public class Allosaur extends Dinosaur {
 
                 // if found an Egg
                 else if (destination.getDisplayChar() == 'e'){
-                    // moveActor to food source
+                    // TODO: moveActor to food source: CHECK
                     if (toBeAddedHitPoints < 10){
                         toBeAddedHitPoints = 10;
                         toBeMovedLocation = destination;
