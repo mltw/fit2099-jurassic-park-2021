@@ -159,7 +159,6 @@ public class Allosaur extends Dinosaur {
 
                 // if found an Egg
                 else if (destination.getDisplayChar() == 'e'){
-                    // TODO: moveActor to food source: CHECK
                     if (toBeAddedHitPoints < 10){
                         toBeAddedHitPoints = 10;
                         toBeMovedLocation = destination;
