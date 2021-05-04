@@ -42,7 +42,7 @@ public class Bush extends Ground {
         double rand = Math.random();
         if(rand <= 0.1){
             Fruit item = new Fruit("fruit" , 'f');
-            item.addCapability(Status.ON_GROUND); // check
+            item.addCapability(Status.ON_GROUND);
             location.addItem(item);
         }
     }
