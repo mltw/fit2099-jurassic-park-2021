@@ -14,7 +14,6 @@ import java.awt.*;
  * Egg is a portable item.
  */
 public class Egg extends PortableItem {
-//    private int eggTickCount;
 
     /**
      * Constructor.
@@ -24,7 +23,6 @@ public class Egg extends PortableItem {
     public Egg(Enum eggType) {
         super("egg("+eggType+")", 'e');
         addCapability(eggType);
-//        this.eggTickCount = 0;
     }
 
     /**
@@ -34,7 +32,6 @@ public class Egg extends PortableItem {
      */
     @Override
     public void tick(Location currentLocation) {
-//        this.eggTickCount ++;
         this.setCount( this.getCount()+1 );
 
         Display display = new Display();
