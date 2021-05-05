@@ -5,13 +5,34 @@ import game.Player;
 
 import java.util.Random;
 
+/**
+ * Action for Player to search for fruit in Bush/Tree in same square.
+ */
 public class SearchFruitAction extends Action {
-    String plantType;
 
+    /**
+     * The type of plant to be searched; it's either a "bush" or "tree".
+     * Mainly for display purposes.
+     */
+    private String plantType;
+
+    /**
+     * Constructor.
+     *
+     * @param plantType the type of plant to be searched; it's either a "bush" or "tree"
+     */
     public SearchFruitAction(String plantType) {
         this.plantType = plantType;
     }
 
+    /**
+     * Perform the search fruit Action.
+     * Player has 60% fail rate of searching for a fruit.
+     *
+     * @param actor The actor performing the action.
+     * @param map   The map the actor is on.
+     * @return a description of whether the Player could successfully search and pick a fruit.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         double random = Math.random();
@@ -29,11 +50,11 @@ public class SearchFruitAction extends Action {
                 break;
             }
         }
+
         if (flag)
             return actor + " searched and picked up fruit from " + plantType;
         else
             return actor + " searched the " +plantType+" for fruit, but can't find any ripe ones";
-
     }
 
     @Override

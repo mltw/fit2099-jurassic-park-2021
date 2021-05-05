@@ -7,7 +7,18 @@ import game.dinosaurs.Dinosaur;
 import game.portableItems.Egg;
 import game.portableItems.EggType;
 
+/**
+ * Action for Dinosaurs to lay an egg.
+ */
 public class LayEggAction extends Action {
+
+    /**
+     * Perform the lay egg action.
+     *
+     * @param actor The actor performing the action.
+     * @param map   The map the actor is on.
+     * @return a description of which dinosaur laid an egg at the location.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         ((Dinosaur) actor ).setPregnant(false);
@@ -27,6 +38,14 @@ public class LayEggAction extends Action {
 
     }
 
+    /**
+     * Returns a descriptive string.
+     * This returns null because dinosaur's lay egg action is controlled by us,
+     * therefore no need of having a menu description.
+     *
+     * @param actor The actor performing the action.
+     * @return the text we put on the menu
+     */
     @Override
     public String menuDescription(Actor actor) {
         return null ;

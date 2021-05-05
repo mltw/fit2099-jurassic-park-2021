@@ -3,8 +3,19 @@ package game.actions;
 import edu.monash.fit2099.engine.*;
 import game.portableItems.Corpse;
 
+/**
+ * Action to handle dead actors.
+ */
 public class DieAction extends Action {
 
+    /**
+     * Remove the dead actor, drop its inventory items (if any) on the ground it is on,
+     * and replace the actor with a corpse.
+     *
+     * @param actor The actor to be replaced with a corpse.
+     * @param map The map the actor is on.
+     * @return a description of which actor died and at which location.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
 
@@ -33,6 +44,14 @@ public class DieAction extends Action {
                 + map.locationOf(actor).y() + ")");
     }
 
+    /**
+     * Returns a descriptive string.
+     * This returns null because dinosaur's die action is controlled by us (instead of user input),
+     * therefore no need of having a menu description.
+     *
+     * @param actor The actor performing the action.
+     * @return the text we put on the menu
+     */
     @Override
     public String menuDescription(Actor actor) {
         return null;

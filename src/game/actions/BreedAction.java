@@ -9,7 +9,11 @@ import game.dinosaurs.Dinosaur;
  * Action for dinosaurs to breed with each other.
  */
 public class BreedAction extends Action {
-    Dinosaur target;
+
+    /**
+     * The Dinosaur actor that is to be mated with
+     */
+    private Dinosaur target;
 
     /**
      * Constructor.
@@ -33,23 +37,25 @@ public class BreedAction extends Action {
         if (((Dinosaur) actor).getGender().equals("F")){
             ((Dinosaur) actor).setPregnant(true);
             ((Dinosaur) actor).setPregnantCount(1);
-            return menuDescription(actor);
+            return actor + "is pregnant now";
         }
         else{
             target.setPregnant(true);
             target.setPregnantCount(1);
-            return menuDescription(target);
+            return target + "is pregnant now";
         }
     }
 
     /**
-     * A string describing the action suitable for displaying in the UI menu.
+     * Returns a descriptive string.
+     * This returns null because dinosaur's breeding action is controlled by us, (instead of user input),
+     * therefore no need of having a menu description.
      *
-     * @param actor The actor that becomes pregnant after successfully mating.
-     * @return a String, e.g. "Allosaur1 is pregnant now".
+     * @param actor The actor performing the action.
+     * @return the text we put on the menu
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " is pregnant now";
+        return null;
     }
 }
