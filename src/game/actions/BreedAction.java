@@ -37,12 +37,12 @@ public class BreedAction extends Action {
         if (((Dinosaur) actor).getGender().equals("F")){
             ((Dinosaur) actor).setPregnant(true);
             ((Dinosaur) actor).setPregnantCount(1);
-            return actor + "is pregnant now";
+            return actor + " is pregnant now";
         }
         else{
             target.setPregnant(true);
             target.setPregnantCount(1);
-            return target + "is pregnant now";
+            return target + " is pregnant now";
         }
     }
 
