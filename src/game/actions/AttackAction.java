@@ -33,6 +33,18 @@ public class AttackAction extends Action {
 		this.target = target;
 	}
 
+	/**
+	 * Perform the Action.
+	 * Get the weapon of the Player and deal damage to the target.
+	 * (The actor could possibly miss attacking the target. )
+	 * Damage dealt depends on the weapon; the target gets hurt that amount of damage,
+	 * meanwhile the actor gets healed that amount.
+	 * If target is unconscious after being attacked, a Corpse is formed.
+	 *
+	 * @param actor The actor performing the action.
+	 * @param map The map the actor is on.
+	 * @return a description of what happened that can be displayed to the user.
+	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
 
@@ -46,12 +58,10 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 
 		target.hurt(damage);
-
-		// newly added, to counter the case for Allosaur attack
 		actor.heal(damage);
 
 		if (!target.isConscious()) {
-			Item corpse;
+			Corpse corpse;
 
 			if (target.getDisplayChar() == 'a'){ //allosaur corpse
 				corpse = new Corpse("dead "+ target, '%');
