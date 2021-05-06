@@ -19,6 +19,7 @@ public class AttackAction extends Action {
 	 * The Actor that is to be attacked
 	 */
 	protected Actor target;
+	Action dead;
 	/**
 	 * Random number generator
 	 */
@@ -64,15 +65,18 @@ public class AttackAction extends Action {
 			Corpse corpse;
 
 			if (target.getDisplayChar() == 'a'){ //allosaur corpse
-				corpse = new Corpse("dead "+ target, '%');
+				dead = new DieAction();
+//				corpse = new Corpse("dead "+ target, '%');
 			}
 			else if (target.getDisplayChar() == 'b') { //brachiosaur corpse
-				corpse = new Corpse("dead " + target, '(');
+				dead = new DieAction();
+//				corpse = new Corpse("dead " + target, '(');
 			}
 			else { //stegosaur corpse
-				corpse = new Corpse("dead " + target, ')');
+				dead = new DieAction();
+//				corpse = new Corpse("dead " + target, ')');
 			}
-			map.locationOf(target).addItem(corpse);
+//			map.locationOf(target).addItem(corpse);
 
 			Actions dropActions = new Actions();
 			for (Item item : target.getInventory())
