@@ -71,7 +71,7 @@ public class Allosaur extends Dinosaur {
 
         // update count in cantAttack; after 20 turns of cantAttack, remove the stegosaur from cantAttack
         cantAttack.replaceAll((stegosaurName, cantAttackCount) ->
-                (cantAttackCount +1) == 21 ? cantAttack.remove(stegosaurName) : cantAttackCount+1);
+                cantAttackCount == 20 ? cantAttack.remove(stegosaurName) : cantAttackCount+1);
 
         int allosaurLocationX = map.locationOf(this).x();
         int allosaurLocationY = map.locationOf(this).y();
