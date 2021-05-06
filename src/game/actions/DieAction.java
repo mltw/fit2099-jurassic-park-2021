@@ -18,6 +18,7 @@ public class DieAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        String message= "";
 
         if (actor.getDisplayChar() == 'a') {
             Item corpse = new Corpse("dead " + actor, '%');
@@ -38,10 +39,12 @@ public class DieAction extends Action {
         for (Action drop : dropActions)
             drop.execute(actor, map);
 
+        message = (actor + " is dead at (" + map.locationOf(actor).x() + ","
+                + map.locationOf(actor).y() + ")");
+
         map.removeActor(actor);
 
-        return (actor + "is dead at (" + map.locationOf(actor).x() + ","
-                + map.locationOf(actor).y() + ")");
+        return message;
     }
 
     /**
