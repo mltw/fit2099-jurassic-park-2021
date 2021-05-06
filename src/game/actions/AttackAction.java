@@ -61,27 +61,8 @@ public class AttackAction extends Action {
 		actor.heal(damage);
 
 		if (!target.isConscious()) {
-			Corpse corpse;
-
-			if (target.getDisplayChar() == 'a'){ //allosaur corpse
-				corpse = new Corpse("dead "+ target, '%');
-			}
-			else if (target.getDisplayChar() == 'b') { //brachiosaur corpse
-				corpse = new Corpse("dead " + target, '(');
-			}
-			else { //stegosaur corpse
-				corpse = new Corpse("dead " + target, ')');
-			}
-			map.locationOf(target).addItem(corpse);
-
-			Actions dropActions = new Actions();
-			for (Item item : target.getInventory())
-				dropActions.add(item.getDropAction());
-			for (Action drop : dropActions)
-				drop.execute(target, map);
-			map.removeActor(target);
-			
 			result += System.lineSeparator() + target + " is killed.";
+			result += System.lineSeparator() + new DieAction().execute(target, map);
 		}
 
 		return result;
