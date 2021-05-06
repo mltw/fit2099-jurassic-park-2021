@@ -59,18 +59,11 @@ public class Application {
 		world.addGameMap(gameMap);
 		
 		Actor player = new Player("Player", '@', 100);
-//		 testing (Ke Xin)
-//		world.addPlayer(player, gameMap.at(0, 1));
-//		gameMap.at(1, 1).addActor(new Stegosaur(Status.ADULT));
-//		gameMap.at(3, 1).addActor(new Stegosaur(Status.ADULT));
 
 		world.addPlayer(player, gameMap.at(9, 4));
 		// add a vending machine in the map
-		gameMap.at(8,4).addItem(new VendingMachine());
+		gameMap.at(12,5).addItem(new VendingMachine());
 
-//		test (Marcus)
-//		gameMap.at(7,4).addActor(new Stegosaur(Status.ADULT));
-//		gameMap.at(7,3).addActor(new Allosaur(Status.ADULT));
 
 		// placed 2 male 2 female brachiosaurs in the map
 		Brachiosaur maleBrachiosaur1 = new Brachiosaur(Status.ADULT);
