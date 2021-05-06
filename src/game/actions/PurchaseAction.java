@@ -74,7 +74,7 @@ public class PurchaseAction extends Action {
                 }
                 else if (playerOption == '7' && ((Player) actor).getEcoPoints() - 500 >= 0) {
                     Player.addEcoPoints(-500);
-                    itemPurchased = new LaserGun("laserGun", '~', 70, "zaps");
+                    itemPurchased = new LaserGun();
                 }
                 else if (playerOption == '8') {
                     return actor + " didn't purchase anything";
