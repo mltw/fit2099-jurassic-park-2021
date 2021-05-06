@@ -61,7 +61,7 @@ public class EatAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         String message ="";
-        map.locationOf(actor).removeItem(itemToBeEaten);
+
         // allosaur or stegosaur corpse
         if (itemToBeEaten.getDisplayChar() == '%' || itemToBeEaten.getDisplayChar() == ')'){
             actor.heal(50);

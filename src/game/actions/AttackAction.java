@@ -19,6 +19,7 @@ public class AttackAction extends Action {
 	 * The Actor that is to be attacked
 	 */
 	protected Actor target;
+	Action dead;
 	/**
 	 * Random number generator
 	 */
@@ -61,6 +62,7 @@ public class AttackAction extends Action {
 		actor.heal(damage);
 
 		if (!target.isConscious()) {
+			
 			result += System.lineSeparator() + target + " is killed.";
 			result += System.lineSeparator() + new DieAction().execute(target, map);
 		}
