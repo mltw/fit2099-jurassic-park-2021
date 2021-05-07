@@ -58,8 +58,6 @@ public class Brachiosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        Action action = getBehaviour().get(0).getAction(this, map);
-
         eachTurnUpdates(50);                            // to handle necessary updates for each turn
 
         int brachiosaurLocationX = map.locationOf(this).x();
