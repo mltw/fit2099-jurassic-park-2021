@@ -117,7 +117,6 @@ public class Allosaur extends Dinosaur {
                 if (!displayed){
                     if (this.isConscious()){
                         display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting hungry!");
-                        display.println("Hit point is " + this.getHitPoints()); // for checking purpose only, will delete
                     }
                     // display unconscious message
                     else if (!this.isConscious() && this.getUnconsciousCount() <20){
