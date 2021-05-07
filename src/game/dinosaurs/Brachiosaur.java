@@ -58,6 +58,10 @@ public class Brachiosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        displayed = false; // reset
+        moved = false; //reset
+        actionBreed = null; //reset
+
         eachTurnUpdates(50);                            // to handle necessary updates for each turn
 
         int brachiosaurLocationX = map.locationOf(this).x();
@@ -145,8 +149,6 @@ public class Brachiosaur extends Dinosaur {
         if (this.getUnconsciousCount()== 15) {
             return new DieAction();
         }
-
-        displayed = false; // reset
 
         // finally choose which action to return if previously never return any action.
         // Eating is prioritised here, followed, then following another dinosaur to prepare to breed,

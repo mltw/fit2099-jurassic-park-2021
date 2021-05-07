@@ -20,6 +20,7 @@ public class Allosaur extends Dinosaur {
     private static int allosaurCount = 1;       // used to give a unique name for each Allosaur
     boolean moved = false;
     boolean displayed = false;
+    Action actionBreed = null;
 
 
 
@@ -62,7 +63,10 @@ public class Allosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        Action actionBreed = null;
+        displayed = false; // reset
+        moved = false; //reset
+        actionBreed = null; //reset
+
         Action action = getBehaviour().get(0).getAction(this, map);
         int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
         Location toBeMovedLocation = null;
@@ -88,7 +92,6 @@ public class Allosaur extends Dinosaur {
                     actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
                     if (actionBreed != null){
                         moved = true;
-
                     }
                 }
             }

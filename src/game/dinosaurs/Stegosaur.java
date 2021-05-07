@@ -60,6 +60,10 @@ public class Stegosaur extends Dinosaur {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		displayed = false; // reset
+		moved = false; //reset
+		actionBreed = null; //reset
+
 		Action action = getBehaviour().get(0).getAction(this, map);
 
 		eachTurnUpdates(30); 							// to handle necessary updates for each turn
@@ -133,9 +137,6 @@ public class Stegosaur extends Dinosaur {
 		if (this.getUnconsciousCount()==20){
 			return new DieAction();
 		}
-
-		displayed = false; // reset
-		eaten = false; // reset
 
 		// finally choose which action to return if previously never return any action.
 		// Eating is prioritised here, followed, then following another dinosaur to prepare to breed,
