@@ -22,7 +22,7 @@ public class DinosaurGameMap extends GameMap {
 
     /**
      * Creates a new Location.
-     * <p>
+     *
      * Override this method if you want a map based around different Location types.
      *
      * @param x X coordinate
