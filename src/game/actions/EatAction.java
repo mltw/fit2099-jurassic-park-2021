@@ -87,12 +87,10 @@ public class EatAction extends Action {
             // check on bush / on ground of a tree
             else if (itemToBeEaten.hasCapability(Status.ON_GROUND)){
                 actor.heal(10);
-//                map.locationOf(actor).removeItem(itemToBeEaten); // remove from map
                 message = actor + " ate a fruit on bush or a fruit laying on ground under a tree.";
             }
             else if(itemToBeEaten.hasCapability(Status.ON_TREE)){
                 actor.heal(5);
-//                map.locationOf(actor).removeItem(itemToBeEaten); // remove from map
                 message = actor + " ate fruits on tree.";
             }
         }
