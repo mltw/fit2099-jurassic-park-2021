@@ -15,6 +15,7 @@ public class Brachiosaur extends Dinosaur {
     private static int brachiosaurCount = 1;    // used to give a unique name for each brachiosaur
     private boolean displayed = false;
     private boolean moved = false;
+    Action actionBreed;
 
 
     /**
@@ -57,7 +58,6 @@ public class Brachiosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        Action actionBreed = null;
         Action action = getBehaviour().get(0).getAction(this, map);
 
         eachTurnUpdates(50);                            // to handle necessary updates for each turn
@@ -105,7 +105,6 @@ public class Brachiosaur extends Dinosaur {
                 if (!displayed) {
                     if (this.isConscious()) {
                         display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
-                        display.println("Hit point is " + this.getHitPoints()); // for checking purpose only, will delete
                     }
                     // display unconscious message
                     else if (!this.isConscious() && this.getUnconsciousCount() <20){
