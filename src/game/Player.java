@@ -3,6 +3,8 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.actions.PurchaseAction;
 import game.actions.SearchFruitAction;
+import game.ground.Bush;
+import game.ground.Tree;
 
 /**
  * Class representing the Player.
@@ -32,8 +34,9 @@ public class Player extends Actor {
 
 		// find if there's a Vending Machine instance in adjacent square
 		for (Exit exit : map.locationOf(this).getExits()){
-			if (exit.getDestination().getDisplayChar() == '$'){
-				actions.add(new PurchaseAction());
+			for (Item item : exit.getDestination().getItems()){
+				if (item.getDisplayChar() == '$')
+					actions.add(new PurchaseAction());
 			}
 		}
 
