@@ -136,7 +136,6 @@ public class Brachiosaur extends Dinosaur {
                         display.println(this + " eats " + temp + " fruits");
                         return new EatAction(destination.getItems());
                     }
-
                 }
 
                 // if remain unconscious for 20 turns, stegosaur is dead & will turn into a corpse
@@ -145,7 +144,6 @@ public class Brachiosaur extends Dinosaur {
                 }
             }
         }
-
 
         // Finally choose which action to return if previously never return any action.
         // Priority from most important to least:

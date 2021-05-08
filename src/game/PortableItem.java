@@ -30,17 +30,17 @@ public class PortableItem extends Item {
 		return super.getPickUpAction();
 	}
 
-	/** TODO: update javadoc
+	/**
 	 * Getter to retrieve count
-	 * @return
+	 * @return count (number of turns) of an item
 	 */
 	public int getCount() {
 		return count;
 	}
 
-	/** TODO: update javadoc
+	/**
 	 * Setter for count
-	 * @param count
+	 * @param count number of turns to be set on an item
 	 */
 	public void setCount(int count) {
 		this.count = count;

@@ -189,7 +189,6 @@ public class Allosaur extends Dinosaur {
             // do nothing
         else
             return new DoNothingAction();
-
     }
 
     /**

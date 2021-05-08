@@ -88,8 +88,6 @@ public abstract class Dinosaur extends Actor {
         }
     }
 
-
-
     /** Getter
      * For the dinosaur's behaviour.
      * @return An array list to store all behaviours of the dinosaur.

@@ -84,7 +84,6 @@ public class Egg extends PortableItem {
             // when a Brachiosaur/Allosaur hatches, 1000 eco points is gained
             else
                 Player.addEcoPoints(1000);
-            hatched = false;
         }
 
     }

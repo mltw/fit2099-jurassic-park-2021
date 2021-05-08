@@ -9,6 +9,7 @@ import game.ground.Status;
  * A fruit is a portable item.
  */
 public class Fruit extends PortableItem {
+
     /** Constructor
      * @param name name of fruit
      * @param displayChar   displayChar for fruit is 'f'

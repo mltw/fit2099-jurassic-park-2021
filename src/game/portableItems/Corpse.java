@@ -42,7 +42,5 @@ public class Corpse extends PortableItem {
         else if ((this.getDisplayChar() == '(') && (this.getCount() > 25)){
             currentLocation.removeItem(this);
         }
-
-
     }
 }

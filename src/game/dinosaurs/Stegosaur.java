@@ -137,8 +137,6 @@ public class Stegosaur extends Dinosaur {
 				else if (this.getUnconsciousCount()==20){
 					return new DieAction();
 				}
-
-
 			}
 		}
 

@@ -91,7 +91,7 @@ public class SearchNearestFoodBehaviour implements Behaviour{
      * @param actorX X coordinate of the actor
      * @param actorY Y coordinate of the actor
      * @param destinationX X coordinate of the nearest food source
-     * @param destinationY X coordinate of the nearest food source
+     * @param destinationY Y coordinate of the nearest food source
      * @param map the game map
      * @return the next location for the actor to be at (its an adjacent square since actors can only move
      *          one square at a time)
