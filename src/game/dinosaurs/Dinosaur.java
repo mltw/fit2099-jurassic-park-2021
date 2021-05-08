@@ -2,6 +2,7 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.Behaviour;
+import game.SearchNearestFoodBehaviour;
 import game.WanderBehaviour;
 
 import java.lang.reflect.Array;
@@ -33,12 +34,19 @@ public abstract class Dinosaur extends Actor {
      */
     public Dinosaur(String name, char displayChar, int hitPoints ) {
         super(name, displayChar, hitPoints);
+
+        //behaviours
         setBehaviour(new WanderBehaviour());
-        setUnconsciousCount(0);
+        setBehaviour(new SearchNearestFoodBehaviour());
+
+        // pregnancy status
         setPregnantCount(0);
         setPregnant(false);
 
-        //generate a random gender (M for male, F for female)
+        // unconsciousness
+        setUnconsciousCount(0);
+
+        // gender: generate a random gender (M for male, F for female)
         String[] gender = new String[]{"M", "F"};
         Random generator = new Random();
         int randomIndex = generator.nextInt(gender.length);
