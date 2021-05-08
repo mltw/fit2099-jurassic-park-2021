@@ -4,6 +4,7 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
+import game.portableItems.Fruit;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class Stegosaur extends Dinosaur {
 	 * @param otherActor the Actor that might be performing attack
 	 * @param direction  String representing the direction of the other Actor
 	 * @param map        current GameMap
-	 * @return
+	 * @return all actions that can be performed on this stegosaur.
 	 */
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
@@ -60,13 +61,14 @@ public class Stegosaur extends Dinosaur {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		Action action = null;
 		displayed = false; // reset
 		moved = false; //reset
 		actionBreed = null; //reset
+		eaten = false; // reset
 
-		Action action = getBehaviour().get(0).getAction(this, map);
+		eachTurnUpdates(30); // to handle necessary updates for each turn
 
-		eachTurnUpdates(30); 							// to handle necessary updates for each turn
 
 		int stegosaurLocationX = map.locationOf(this).x();
 		int stegosaurLocationY = map.locationOf(this).y();
@@ -120,6 +122,7 @@ public class Stegosaur extends Dinosaur {
 					}
 					displayed = true;
 				}
+
 				// if fruit on bush/on ground under a tree & stegosaur still able to move
 				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0 && !eaten) {
 					// check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
@@ -130,27 +133,33 @@ public class Stegosaur extends Dinosaur {
 					}
 				}
 
+				// if remain unconscious for 20 turns, stegosaur is dead & will turn into a corpse
+				else if (this.getUnconsciousCount()==20){
+					return new DieAction();
+				}
+
+
 			}
 		}
 
-		// if remain unconscious for 20 turns, stegosaur is dead & will turn into a corpse
-		if (this.getUnconsciousCount()==20){
-			return new DieAction();
-		}
-
-		// finally choose which action to return if previously never return any action.
-		// Eating is prioritised here, followed, then following another dinosaur to prepare to breed,
-		// then wandering around, then lastly do nothing.
+		// Finally choose which action to return if previously never return any action.
+		// Priority from most important to least:
+		// eating
 		if (action!=null)
 			return action;
+		// following another dinosaur to check if can breed
 		else if (actionBreed != null)
 			return actionBreed;
-		else{
-			Action wander = getBehaviour().get(0).getAction(this, map);
-			if (wander != null)
-				return wander;
+		// searching for nearest food source
+		else if (getBehaviour().get(1).getAction(this,map)!=null)
+			return getBehaviour().get(1).getAction(this,map);
+		// wandering around
+		else if (getBehaviour().get(0).getAction(this, map)!=null)
+			return getBehaviour().get(0).getAction(this, map);
+		// do nothing
+		else
 			return new DoNothingAction();
 		}
 	}
 
-}
+

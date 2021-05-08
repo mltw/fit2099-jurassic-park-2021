@@ -17,7 +17,6 @@ public class Brachiosaur extends Dinosaur {
     private boolean moved = false;
     Action actionBreed;
 
-
     /**
      * Constructor.
      * All Brachiosaurs are represented by a 'b' and have 100 hit points initially.
@@ -38,7 +37,7 @@ public class Brachiosaur extends Dinosaur {
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
-     * @return
+     * @return all actions that can be performed on this brachiosaur
      */
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
@@ -50,11 +49,7 @@ public class Brachiosaur extends Dinosaur {
     /**
      * This method will determine what action a brachiosaur can perform, considering it's hitpoints,
      * and its surrounding(adjacent square)
-     * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
-     * @param map        the map containing the Actor
-     * @param display    the I/O object to which messages may be written
-     * @return
+     *  @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
@@ -143,24 +138,29 @@ public class Brachiosaur extends Dinosaur {
                     }
 
                 }
+
+                // if remain unconscious for 20 turns, stegosaur is dead & will turn into a corpse
+                else if (this.getUnconsciousCount()== 15) {
+                    return new DieAction();
+                }
             }
         }
-        // if remain unconscious for 20 turns, stegosaur is dead & will turn into a corpse
-        if (this.getUnconsciousCount()== 15) {
-            return new DieAction();
-        }
 
-        // finally choose which action to return if previously never return any action.
-        // Eating is prioritised here, followed, then following another dinosaur to prepare to breed,
-        // then wandering around, then lastly do nothing.
+
+        // Finally choose which action to return if previously never return any action.
+        // Priority from most important to least:
+        // following another dinosaur to check if can breed
         if (actionBreed != null)
             return actionBreed;
-        else{
-            Action wander = getBehaviour().get(0).getAction(this, map);
-            if (wander != null)
-                return wander;
+        // searching for nearest food source
+        else if (getBehaviour().get(1).getAction(this,map)!=null)
+            return getBehaviour().get(1).getAction(this,map);
+        // wandering around
+        else if (getBehaviour().get(0).getAction(this, map)!=null)
+            return getBehaviour().get(0).getAction(this, map);
+        // do nothing
+        else
             return new DoNothingAction();
-        }
     }
 }
 

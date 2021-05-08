@@ -12,17 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * It's main actions will be handled in the playTurn method.
  */
 public class Allosaur extends Dinosaur {
-
-    //    private ArrayList<String> cantAttack;
-
     // use ConcurrentHashMap to prevent from throwing ConcurrentModificationException
     private ConcurrentHashMap<String, Integer> cantAttack = new ConcurrentHashMap<>();
     private static int allosaurCount = 1;       // used to give a unique name for each Allosaur
     boolean moved = false;
     boolean displayed = false;
     Action actionBreed = null;
-
-
 
     /**
      * Constructor.
@@ -39,11 +34,11 @@ public class Allosaur extends Dinosaur {
     }
 
     /**
-     * A allosaur can be fed by a player.
+     * An allosaur can be fed by a player.
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
-     * @return
+     * @return all actions that can be performed on this allosaur.
      */
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
@@ -53,21 +48,16 @@ public class Allosaur extends Dinosaur {
     }
 
     /**
-     * This method will determine what action a allosaur can perform, considering it's hitpoints,
+     * This method will determine what action an allosaur can perform, considering it's hitpoints,
      * and its surrounding(adjacent square)
-     * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
-     * @param map        the map containing the Actor
-     * @param display    the I/O object to which messages may be written
-     * @return
+     * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        Action action = null;
         displayed = false; // reset
         moved = false; //reset
         actionBreed = null; //reset
-
-        Action action = getBehaviour().get(0).getAction(this, map);
         int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
         Location toBeMovedLocation = null;
 
@@ -180,21 +170,26 @@ public class Allosaur extends Dinosaur {
             }
         }
 
-        // finally choose which action to return if previously never returned any actions.
-        // here prioritise eating, then following another dinosaur to prepare to breed,
-        // then wandering around, and lastly do nothing
+        // Finally choose which action to return if previously never returned any actions.
+        // Priority from most important to least:
+        // eating
         if (toBeMovedLocation != null){
             map.moveActor(this, toBeMovedLocation);
             return action;
         }
+        // following another dinosaur to check if can breed
         else if (actionBreed != null)
             return actionBreed;
-        else{
-            Action wander = getBehaviour().get(0).getAction(this, map);
-            if (wander != null)
-                return wander;
+            // searching for nearest food source
+        else if (getBehaviour().get(1).getAction(this,map)!=null)
+            return getBehaviour().get(1).getAction(this,map);
+            // wandering around
+        else if (getBehaviour().get(0).getAction(this, map)!=null)
+            return getBehaviour().get(0).getAction(this, map);
+            // do nothing
+        else
             return new DoNothingAction();
-        }
+
     }
 
     /**
