@@ -20,7 +20,6 @@ public class PurchaseAction extends Action {
      * @param actor The actor performing the action.
      * @param map   The map the actor is on.
      * @return a description of, if any, what the Player purchased.
-     * @throws Exception if option is invalid (out of bound/ not enough eco points to purchase), will be caught in the code.
      */
     @Override
     public String execute(Actor actor, GameMap map) {

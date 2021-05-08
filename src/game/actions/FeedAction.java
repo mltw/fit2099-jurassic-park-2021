@@ -32,7 +32,6 @@ public class FeedAction extends Action {
      * @param actor The actor performing the action.
      * @param map   The map the actor is on.
      * @return a description of, if any, who the Player fed, and what the target ate.
-     * @throws Exception if option is invalid (out of bound/can't be fed to the actor), will be caught in the code
      */
     @Override
     public String execute(Actor actor, GameMap map) {

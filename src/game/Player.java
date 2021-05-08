@@ -72,7 +72,7 @@ public class Player extends Actor {
 
 	/** Setter
 	 * For Player's eco points.
-	 * @param points
+	 * @param points the eco points of the Player
 	 */
 	public void setEcoPoints(int points) {
 		ecoPoints = points;

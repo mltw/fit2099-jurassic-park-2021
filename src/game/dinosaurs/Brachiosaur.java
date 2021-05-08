@@ -20,6 +20,9 @@ public class Brachiosaur extends Dinosaur {
     /**
      * Constructor.
      * All Brachiosaurs are represented by a 'b' and have 100 hit points initially.
+     *
+     * @param status an Enum value representing its maturity status (BABY/ADULT)
+     * @see Status
      */
     public Brachiosaur(Enum status) {
         super("Brachiosaur" + brachiosaurCount, 'b', 100);

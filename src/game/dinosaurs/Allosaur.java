@@ -23,6 +23,9 @@ public class Allosaur extends Dinosaur {
      * Constructor.
      * All Allosaurs are represented by an 'a' and have 50 hit points initially.
      * Their name is represented as "Allosaur" followed by a unique number, eg "Allosaur1".
+     *
+     * @param status an Enum value representing its maturity status (BABY/ADULT)
+     * @see Status
      */
     public Allosaur(Enum status) {
         // Allosaurs always start as baby (hatch from egg)

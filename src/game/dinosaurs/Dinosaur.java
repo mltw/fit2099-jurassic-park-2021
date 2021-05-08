@@ -54,7 +54,7 @@ public abstract class Dinosaur extends Actor {
     }
 
     /** This is a method similar to tick() in other classes.
-     * It handles all necessary updates of the dinosaur & perform checks on the dinosaur
+     * It handles all necessary updates of the dinosaur and perform checks on the dinosaur
      * on each turn(will be called in each dinosaur's playTurn).
      * Since number of turns needed to turn into an adult is dependent on each dinosaur, it will be the
      * input parameter here.

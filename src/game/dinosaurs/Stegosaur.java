@@ -23,8 +23,9 @@ public class Stegosaur extends Dinosaur {
 	/** 
 	 * Constructor.
 	 * All Stegosaurs are represented by a 'd' and have 50 hit points initially.
-	 * 
+	 *
 	 * @param status an enum value of either BABY or ALIVE
+	 * @see Status
 	 */
 	public Stegosaur(Enum status) {
 		super("Stegosaur" + stegosaurCount, 'd', 50);
