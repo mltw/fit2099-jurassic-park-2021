@@ -14,6 +14,7 @@ import java.awt.*;
  * Egg is a portable item.
  */
 public class Egg extends PortableItem {
+    private Dinosaur newBorn = new Stegosaur(Status.BABY); // let default be a Stegosaur
 
     /**
      * Constructor.
@@ -35,7 +36,7 @@ public class Egg extends PortableItem {
         this.setCount( this.getCount()+1 );
 
         Display display = new Display();
-        Dinosaur newBorn = new Stegosaur(Status.BABY); // let default be a Stegosaur
+
         boolean hatched = false;
 
         // if reach specific count: the dinosaur hatched the eggs & turn into a baby dinosaur
