@@ -77,7 +77,6 @@ public class Brachiosaur extends Dinosaur {
             // check if nearby has a brachiosaur, if yes, move towards it & breed
             List<Exit> nearby = destination.getExits();         //all exits of the adjacent square, ie nearby locations
             for (Exit there : nearby){
-                new Display().println(there.getDestination().getActor()+"");
                 if (there.getDestination().containsAnActor()
                         && there.getDestination().getActor().hasCapability(Status.BRACHIOSAUR)
                         && !moved && there.getDestination().getActor()!=this){
