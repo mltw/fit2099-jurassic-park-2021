@@ -2,12 +2,7 @@ package game.actions;
 
 import edu.monash.fit2099.engine.*;
 import game.ground.Status;
-import game.portableItems.Egg;
-import game.portableItems.EggType;
-import game.portableItems.MealKitType;
-
-import java.util.Collection;
-import java.util.List;
+import game.portableItems.*;
 
 /**
  * Action for dinosaurs to eat.
@@ -23,20 +18,20 @@ public class EatAction extends Action {
      * An indicator whether that food is fed by a Player.
      * (fruits fed by Player will increase different level of hit points)
      */
-    private boolean fedByPlayer;
+    private boolean fedByPlayer = false;
 
-    /**
-     * Constructor.
-     * If parameter is a List of Item instances, it means the dinosaur is eating the item on
-     * its location, not fed by Player.
-     *
-     * @param items the List of Items on the ground
-     */
-    public EatAction(List<Item> items){
-        // item to be eaten is the one displayed on the ground, which = the last item in List items
-        this.itemToBeEaten = items.get(items.size() - 1);
-        this.fedByPlayer= false;
-    }
+//    /**
+//     * Constructor.
+//     * If parameter is a List of Item instances, it means the dinosaur is eating the item on
+//     * its location, not fed by Player.
+//     *
+//     * @param items the List of Items on the ground
+//     */
+//    public EatAction(List<Item> items){
+//        // item to be eaten is the one displayed on the ground, which = the last item in List items
+//        this.itemToBeEaten = items.get(items.size() - 1);
+//        this.fedByPlayer= false;
+//    }
 
     /**
      * Constructor.
@@ -44,10 +39,11 @@ public class EatAction extends Action {
      *
      * @param item the food item to be fed to the dinosaur actor
      */
-    public EatAction(Item item){
+    public EatAction(Item item, boolean fedByPlayer){
         this.itemToBeEaten = item;
-        this.fedByPlayer = true;
+        this.fedByPlayer = fedByPlayer;
     }
+
 
     /**
      * Perform the eating Action.
@@ -63,22 +59,23 @@ public class EatAction extends Action {
         String message ="";
 
         // allosaur or stegosaur corpse
-        if (itemToBeEaten.getDisplayChar() == '%' || itemToBeEaten.getDisplayChar() == ')'){
+        if (itemToBeEaten.hasCapability(CorpseType.ALLOSAUR)
+                || itemToBeEaten.hasCapability(CorpseType.STEGOSAUR)){
             actor.heal(50);
             message = actor + " ate " + "Allosaur/Stegosaur corpse to restore 50 food level";
         }
         // brachiosaur corpse
-        else if (itemToBeEaten.getDisplayChar() == '('){
+        else if (itemToBeEaten.hasCapability(CorpseType.BRACHIOSAUR)){
             actor.heal(100 );
             message = actor + " ate " + "Brachiosaur corpse to restore food level to max";
         }
         // egg
-        else if (itemToBeEaten.getDisplayChar() == 'e'){
+        else if (itemToBeEaten.hasCapability(ItemType.EGG)){
             actor.heal(10);
             message = actor + " ate an egg to restore 10 food level";
         }
         // fruits
-        else if (itemToBeEaten.getDisplayChar() =='f'){
+        else if (itemToBeEaten.hasCapability(ItemType.FRUIT)){
             // check if this fruit is fed by player
             if (this.fedByPlayer){
                 actor.heal(20);

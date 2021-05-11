@@ -3,6 +3,9 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
+import game.portableItems.Corpse;
+import game.portableItems.CorpseType;
+import game.portableItems.Egg;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,6 +34,7 @@ public class Allosaur extends Dinosaur {
         // Allosaurs always start as baby (hatch from egg)
         super("Allosaur"+allosaurCount, 'a', 50);
         addCapability(status);
+        addCapability(Status.ALLOSAUR);
         this.setBabyCount(1);
         this.maxHitPoints = 100;
         allosaurCount++;
@@ -81,7 +85,9 @@ public class Allosaur extends Dinosaur {
             List<Exit> nearby = destination.getExits();     //all exits of the adjacent square, ie nearby locations
             // check if nearby has a Allosaur, if yes, move towards it & breed
             for (Exit there : nearby){
-                if (there.getDestination().getDisplayChar()=='a' && !moved && there.getDestination().getActor()!=this){
+                if (there.getDestination().containsAnActor()
+                        && there.getDestination().getActor().hasCapability(Status.ALLOSAUR)
+                        && !moved && there.getDestination().getActor()!=this){
                     actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
                     if (actionBreed != null){
                         moved = true;
@@ -97,7 +103,8 @@ public class Allosaur extends Dinosaur {
             // if allsoaur has possibility to breed, search for mating partner
             else if (this.getHitPoints() > 50 && !this.isPregnant() && this.hasCapability(Status.ADULT)) {
                 // found an adjacent Allosaur
-                if (destination.getDisplayChar() == 'a') {
+                if (destination.containsAnActor() &&
+                        destination.getActor().hasCapability(Status.ALLOSAUR)) {
                     Allosaur adjcAllosaur = (Allosaur) destination.getActor();
                     if (!adjcAllosaur.isPregnant()
                             && adjcAllosaur.hasCapability(Status.ADULT)
@@ -123,7 +130,8 @@ public class Allosaur extends Dinosaur {
                 }
 
                  // if found a Stegosaur
-                if (destination.getDisplayChar() == 'd') {
+                if (destination.containsAnActor() &&
+                        destination.getActor().hasCapability(Status.STEGOSAUR)) {
                     Stegosaur adjcStegosaur = (Stegosaur) destination.getActor();
 
                     if (!this.cantAttack.containsKey(adjcStegosaur.toString())) {
@@ -133,31 +141,37 @@ public class Allosaur extends Dinosaur {
                     }
                 }
 
-                // if found a Corpse: '%' represents allosaur corpse, '(' represents brachiosaur corpse
-                // ')' represents stegosaur corpse
-                else if(destination.getDisplayChar() == '%' || destination.getDisplayChar() == '('
-                        || destination.getDisplayChar() == ')'){
+                // if destination contains a corpse
+                else if(destination.getItems().stream().filter(c -> c instanceof Corpse).count()>=1){
+//                        || destination.getDisplayChar() == '('
+//                        || destination.getDisplayChar() == ')'){
 
-                    // brachiosaur corpses restore food level to max, hence straight away let allosaur to eat it
-                    if (destination.getDisplayChar() == '('){
-                        map.moveActor(this,destination);        // moveActor to food source
-                        return new EatAction(destination.getItems());
-                    }
-                    else{
-                        if(toBeAddedHitPoints < 50) {
-                            toBeAddedHitPoints = 50;
-                            toBeMovedLocation = destination;
-                            action = new EatAction(destination.getItems());
+                    for (Item item:destination.getItems()) {
+                        // brachiosaur corpses restore food level to max, hence straight away let allosaur to eat it
+                        if (item.hasCapability(CorpseType.BRACHIOSAUR)) {
+                            map.moveActor(this, destination);        // moveActor to food source
+                            return new EatAction(item, false);
+                        }
+                        else if (item.hasCapability(CorpseType.ALLOSAUR)
+                                || item.hasCapability(CorpseType.STEGOSAUR) ){
+                            if (toBeAddedHitPoints < 50) {
+                                toBeAddedHitPoints = 50;
+                                toBeMovedLocation = destination;
+                                action = new EatAction(item, false);
+                            }
                         }
                     }
                 }
 
-                // if found an Egg
-                else if (destination.getDisplayChar() == 'e'){
-                    if (toBeAddedHitPoints < 10){
-                        toBeAddedHitPoints = 10;
-                        toBeMovedLocation = destination;
-                        action = new EatAction(destination.getItems());
+                // if destination contains an egg
+//                else if (destination.getDisplayChar() == 'e'){
+                else if(destination.getItems().stream().filter(c -> c instanceof Egg).count()>=1){
+                    for (Item item : destination.getItems()) {
+                        if (toBeAddedHitPoints < 10) {
+                            toBeAddedHitPoints = 10;
+                            toBeMovedLocation = destination;
+                            action = new EatAction(item, false);
+                        }
                     }
                 }
 

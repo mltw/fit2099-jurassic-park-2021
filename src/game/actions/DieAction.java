@@ -1,7 +1,9 @@
 package game.actions;
 
 import edu.monash.fit2099.engine.*;
+import game.dinosaurs.Status;
 import game.portableItems.Corpse;
+import game.portableItems.CorpseType;
 
 /**
  * Action to handle dead actors.
@@ -20,16 +22,16 @@ public class DieAction extends Action {
     public String execute(Actor actor, GameMap map) {
         String message= "";
 
-        if (actor.getDisplayChar() == 'a') {
-            Item corpse = new Corpse("dead " + actor, '%');
+        if (actor.hasCapability(Status.ALLOSAUR)) {
+            Item corpse = new Corpse("dead " + actor, CorpseType.ALLOSAUR);
             map.locationOf(actor).addItem(corpse);
         }
-        else if (actor.getDisplayChar() == 'b'){
-            Item corpse = new Corpse("dead " + actor, '(');
+        else if (actor.hasCapability(Status.BRACHIOSAUR)){
+            Item corpse = new Corpse("dead " + actor, CorpseType.BRACHIOSAUR);
             map.locationOf(actor).addItem(corpse);
         }
-        else if (actor.getDisplayChar() == 'd'){
-            Item corpse = new Corpse("dead " + actor, ')');
+        else if (actor.hasCapability(Status.STEGOSAUR)){
+            Item corpse = new Corpse("dead " + actor, CorpseType.STEGOSAUR);
             map.locationOf(actor).addItem(corpse);
         }
 

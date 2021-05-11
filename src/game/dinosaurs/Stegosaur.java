@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
 import game.portableItems.Fruit;
+import game.portableItems.ItemType;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Stegosaur extends Dinosaur {
 	public Stegosaur(Enum status) {
 		super("Stegosaur" + stegosaurCount, 'd', 50);
 		addCapability(status);
+		addCapability(Status.STEGOSAUR);
 		maxHitPoints = 100;
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
@@ -82,7 +84,9 @@ public class Stegosaur extends Dinosaur {
 			// check if nearby has a stegosaur, if yes, move towards it & breed
 			List<Exit> nearby = destination.getExits(); 		//all exits of the adjacent square, ie nearby locations
 			for (Exit there : nearby){
-				if (there.getDestination().getDisplayChar()=='d' && !moved && there.getDestination().getActor()!=this){
+				if (there.getDestination().containsAnActor()
+						&& there.getDestination().getActor().hasCapability(Status.STEGOSAUR)
+						&& !moved && there.getDestination().getActor()!=this){
 					actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
 					if (actionBreed != null){
 						moved = true;
@@ -98,7 +102,8 @@ public class Stegosaur extends Dinosaur {
 			// if stegosaur has possibility to breed, search for mating partner
 			else if (this.getHitPoints() > 50 && !isPregnant() && this.hasCapability(Status.ADULT)) {
 				// found an adjacent stegosaur
-				if (destination.getDisplayChar() == 'd') {
+				if (destination.containsAnActor()
+						&& destination.getActor().hasCapability(Status.STEGOSAUR)) {
 					Stegosaur adjcStegosaur = (Stegosaur) destination.getActor();
 					if (!this.isPregnant()
 							&& !adjcStegosaur.isPregnant()
@@ -125,12 +130,16 @@ public class Stegosaur extends Dinosaur {
 				}
 
 				// if fruit on bush/on ground under a tree & stegosaur still able to move
-				if (destination.getDisplayChar() == 'f' && this.getHitPoints()!=0 && !eaten) {
-					// check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
-					if (destination.getItems().get(destination.getItems().size() - 1).hasCapability(game.ground.Status.ON_GROUND)){
-						map.moveActor(this,destination);			// moveActor to food source
-						action = new EatAction(destination.getItems());	// eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
-						eaten = true;
+				if (destination.getItems().stream().filter(c -> c instanceof Fruit).count() >=1) {
+					for (Item item: destination.getItems()) {
+						if (item.hasCapability(ItemType.FRUIT) && this.getHitPoints() != 0 && !eaten) {
+							// check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
+							if (destination.getItems().get(destination.getItems().size() - 1).hasCapability(game.ground.Status.ON_GROUND)) {
+								map.moveActor(this, destination);            // moveActor to food source
+								action = new EatAction(item, false);    // eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
+								eaten = true;
+							}
+						}
 					}
 				}
 

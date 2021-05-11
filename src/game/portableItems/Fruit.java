@@ -16,6 +16,7 @@ public class Fruit extends PortableItem {
      */
     public Fruit(String name, char displayChar) {
         super(name, displayChar);
+        addCapability(ItemType.FRUIT);
     }
 
     /**

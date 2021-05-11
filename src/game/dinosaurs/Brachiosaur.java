@@ -4,7 +4,10 @@ import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
 import game.ground.Dirt;
+import game.portableItems.Fruit;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +30,7 @@ public class Brachiosaur extends Dinosaur {
     public Brachiosaur(Enum status) {
         super("Brachiosaur" + brachiosaurCount, 'b', 100);
         addCapability(status);
+        addCapability(Status.BRACHIOSAUR);
         maxHitPoints = 160;
         if (hasCapability(Status.BABY)) {
             this.setBabyCount(1);
@@ -73,7 +77,10 @@ public class Brachiosaur extends Dinosaur {
             // check if nearby has a brachiosaur, if yes, move towards it & breed
             List<Exit> nearby = destination.getExits();         //all exits of the adjacent square, ie nearby locations
             for (Exit there : nearby){
-                if (there.getDestination().getDisplayChar()=='b' && !moved && there.getDestination().getActor()!=this){
+                new Display().println(there.getDestination().getActor()+"");
+                if (there.getDestination().containsAnActor()
+                        && there.getDestination().getActor().hasCapability(Status.BRACHIOSAUR)
+                        && !moved && there.getDestination().getActor()!=this){
                     actionBreed = new FollowBehaviour(there.getDestination().getActor()).getAction(this,map);
                     if (actionBreed != null){
                         moved = true;
@@ -89,7 +96,8 @@ public class Brachiosaur extends Dinosaur {
             // if brachiosaur has possibility to breed, search for mating partner
             else if (this.getHitPoints() > 70 && !isPregnant() && this.hasCapability(Status.ADULT)) {
                 // found an adjacent brachiosaur
-                if (destination.getDisplayChar() == 'b') {
+                if (destination.containsAnActor()
+                        && destination.getActor().hasCapability(Status.BRACHIOSAUR)) {
                     Brachiosaur adjcBrachiosaur = (Brachiosaur) destination.getActor();
                     if (!this.isPregnant()
                             && !adjcBrachiosaur.isPregnant()
@@ -115,29 +123,39 @@ public class Brachiosaur extends Dinosaur {
                 }
 
                 // if step on bush, 50% to kill
-                if(destination.getGround().getDisplayChar()=='v' && Math.random()>=0.5){
+                if(destination.getGround().hasCapability(game.ground.Status.BUSH) && Math.random()>=0.5){
                     destination.setGround(new Dirt());
                 }
 
                 // if fruit on bush/on ground under a tree & still can move: can eat multiple fruits in a tree
-                else if (destination.getDisplayChar() == 'f' && this.getHitPoints() != 0) {
-                    int listFruits = destination.getItems().size();
+                else if (destination.getItems().stream().filter(c -> c instanceof Fruit).count() >=1
+                            && this.getHitPoints() != 0)    {
+//                else if (destination.getDisplayChar() == 'f' && this.getHitPoints() != 0) {
+//                    int listFruits = destination.getItems().size();
+                    ArrayList<Integer> indexOfFruits = new ArrayList<>();
+
                     int count = 0;
-                    for (int i=0;i < listFruits;i++){
-                        if (destination.getItems().get(destination.getItems().size()-1).hasCapability(game.ground.Status.ON_TREE)){
-                                count++;                          // count number of fruits found by Brachiosaur
+                    for (int i=0;i < destination.getItems().size();i++){
+                        if (destination.getItems().get(i).hasCapability(game.ground.Status.ON_TREE)){
+                            count++;                          // count number of fruits found by Brachiosaur
+                            indexOfFruits.add(i);
                         }
                     }
-                    int temp = count;
+//                    int temp = count;
                     if (count > 0){                               // count > 0 means found at least 1 fruit, now to consume:
                         map.moveActor(this,destination);    // move Brachiosaur to that location first
-                        // do EatAction for each fruit found, leaving one last fruit to be used to return an EatAction
-                        while (count > 1){
-                            new EatAction(destination.getItems()).execute(this,map);
-                            count--;
+                        // do EatAction for each fruit found, finally return a DoNothing Action
+                        for (int i = indexOfFruits.size()-1; i >=0; i--) {
+                            new EatAction(destination.getItems().get(i), false).execute(this, map);
                         }
-                        display.println(this + " eats " + temp + " fruits");
-                        return new EatAction(destination.getItems());
+
+//                        while (count > 1){
+//                            new EatAction(destination.getItems()).execute(this,map);
+//                            count--;
+//                        }
+                        display.println(this + " eats " + count + " fruits from a tree");
+//                        return new EatAction(destination.getItems().get(indexOfFruits.get(indexOfFruits.size()-1)),false);
+                        return new DoNothingAction();
                     }
                 }
 

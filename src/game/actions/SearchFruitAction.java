@@ -2,8 +2,7 @@ package game.actions;
 
 import edu.monash.fit2099.engine.*;
 import game.Player;
-
-import java.util.Random;
+import game.portableItems.ItemType;
 
 /**
  * Action for Player to search for fruit in Bush/Tree in same square.
@@ -39,7 +38,7 @@ public class SearchFruitAction extends Action {
         boolean flag = false;
 
         for (Item item : map.locationOf(actor).getItems()){
-            if (item.getDisplayChar()=='f' && random<=0.4){
+            if (item.hasCapability(ItemType.FRUIT) && random<=0.4){
                 // successfully picked up
                 new PickUpItemAction(item).execute(actor, map);
                 flag = true;

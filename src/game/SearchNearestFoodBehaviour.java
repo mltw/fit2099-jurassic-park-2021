@@ -2,8 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.ground.Status;
-import game.portableItems.Corpse;
-import game.portableItems.Egg;
+import game.portableItems.ItemType;
 
 /**
  * A class that finds the nearest food source and moves the actor one step
@@ -36,9 +35,9 @@ public class SearchNearestFoodBehaviour implements Behaviour{
                 for (Item item : there.getItems()){
 
                     // case Stegosaur
-                    if (actor.getDisplayChar() == 'd') {
+                    if (actor.hasCapability(game.dinosaurs.Status.STEGOSAUR)) {
                         if (item.hasCapability(Status.ON_GROUND)
-                                && item.getDisplayChar() == 'f') {
+                                && item.hasCapability(ItemType.FRUIT)) {
 
                             // if found another nearer food source
                             if (stepsToThere < minNumberOfSteps) {
@@ -51,9 +50,9 @@ public class SearchNearestFoodBehaviour implements Behaviour{
                         }
                     }
                     // case Brachiosaur
-                    else if (actor.getDisplayChar() == 'b') {
+                    else if (actor.hasCapability(game.dinosaurs.Status.BRACHIOSAUR)) {
                         if (item.hasCapability(Status.ON_TREE)
-                                && item.getDisplayChar() == 'f') {
+                                && item.hasCapability(ItemType.FRUIT)) {
 
                             // if found another nearer food source
                             if (stepsToThere < minNumberOfSteps) {
@@ -66,8 +65,8 @@ public class SearchNearestFoodBehaviour implements Behaviour{
                         }
                     }
                     // case Allosaur
-                    else if (actor.getDisplayChar() == 'a') {
-                        if (item instanceof Egg || item instanceof Corpse) {
+                    else if (actor.hasCapability(game.dinosaurs.Status.ALLOSAUR)) {
+                        if (item.hasCapability(ItemType.EGG) || item.hasCapability(ItemType.CORPSE)) {
 
                             // if found another nearer food source
                             if (stepsToThere < minNumberOfSteps) {

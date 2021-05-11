@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import game.dinosaurs.Dinosaur;
+import game.dinosaurs.Status;
 import game.portableItems.Egg;
 import game.portableItems.EggType;
 
@@ -24,13 +25,13 @@ public class LayEggAction extends Action {
         ((Dinosaur) actor ).setPregnant(false);
         ((Dinosaur) actor ).setPregnantCount(0);
 
-        if (actor.getDisplayChar() == 'a'){
+        if (actor.hasCapability(Status.ALLOSAUR)){
             map.locationOf(actor).addItem(new Egg(EggType.ALLOSAUR));
         }
-        else if (actor.getDisplayChar() == 'b'){
+        else if (actor.hasCapability(Status.BRACHIOSAUR)){
             map.locationOf(actor).addItem(new Egg(EggType.BRACHIOSAUR));
         }
-        else if (actor.getDisplayChar() == 'd'){
+        else if (actor.hasCapability(Status.STEGOSAUR)){
             map.locationOf(actor).addItem(new Egg(EggType.STEGOSAUR));
         }
 

@@ -17,6 +17,7 @@ public class Bush extends Ground {
     public Bush() {
         super('v');
         addCapability(Status.ALIVE);
+        addCapability(Status.BUSH);
     }
 
     /** Actor is able to enter bush.

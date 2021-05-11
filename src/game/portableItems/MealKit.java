@@ -15,5 +15,6 @@ public class MealKit extends PortableItem {
     public MealKit(Enum mealKitType) {
         super("mealKit("+mealKitType+")", 'm');
         this.capabilities.addCapability(mealKitType);
+        this.capabilities.addCapability(ItemType.MEALKIT);
     }
 }

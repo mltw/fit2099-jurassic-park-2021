@@ -2,6 +2,7 @@ package game.actions;
 
 import edu.monash.fit2099.engine.*;
 import game.Player;
+import game.dinosaurs.Status;
 import game.portableItems.*;
 
 /**
@@ -56,22 +57,22 @@ public class FeedAction extends Action {
                 // player decides to feed
                 Item itemToFeed = actor.getInventory().get(Character.getNumericValue(playerOption));
                 display.println(itemToFeed+"");
-                if (target.getDisplayChar() == 'a'
+                if (target.hasCapability(Status.ALLOSAUR)
                         && (itemToFeed.hasCapability(MealKitType.CARNIVORE)
-                            || itemToFeed.getDisplayChar() == 'e')){
+                            || itemToFeed.hasCapability(ItemType.EGG))){
                     actor.removeItemFromInventory(itemToFeed);
                     output = System.lineSeparator() + actor + "feeds " + target;
-                    output += System.lineSeparator() + new EatAction(itemToFeed).execute(target, map);
+                    output += System.lineSeparator() + new EatAction(itemToFeed, true).execute(target, map);
                 }
-                else if ( (target.getDisplayChar() == 'b' || target.getDisplayChar() == 'd' )
+                else if ( (target.hasCapability(Status.BRACHIOSAUR) || target.hasCapability(Status.STEGOSAUR) )
                             && ((itemToFeed.hasCapability(MealKitType.VEGETARIAN))
-                                || itemToFeed.getDisplayChar() == 'f')){
+                                || itemToFeed.hasCapability(ItemType.FRUIT))){
                     actor.removeItemFromInventory(itemToFeed);
                     output = System.lineSeparator() + actor + " feeds " + target;
-                    output += System.lineSeparator() + new EatAction(itemToFeed).execute(target, map);
+                    output += System.lineSeparator() + new EatAction(itemToFeed, true).execute(target, map);
 
                     // when a fruit is fed to a dinosaur, 10 eco points is gained
-                    if (itemToFeed.getDisplayChar() == 'f')
+                    if (itemToFeed.hasCapability(ItemType.FRUIT))
                         Player.addEcoPoints(10);
                 }
                 else {

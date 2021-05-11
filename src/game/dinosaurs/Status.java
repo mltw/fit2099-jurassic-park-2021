@@ -5,7 +5,8 @@ package game.dinosaurs;
  * The Status can divided into:
  * BABY: indicating baby dinosaur
  * ADULT: indicating adult dinosaur
+ * STEGOSAUR, BRACHIOSAUR, ALLOSAUR: 3 enums indicating its respective class
  */
 public enum Status {
-    BABY, ADULT
+    BABY, ADULT, STEGOSAUR, BRACHIOSAUR, ALLOSAUR
 }

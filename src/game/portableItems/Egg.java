@@ -7,8 +7,6 @@ import game.Player;
 import game.PortableItem;
 import game.dinosaurs.*;
 
-import java.awt.*;
-
 /**
  * A class for a dinosaur's Egg.
  * Egg is a portable item.
@@ -24,6 +22,7 @@ public class Egg extends PortableItem {
     public Egg(Enum eggType) {
         super("egg("+eggType+")", 'e');
         addCapability(eggType);
+        addCapability(ItemType.EGG);
     }
 
     /**

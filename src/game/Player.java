@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.*;
 import game.actions.PurchaseAction;
 import game.actions.SearchFruitAction;
 import game.ground.Bush;
+import game.ground.Status;
 import game.ground.Tree;
 
 /**
@@ -41,13 +42,11 @@ public class Player extends Actor {
 		}
 
 		// player able to pick up fruits from bush: perform SearchFruitAction
-		if (map.locationOf(this).getGround().getDisplayChar() == 'v'){
+		if (map.locationOf(this).getGround().hasCapability(Status.BUSH)){
 			actions.add(new SearchFruitAction("bush"));
 		}
 		// player able to pick up fruits from a tree/fruits lying on the ground of tree : perform SearchFruitAction
-		else if (map.locationOf(this).getGround().getDisplayChar() == '+'
-				|| map.locationOf(this).getGround().getDisplayChar() == 't'
-				|| map.locationOf(this).getGround().getDisplayChar() == 'T'){
+		else if (map.locationOf(this).getGround().hasCapability(Status.TREE)){
 			actions.add(new SearchFruitAction("tree"));
 		}
 

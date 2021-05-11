@@ -12,11 +12,18 @@ public class Corpse extends PortableItem {
 
     /**
      * Constructor
-     * @param name name of corpse
-     * @param displayChar displayChar for corpse varies(depends on type of dinosaur)
+     * @param name name of corpse.
+     * @param corpseType an Enum value, indicating the type of corpse to be formed.
      */
-    public Corpse(String name, char displayChar) {
-        super(name, displayChar);
+    public Corpse(String name, Enum corpseType) {
+        super(name, ')'); //default
+        addCapability(ItemType.CORPSE);
+
+        // overwrite the display char
+        if (corpseType == CorpseType.BRACHIOSAUR)
+            displayChar = '(';
+        else if (corpseType == CorpseType.ALLOSAUR)
+            displayChar = '%';
     }
 
     /**

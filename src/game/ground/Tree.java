@@ -18,6 +18,7 @@ public class Tree extends Ground {
 	public Tree() {
 		super('+');
 		addCapability(Status.ALIVE);
+		addCapability(Status.TREE);
 	}
 
 	/** Actors are able to enter trees.
