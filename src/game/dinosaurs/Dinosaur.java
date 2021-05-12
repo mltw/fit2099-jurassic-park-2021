@@ -24,6 +24,8 @@ public abstract class Dinosaur extends Actor {
     private String gender;
     private boolean isPregnant;
     private int babyCount;
+    private int waterLevel;
+    private int maxWaterLevel;
 
     /**
      * Constructor.
@@ -32,7 +34,7 @@ public abstract class Dinosaur extends Actor {
      * @param displayChar the character that will represent the Dinosaur in the display
      * @param hitPoints   the Dinosaur's starting hit points
      */
-    public Dinosaur(String name, char displayChar, int hitPoints ) {
+    public Dinosaur(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
 
         //behaviours
@@ -67,12 +69,17 @@ public abstract class Dinosaur extends Actor {
      */
     public void eachTurnUpdates(int babyCount){
         // if dinosaur is unconscious: update unconsciousCount
-        if (!this.isConscious()){
+        // 12/5 : water level reaches 0 also cant move: unconscious
+        if (!this.isConscious() || this.getWaterLevel() ==0){
             this.setUnconsciousCount( this.getUnconsciousCount() + 1);
         }
-        else
+        else {
             // else dinosaur is conscious: deduct food level by 1 each turn
             this.setHitPoints(this.getHitPoints() - 1);
+            // 12/5 : decrease water level by 1 each turn
+            this.setWaterLevel(this.getWaterLevel()-1);
+        }
+
 
         // if pregnant: update pregnant count
         if (this.getPregnantCount() > 0)
@@ -201,5 +208,21 @@ public abstract class Dinosaur extends Actor {
      */
     public void setBabyCount(int babyCount) {
         this.babyCount = babyCount;
+    }
+
+    public int getWaterLevel() {
+        return waterLevel;
+    }
+
+    public void setWaterLevel(int waterLevel) {
+        this.waterLevel = waterLevel;
+    }
+
+    public int getMaxWaterLevel() {
+        return maxWaterLevel;
+    }
+
+    public void setMaxWaterLevel(int maxWaterLevel) {
+        this.maxWaterLevel = maxWaterLevel;
     }
 }

@@ -4,6 +4,7 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
+import game.ground.Lake;
 import game.portableItems.Fruit;
 import game.portableItems.ItemType;
 
@@ -16,7 +17,8 @@ import java.util.List;
  */
 public class Stegosaur extends Dinosaur {
 	private static int stegosaurCount = 1; // used to give a unique name for each stegosaur
-	private boolean displayed = false;
+	private boolean displayedHungry = false;
+	private boolean displayThirsty = false;
 	private boolean moved = false;
 	private boolean eaten = false;
 	Action actionBreed;
@@ -33,6 +35,8 @@ public class Stegosaur extends Dinosaur {
 		addCapability(status);
 		addCapability(Status.STEGOSAUR);
 		maxHitPoints = 100;
+		this.setWaterLevel(60); // initial water level
+		this.setMaxWaterLevel(100); // max water level
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
 			this.setHitPoints(10); //if is baby, starting hit points is 10
@@ -65,7 +69,7 @@ public class Stegosaur extends Dinosaur {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		Action action = null;
-		displayed = false; // reset
+		displayedHungry = false; // reset
 		moved = false; //reset
 		actionBreed = null; //reset
 		eaten = false; // reset
@@ -114,10 +118,10 @@ public class Stegosaur extends Dinosaur {
 				}
 			}
 
-			// if can't breed, then search for food if hungry
-			else if (this.getHitPoints() < 90) {
+			// if can't breed, then search for food if hungry & NOT thirsty
+			else if (this.getHitPoints() < 90 && this.getWaterLevel()>=40) {
 				// display hungry message
-				if (!displayed){
+				if (!displayedHungry){
 					if (this.isConscious()) {
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting hungry!");
 					}
@@ -126,7 +130,7 @@ public class Stegosaur extends Dinosaur {
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Feed it");
 						display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
 					}
-					displayed = true;
+					displayedHungry = true;
 				}
 
 				// if fruit on bush/on ground under a tree & stegosaur still able to move
@@ -147,6 +151,26 @@ public class Stegosaur extends Dinosaur {
 				else if (this.getUnconsciousCount()==20){
 					return new DieAction();
 				}
+			}
+			// 12/5
+			else if(this.getWaterLevel() <40){
+				// display thirsty message
+				if (!displayThirsty){
+					if (this.isConscious()) {
+						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting thirsty!");
+					}
+					// display unconscious message
+					else if (!this.isConscious() && this.getUnconsciousCount() <15){
+						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
+						display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+					}
+					displayedHungry = true;
+				}
+				if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
+					// move towards a lake & drink water
+					map.moveActor(this, destination); // move towards a lake
+				}
+
 			}
 		}
 
