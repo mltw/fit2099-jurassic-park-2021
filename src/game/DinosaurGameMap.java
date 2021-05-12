@@ -10,6 +10,7 @@ import java.util.List;
  * Create a map from dinosaurs.
  */
 public class DinosaurGameMap extends GameMap {
+    private boolean isRained = false;
     /**
      * Constructor that creates a map from a sequence of ASCII strings.
      *
@@ -32,5 +33,13 @@ public class DinosaurGameMap extends GameMap {
     @Override
     protected Location makeNewLocation(int x, int y) {
         return new DinosaurLocation(this,x,y);
+    }
+
+    public boolean isRained() {
+        return isRained;
+    }
+
+    public void setRained(boolean rained) {
+        isRained = rained;
     }
 }

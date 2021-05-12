@@ -168,10 +168,10 @@ public class Stegosaur extends Dinosaur {
 						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
 						if (status){
 							Lake ground = (Lake) map.locationOf(this).getGround();
-							if (ground.isRained()){
-								this.setWaterLevel(10);
-								this.setUnconsciousCount(0);
-							}
+//							if (ground.isRained()){
+//								this.setWaterLevel(10);
+//								this.setUnconsciousCount(0);
+//							}
 						}
 						else{
 							display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
