@@ -1,10 +1,12 @@
 package game.ground;
 
+import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 public class Lake extends Ground {
     private int counter = 0;
     private int sips;
+    Display display = new Display();
     /**
      * Constructor.
      * All lake are represented by a '~' character.
@@ -35,7 +37,7 @@ public class Lake extends Ground {
         double rand = Math.random();
          if(counter%10==0 && rand <=0.2){ // sky rained
              sips = (int) (rainfall*20 + sips);
-
+             display.println("Sky rained! Amount of sips now is: " + sips); // testing
          }
 
     }

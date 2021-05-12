@@ -33,11 +33,12 @@ public class Fish extends PortableItem {
         super.tick(currentLocation);
 
         double fishProbability = Math.random();
-        if (this.getCount()<=25 && fishProbability >=0.6){
+        if (this.getCount()<25 && fishProbability >=0.6){
             this.count++;
+            display.println("Lake has " + count + " fish!"); // testing
         }
         else if (this.getCount()==25){
-            display.println("This lake has reached the maximum of 25 fish!");
+            display.println("This lake has reached the maximum of 25 fish!"); // extra
         }
     }
 
