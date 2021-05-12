@@ -13,6 +13,7 @@ import game.dinosaurs.Brachiosaur;
 import game.dinosaurs.Status;
 import game.dinosaurs.Stegosaur;
 import game.ground.Dirt;
+import game.ground.Lake;
 import game.ground.Tree;
 
 /**
@@ -83,7 +84,11 @@ public class Application {
 		gameMap.at(30, 12).addActor(new Stegosaur(Status.ADULT));
 		gameMap.at(32, 12).addActor(new Stegosaur(Status.ADULT));
 
-			
+		// Place some pools of water in the map
+		gameMap.at(35,12).setGround(new Lake(25));
+		gameMap.at(39,20).setGround(new Lake(25));
+		gameMap.at(19,12).setGround(new Lake(25));
+		gameMap.at(50,50).setGround(new Lake(25));
 		world.run();
 	}
 }
