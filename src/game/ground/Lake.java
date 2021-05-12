@@ -2,7 +2,6 @@ package game.ground;
 
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
-
 public class Lake extends Ground {
     private int counter = 0;
     private int sips;
@@ -14,7 +13,6 @@ public class Lake extends Ground {
         super('~');
         this.sips = sips;
         addCapability(Status.LAKE);
-
     }
 
     /**

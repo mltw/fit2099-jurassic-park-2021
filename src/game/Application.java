@@ -15,6 +15,7 @@ import game.dinosaurs.Stegosaur;
 import game.ground.Dirt;
 import game.ground.Lake;
 import game.ground.Tree;
+import game.portableItems.Fish;
 
 /**
  * The main class for the Jurassic World game.
@@ -86,9 +87,17 @@ public class Application {
 
 		// Place some pools of water in the map
 		gameMap.at(35,12).setGround(new Lake(25));
+		gameMap.at(35,12).addItem(new Fish("fish",5));
+
 		gameMap.at(39,20).setGround(new Lake(25));
+		gameMap.at(39,20).addItem(new Fish("fish",5));
+
 		gameMap.at(19,12).setGround(new Lake(25));
+		gameMap.at(19,12).addItem(new Fish("fish",5));
+
 		gameMap.at(50,50).setGround(new Lake(25));
+		gameMap.at(50,50).addItem(new Fish("fish",5));
+
 		world.run();
 	}
 }
