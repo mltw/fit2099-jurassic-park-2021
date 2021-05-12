@@ -36,7 +36,7 @@ public class Stegosaur extends Dinosaur {
 		addCapability(status);
 		addCapability(Status.STEGOSAUR);
 		maxHitPoints = 100;
-		this.setWaterLevel(40); // initial water level;60
+		this.setWaterLevel(60); // initial water level;60
 		this.setMaxWaterLevel(100); // max water level
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
@@ -130,7 +130,7 @@ public class Stegosaur extends Dinosaur {
 						display.println("Water level is " + this.getWaterLevel());
 					}
 					// display unconscious message
-					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
+					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){ // 15 unconscious
 //						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
 						if (((DinosaurGameMap)map).isRained()){
 							// one turn == one sip(one sip == 30 water level)

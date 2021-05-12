@@ -1,5 +1,6 @@
 package game;
 
+import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.GroundFactory;
 import edu.monash.fit2099.engine.Location;
@@ -12,6 +13,7 @@ import java.util.List;
 public class DinosaurGameMap extends GameMap {
     private boolean isRained = false;
     private int counter = 0;
+    Display display = new Display();
     /**
      * Constructor that creates a map from a sequence of ASCII strings.
      *
@@ -28,12 +30,14 @@ public class DinosaurGameMap extends GameMap {
     @Override
     public void tick() {
         super.tick();
-        isRained =false; // reset
         counter++;
+        isRained = false;
         double rand = Math.random();
         if(counter%10==0 && rand <=0.2){ // sky rained
             isRained = true;
         }
+//        else{
+//            display.println(counter + "Not raining");}
     }
 
     /**
