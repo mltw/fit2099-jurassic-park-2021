@@ -4,9 +4,9 @@ import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
 import game.ground.Dirt;
+import game.ground.Lake;
 import game.portableItems.Fruit;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,8 @@ import java.util.List;
  */
 public class Brachiosaur extends Dinosaur {
     private static int brachiosaurCount = 1;    // used to give a unique name for each brachiosaur
-    private boolean displayed = false;
+    private boolean displayedHungry = false;
+    private boolean displayThirsty = false;
     private boolean moved = false;
     Action actionBreed;
 
@@ -32,6 +33,8 @@ public class Brachiosaur extends Dinosaur {
         addCapability(status);
         addCapability(Status.BRACHIOSAUR);
         maxHitPoints = 160;
+        this.setWaterLevel(60); // initial water level;60
+        this.setMaxWaterLevel(200); // max water level
         if (hasCapability(Status.BABY)) {
             this.setBabyCount(1);
             this.setHitPoints(10); //if is baby, starting hit points is 10
@@ -60,9 +63,10 @@ public class Brachiosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        displayed = false; // reset
+        displayedHungry = false; // reset
         moved = false; //reset
         actionBreed = null; //reset
+        displayThirsty = false; // reset
 
         eachTurnUpdates(50);                            // to handle necessary updates for each turn
 
@@ -106,10 +110,51 @@ public class Brachiosaur extends Dinosaur {
                     }
                 }
             }
+
+            // 12/5
+            else if(this.getWaterLevel() <40){
+                // display thirsty message
+                if (!displayThirsty){
+                    if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) { // 40
+                        display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting thirsty!");
+                        display.println("Water level is " + this.getWaterLevel());
+                    }
+                    // display unconscious message
+                    else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){ // 15 unconscious
+//						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+                        if (((DinosaurGameMap)map).isRained()){
+                            // one turn == one sip(one sip == 80 water level)
+                            this.setWaterLevel(10);
+                            this.setUnconsciousCount(0);
+                        }
+                        else{
+                            display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is unconscious! Get water for it!");
+                            display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+                        }
+                    }
+                    displayThirsty = true;
+                }
+                if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
+                    Lake ground = (Lake) destination.getGround();
+                    if (ground.getSips()>0) {
+                        ground.setSips(ground.getSips() - 1); // one turn == one sip
+                        display.println("After drinking, sip now is: " + ground.getSips()); // testing
+                        new DrinkAction();
+                    }
+                    // if empty(sip==0): lose ability to be drunk by stegosaur
+                }
+
+                else if (this.getUnconsciousCount()==15){
+                    return new DieAction();
+                }
+
+            }
+
+
             // if can't breed, then search for food if hungry
             else if (this.getHitPoints() < 140) {
                 // display hungry message
-                if (!displayed) {
+                if (!displayedHungry) {
                     if (this.isConscious()) {
                         display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting hungry!");
                     }
@@ -118,7 +163,7 @@ public class Brachiosaur extends Dinosaur {
                         display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is unconscious! Feed it");
                         display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
                     }
-                    displayed = true;
+                    displayedHungry = true;
                 }
 
                 // if step on bush, 50% to kill
