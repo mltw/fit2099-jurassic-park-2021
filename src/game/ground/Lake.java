@@ -24,10 +24,6 @@ public class Lake extends Ground {
     @Override
     public void tick(Location location) {
 
-        // The amount of water that is added to the lake is calculated
-        // by multiplying the rainfall by 20 sips where the rainfall
-        // is a random value between 0.1 and 0.6 inclusive.
-
         super.tick(location);
         counter++;
 
@@ -38,7 +34,8 @@ public class Lake extends Ground {
 
         // Every 10 turns, probability of 20%, sky might rain which adds water to all lakes
         double rand = Math.random();
-         if(counter%10==0 && rand <=0.2){
+         if(counter%10==0 && rand <=0.2){ // sky rained
+             sips = (int) (rainfall*20 + sips);
 
          }
 
