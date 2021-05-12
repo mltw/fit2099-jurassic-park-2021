@@ -46,11 +46,11 @@ public class Dirt extends Ground {
 			boolean growBushPossibility = new Random().nextInt(10) == 0;
 
 			// handle cases: where there is 10% chance to grow a bush
-			if ((aliveBushNeighbours >= 2 && aliveTreeNeighbours < 1) && growBushPossibility) {
+			if ((aliveBushNeighbours >= 2 && aliveTreeNeighbours < 1) && growBushPossibility &&!location.getGround().hasCapability(Status.LAKE)) {
 				location.setGround(new Bush());
 			}
 			// handles cases: where bush are unable to grow due to existence of tree & 0.5% chance to grow a bush
-			else if (aliveTreeNeighbours < 1 && growBushSmallPossibility) {
+			else if (aliveTreeNeighbours < 1 && growBushSmallPossibility && !location.getGround().hasCapability(Status.LAKE)) {
 				location.setGround(new Bush());
 			}
 		}
