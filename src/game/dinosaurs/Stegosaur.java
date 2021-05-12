@@ -125,7 +125,7 @@ public class Stegosaur extends Dinosaur {
 			else if(this.getWaterLevel() <40){
 				// display thirsty message
 				if (!displayThirsty){
-					if (this.getWaterLevel() <40) { // 40
+					if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) { // 40
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting thirsty!");
 						display.println("Water level is " + this.getWaterLevel());
 					}
