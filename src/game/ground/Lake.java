@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.Location;
 public class Lake extends Ground {
     private int counter = 0;
     private int sips;
+    private boolean rained = false;
     Display display = new Display();
     /**
      * Constructor.
@@ -38,6 +39,7 @@ public class Lake extends Ground {
          if(counter%10==0 && rand <=0.2){ // sky rained
              sips = (int) (rainfall*20 + sips);
              display.println("Sky rained! Amount of sips now is: " + sips); // testing
+             rained = true;
          }
 
     }
@@ -48,5 +50,13 @@ public class Lake extends Ground {
 
     public void setSips(int sips) {
         this.sips = sips;
+    }
+
+    public boolean isRained() {
+        return rained;
+    }
+
+    public void setRained(boolean rained) {
+        this.rained = rained;
     }
 }

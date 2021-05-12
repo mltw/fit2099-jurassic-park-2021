@@ -77,7 +77,7 @@ public abstract class Dinosaur extends Actor {
             // else dinosaur is conscious: deduct food level by 1 each turn
             this.setHitPoints(this.getHitPoints() - 1);
             // 12/5 : decrease water level by 1 each turn
-            this.setWaterLevel(this.getWaterLevel()-1);
+            this.setWaterLevel(Math.max(this.getWaterLevel()-1,0));
         }
 
 

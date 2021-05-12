@@ -161,8 +161,18 @@ public class Stegosaur extends Dinosaur {
 					}
 					// display unconscious message
 					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
-						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
-						display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+						if (status){
+							Lake ground = (Lake) map.locationOf(this).getGround();
+							if (ground.isRained()){
+								this.setWaterLevel(10);
+								this.setUnconsciousCount(0);
+							}
+							else{
+								display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
+								display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+							}
+						}
 					}
 					displayedHungry = true;
 				}
