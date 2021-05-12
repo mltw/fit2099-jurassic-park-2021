@@ -146,11 +146,12 @@ public class Stegosaur extends Dinosaur {
 				}
 				if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
 					Lake ground = (Lake) destination.getGround();
-					ground.setSips(ground.getSips()-1); // one turn == one sip
-					display.println("After drinking, sip now is: " + ground.getSips()); // testing
-					action = new DrinkAction();
-
-
+					if (ground.getSips()>0) {
+						ground.setSips(ground.getSips() - 1); // one turn == one sip
+						display.println("After drinking, sip now is: " + ground.getSips()); // testing
+						action = new DrinkAction();
+					}
+					// if empty(sip==0): lose ability to be drunk by stegosaur
 				}
 
 				else if (this.getUnconsciousCount()==15){
