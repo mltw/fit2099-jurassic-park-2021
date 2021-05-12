@@ -3,6 +3,7 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.*;
 import game.actions.*;
+import game.ground.Lake;
 import game.portableItems.Corpse;
 import game.portableItems.CorpseType;
 import game.portableItems.Egg;
@@ -19,7 +20,8 @@ public class Allosaur extends Dinosaur {
     private ConcurrentHashMap<String, Integer> cantAttack = new ConcurrentHashMap<>();
     private static int allosaurCount = 1;       // used to give a unique name for each Allosaur
     boolean moved = false;
-    boolean displayed = false;
+    boolean displayedHungry = false;
+    private boolean displayThirsty = false;
     Action actionBreed = null;
 
     /**
@@ -37,6 +39,8 @@ public class Allosaur extends Dinosaur {
         addCapability(Status.ALLOSAUR);
         this.setBabyCount(1);
         this.maxHitPoints = 100;
+        this.setWaterLevel(60); // initial water level;60
+        this.setMaxWaterLevel(100); // max water level
         allosaurCount++;
     }
 
@@ -62,11 +66,12 @@ public class Allosaur extends Dinosaur {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action action = null;
-        displayed = false; // reset
+        displayedHungry = false; // reset
         moved = false; //reset
         actionBreed = null; //reset
         int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
         Location toBeMovedLocation = null;
+        displayThirsty = false; // reset
 
         eachTurnUpdates(50);
 
@@ -114,10 +119,48 @@ public class Allosaur extends Dinosaur {
                 }
             }
 
+            else if(this.getWaterLevel() <40){
+                // display thirsty message
+                if (!displayThirsty){
+                    if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) { // 40
+                        display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting thirsty!");
+                        display.println("Water level is " + this.getWaterLevel());
+                    }
+                    // display unconscious message
+                    else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){ // 15 unconscious
+//						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+                        if (((DinosaurGameMap)map).isRained()){
+                            // one turn == one sip(one sip == 30 water level)
+                            this.setWaterLevel(10);
+                            this.setUnconsciousCount(0);
+                        }
+                        else{
+                            display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is unconscious! Get water for it!");
+                            display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+                        }
+                    }
+                    displayThirsty = true;
+                }
+                if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
+                    Lake ground = (Lake) destination.getGround();
+                    if (ground.getSips()>0) {
+                        ground.setSips(ground.getSips() - 1); // one turn == one sip
+                        display.println("After drinking, sip now is: " + ground.getSips()); // testing
+                        action = new DrinkAction();
+                    }
+                    // if empty(sip==0): lose ability to be drunk by stegosaur
+                }
+
+                else if (this.getUnconsciousCount()==15){
+                    return new DieAction();
+                }
+
+            }
+
             // if can't breed, then search for food if hungry
             else if (this.getHitPoints() < 90) {
                 // display hungry message
-                if (!displayed){
+                if (!displayedHungry){
                     if (this.isConscious()){
                         display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting hungry!");
                     }
@@ -126,7 +169,7 @@ public class Allosaur extends Dinosaur {
                         display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is unconscious! Feed it");
                         display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
                     }
-                    displayed = true;
+                    displayedHungry = true;
                 }
 
                  // if found a Stegosaur
