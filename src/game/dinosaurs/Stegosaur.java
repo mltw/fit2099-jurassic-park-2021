@@ -131,8 +131,8 @@ public class Stegosaur extends Dinosaur {
 					}
 					// display unconscious message
 					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
-						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
-						if (status && ((DinosaurGameMap)map).isRained()){
+//						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+						if (((DinosaurGameMap)map).isRained()){
 							// one turn == one sip(one sip == 30 water level)
 								this.setWaterLevel(10);
 								this.setUnconsciousCount(0);
