@@ -37,11 +37,13 @@ public class DrinkAction extends Action {
             ground.setSips(ground.getSips()-drinkVolume);
 
             // update water level of dinosaur after drank water
-            ((Dinosaur) actor).setWaterLevel(drinkVolume);
+            ((Dinosaur) actor).setWaterLevel(drinkVolume+ ((Dinosaur) actor).getWaterLevel());
 
             // display message to console
-            message = (actor + " drank water at (" + map.locationOf(actor).x() + ","
-                    + map.locationOf(actor).y() + ")");
+            message += (actor + " drank water at (" + map.locationOf(actor).x() + ","
+                    + map.locationOf(actor).y() + ")" +'\n');
+            // testing
+            message += ("Water level after drinking: " + ((Dinosaur) actor).getWaterLevel());
 
         }
         return message;
