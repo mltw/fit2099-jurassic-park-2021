@@ -41,4 +41,12 @@ public class Lake extends Ground {
          }
 
     }
+
+    public int getSips() {
+        return sips;
+    }
+
+    public void setSips(int sips) {
+        this.sips = sips;
+    }
 }

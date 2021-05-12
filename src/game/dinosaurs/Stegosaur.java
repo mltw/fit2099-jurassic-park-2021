@@ -156,11 +156,11 @@ public class Stegosaur extends Dinosaur {
 			else if(this.getWaterLevel() <40){
 				// display thirsty message
 				if (!displayThirsty){
-					if (this.isConscious()) {
+					if (this.getWaterLevel() <40) {
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting thirsty!");
 					}
 					// display unconscious message
-					else if (!this.isConscious() && this.getUnconsciousCount() <15){
+					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
 						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
 						display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
 					}
@@ -169,6 +169,11 @@ public class Stegosaur extends Dinosaur {
 				if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
 					// move towards a lake & drink water
 					map.moveActor(this, destination); // move towards a lake
+					action = new DrinkAction();
+				}
+
+				else if (this.getUnconsciousCount()==15){
+					return new DieAction();
 				}
 
 			}
