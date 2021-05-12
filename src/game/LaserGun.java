@@ -11,7 +11,7 @@ public class LaserGun extends WeaponItem {
      * A laser gun is displayed by a '~', deals 70 damage.
      */
     public LaserGun() {
-        super("laserGun", '~', 70, "zaps");
+        super("laserGun", '!', 70, "zaps");
         this.portable = true;
     }
 }
