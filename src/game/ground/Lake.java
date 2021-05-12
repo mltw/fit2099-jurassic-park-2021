@@ -13,6 +13,7 @@ public class Lake extends Ground {
     public Lake(int sips) {
         super('~');
         this.sips = sips;
+        addCapability(Status.LAKE);
 
     }
 
