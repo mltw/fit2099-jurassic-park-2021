@@ -21,31 +21,22 @@ public class DrinkAction extends Action {
     public String execute(Actor actor, GameMap map) {
         String message = "";
 
-        // access lake's water
-        if (map.locationOf(actor).getGround().hasCapability(Status.LAKE)){
-            Lake ground = (Lake) map.locationOf(actor).getGround();
-//            if (ground.getSips()>=30){
-//                drinkVolume = 30;
-//            }
-//            else{
-//                drinkVolume = ground.getSips();
-//            }
-            // water level that can be consumed
-            drinkVolume = Math.min(ground.getSips(),30);
-
-            // update water level of lake
-            ground.setSips(ground.getSips()-drinkVolume);
-
-            // update water level of dinosaur after drank water
+        if (actor.hasCapability(game.dinosaurs.Status.STEGOSAUR)|| actor.hasCapability(game.dinosaurs.Status.ALLOSAUR)) {
+            drinkVolume = 30;  // water level that can be consumed: 30
             ((Dinosaur) actor).setWaterLevel(drinkVolume+ ((Dinosaur) actor).getWaterLevel());
-
-            // display message to console
-            message += (actor + " drank water at (" + map.locationOf(actor).x() + ","
-                    + map.locationOf(actor).y() + ")" +'\n');
-            // testing
-            message += ("Water level after drinking: " + ((Dinosaur) actor).getWaterLevel());
-
         }
+        else if(actor.hasCapability(game.dinosaurs.Status.BRACHIOSAUR)){
+            drinkVolume = 80;  // water level that can be consumed: 80
+            ((Dinosaur) actor).setWaterLevel(drinkVolume+ ((Dinosaur) actor).getWaterLevel());
+        }
+
+        // display message to console
+        message += (actor + " drank water in adjacent" + '\n');
+
+        // testing
+        message += (((Dinosaur) actor)+" ,water level after drinking: " + ((Dinosaur) actor).getWaterLevel());
+
+
         return message;
     }
 

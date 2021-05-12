@@ -36,7 +36,7 @@ public class Stegosaur extends Dinosaur {
 		addCapability(status);
 		addCapability(Status.STEGOSAUR);
 		maxHitPoints = 100;
-		this.setWaterLevel(60); // initial water level;60
+		this.setWaterLevel(40); // initial water level;60
 		this.setMaxWaterLevel(100); // max water level
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
@@ -121,6 +121,44 @@ public class Stegosaur extends Dinosaur {
 				}
 			}
 
+			// 12/5
+			else if(this.getWaterLevel() <40){
+				// display thirsty message
+				if (!displayThirsty){
+					if (this.getWaterLevel() <40) { // 40
+						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting thirsty!");
+						display.println("Water level is " + this.getWaterLevel());
+					}
+					// display unconscious message
+					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
+						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+						if (status && ((DinosaurGameMap)map).isRained()){
+							// one turn == one sip(one sip == 30 water level)
+								this.setWaterLevel(10);
+								this.setUnconsciousCount(0);
+						}
+						else{
+							display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
+							display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
+						}
+					}
+					displayThirsty = true;
+				}
+				if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
+					Lake ground = (Lake) destination.getGround();
+					ground.setSips(ground.getSips()-1); // one turn == one sip
+					display.println("After drinking, sip now is: " + ground.getSips()); // testing
+					action = new DrinkAction();
+
+
+				}
+
+				else if (this.getUnconsciousCount()==15){
+					return new DieAction();
+				}
+
+			}
+
 			// if can't breed, then search for food if hungry & NOT thirsty
 			else if (this.getHitPoints() < 90 && this.getWaterLevel()>=40) {
 				// display hungry message
@@ -154,42 +192,6 @@ public class Stegosaur extends Dinosaur {
 				else if (this.getUnconsciousCount()==20){
 					return new DieAction();
 				}
-			}
-			// 12/5
-			else if(this.getWaterLevel() <40){ // 40
-				// display thirsty message
-				if (!displayThirsty){
-					if (this.getWaterLevel() <40) { // 40
-						display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is getting thirsty!");
-						display.println("Water level is " + this.getWaterLevel());
-					}
-					// display unconscious message
-					else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
-						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
-						if (status){
-							Lake ground = (Lake) map.locationOf(this).getGround();
-//							if (ground.isRained()){
-//								this.setWaterLevel(10);
-//								this.setUnconsciousCount(0);
-//							}
-						}
-						else{
-							display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
-							display.println("Unconscious count: " + (this.getUnconsciousCount() + 1));
-						}
-					}
-					displayThirsty = true;
-				}
-				if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
-					// move towards a lake & drink water
-					map.moveActor(this, destination); // move towards a lake
-					action = new DrinkAction();
-				}
-
-				else if (this.getUnconsciousCount()==15){
-					return new DieAction();
-				}
-
 			}
 		}
 

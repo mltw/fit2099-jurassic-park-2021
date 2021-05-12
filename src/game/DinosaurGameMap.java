@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class DinosaurGameMap extends GameMap {
     private boolean isRained = false;
+    private int counter = 0;
     /**
      * Constructor that creates a map from a sequence of ASCII strings.
      *
@@ -19,6 +20,19 @@ public class DinosaurGameMap extends GameMap {
      */
     public DinosaurGameMap(GroundFactory groundFactory, List<String> lines) {
         super(groundFactory, lines);
+    }
+
+    /**
+     * Called once per turn, so that maps can experience the passage of time.
+     */
+    @Override
+    public void tick() {
+        super.tick();
+        counter++;
+        double rand = Math.random();
+        if(counter%10==0 && rand <=0.2){ // sky rained
+            isRained = true;
+        }
     }
 
     /**

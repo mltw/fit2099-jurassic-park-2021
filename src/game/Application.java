@@ -53,7 +53,8 @@ public class Application {
 		".........................................................................++++...",
 		"..........................................................................++....",
 		"................................................................................");
-		GameMap gameMap = new DinosaurGameMap(groundFactory, map );
+//		GameMap gameMap = new DinosaurGameMap(groundFactory, map );
+		DinosaurGameMap gameMap = new DinosaurGameMap(groundFactory, map );
 		world.addGameMap(gameMap);
 		
 		Actor player = new Player("Player", '@', 100);
