@@ -5,13 +5,14 @@ import edu.monash.fit2099.engine.Location;
 
 public class Lake extends Ground {
     private int counter = 0;
-    private int sips = 25;
+    private int sips;
     /**
      * Constructor.
      * All lake are represented by a '~' character.
      */
-    public Lake() {
+    public Lake(int sips) {
         super('~');
+        this.sips = sips;
 
     }
 
