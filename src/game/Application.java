@@ -95,8 +95,8 @@ public class Application {
 		gameMap.at(19,12).setGround(new Lake(25));
 		gameMap.at(19,12).addItem(new Fish("fish",5));
 
-		gameMap.at(50,50).setGround(new Lake(25));
-		gameMap.at(50,50).addItem(new Fish("fish",5));
+		gameMap.at(50,19).setGround(new Lake(25));
+		gameMap.at(50,19).addItem(new Fish("fish",5));
 
 		world.run();
 	}
