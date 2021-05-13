@@ -59,20 +59,10 @@ public class Lake extends Ground {
         double rainfall = Math.random() *(max-min) + min;
 
         // Every 10 turns, probability of 20%, sky might rain which adds water to all lakes
-        if (((DinosaurGameMap)location.map()).isRained()){
+        if (((DinosaurGameMap)location.map()).isRained()&&counter%10==0){
             sips = (int) (rainfall*20 + sips);
             display.println("Sky rained! Amount of possible sips now is: " + sips); // testing
         }
-
-        // wrong one
-//        double rand = Math.random();
-//         if(counter%10==0 && rand <=0.2){ // sky rained
-//             sips = (int) (rainfall*20 + sips);
-//             display.println("Sky rained! Amount of possible sips now is: " + sips); // testing
-//             map.setRained(true);
-////             rained = true;
-//         }
-
     }
 
     public int getSips() {
@@ -83,11 +73,4 @@ public class Lake extends Ground {
         this.sips = sips;
     }
 
-//    public boolean isRained() {
-//        return rained;
-//    }
-//
-//    public void setRained(boolean rained) {
-//        this.rained = rained;
-//    }
 }

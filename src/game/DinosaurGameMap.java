@@ -29,15 +29,18 @@ public class DinosaurGameMap extends GameMap {
      */
     @Override
     public void tick() {
-        super.tick();
+//        super.tick();
         counter++;
         isRained = false;
         double rand = Math.random();
         if(counter%10==0 && rand <=0.2){ // sky rained
+//            display.println(counter + "raining");
             isRained = true;
         }
 //        else{
-//            display.println(counter + "Not raining");}
+//            display.println(counter + "Not raining");
+//        }
+        super.tick();
     }
 
     /**
