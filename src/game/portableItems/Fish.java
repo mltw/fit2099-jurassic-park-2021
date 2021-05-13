@@ -4,11 +4,18 @@ import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.Location;
 import game.PortableItem;
 
+/** A class that represents fish in the lake.
+ * Fish is a portable item.
+ */
 public class Fish extends PortableItem {
     private int count = 0;
     private int foodpoints = 0;
     Display display = new Display();
 
+    /** Constructor
+     * @param name name of fish
+     * @param count number of fish in the current lake.
+     */
     public Fish(String name,int count) {
         super(name, 'h');
         addCapability(ItemType.FISH);
