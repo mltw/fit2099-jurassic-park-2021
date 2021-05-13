@@ -8,8 +8,12 @@ import game.dinosaurs.Dinosaur;
 import game.ground.Lake;
 import game.ground.Status;
 
+/**
+ * Action for dinosaurs to drink water from lake.
+ */
 public class DrinkAction extends Action {
     private int drinkVolume;
+
     /**
      * Perform the drinking Action.
      * When this method is called: it means dinosaur found an adjacent lake & it is thirsty
