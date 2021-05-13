@@ -11,7 +11,11 @@ import game.ground.Status;
 public class DrinkAction extends Action {
     private int drinkVolume;
     /**
-     * Perform the Action.
+     * Perform the drinking Action.
+     * When this method is called: it means dinosaur found an adjacent lake & it is thirsty
+     * Different dinosaur has different water level that it can consume once
+     * Eg: Stegosaur & Allosaur: each sip will increase water level by 30
+     *     Brachiosaur         : each sip will increase water level by 80
      *
      * @param actor The actor performing the action.
      * @param map   The map the actor is on.
