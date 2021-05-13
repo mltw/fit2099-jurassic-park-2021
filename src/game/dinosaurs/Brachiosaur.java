@@ -33,11 +33,11 @@ public class Brachiosaur extends Dinosaur {
         addCapability(status);
         addCapability(Status.BRACHIOSAUR);
         maxHitPoints = 160;
-        this.setWaterLevel(60); // initial water level;60
-        this.setMaxWaterLevel(200); // max water level
+        this.setWaterLevel(60);         // initial water level;60
+        this.setMaxWaterLevel(200);
         if (hasCapability(Status.BABY)) {
             this.setBabyCount(1);
-            this.setHitPoints(10); //if is baby, starting hit points is 10
+            this.setHitPoints(10);      //if is baby, starting hit points is 10
         }
         brachiosaurCount++;
     }
@@ -63,12 +63,12 @@ public class Brachiosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        displayedHungry = false; // reset
-        moved = false; //reset
-        actionBreed = null; //reset
-        displayThirsty = false; // reset
+        displayedHungry = false;        // reset
+        moved = false;                  // reset
+        actionBreed = null;             // reset
+        displayThirsty = false;         // reset
 
-        eachTurnUpdates(50);                            // to handle necessary updates for each turn
+        eachTurnUpdates(50);  // to handle necessary updates for each turn
 
         int brachiosaurLocationX = map.locationOf(this).x();
         int brachiosaurLocationY = map.locationOf(this).y();
@@ -115,15 +115,13 @@ public class Brachiosaur extends Dinosaur {
             else if(this.getWaterLevel() <40){
                 // display thirsty message
                 if (!displayThirsty){
-                    if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) { // 40
+                    if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) {
                         display.println(this + " at (" + brachiosaurLocationX + "," + brachiosaurLocationY + ") is getting thirsty!");
                         display.println("Water level is " + this.getWaterLevel());
                     }
                     // display unconscious message
-                    else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){ // 15 unconscious
-//						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+                    else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
                         if (((DinosaurGameMap)map).isRained()){
-                            // one turn == one sip(one sip == 80 water level)
                             this.setWaterLevel(10);
                             this.setUnconsciousCount(0);
                         }
@@ -137,7 +135,7 @@ public class Brachiosaur extends Dinosaur {
                 if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
                     Lake ground = (Lake) destination.getGround();
                     if (ground.getSips()>0) {
-                        ground.setSips(ground.getSips() - 1); // one turn == one sip
+                        ground.setSips(ground.getSips() - 1); // one turn == one sip(one sip == 80 water level)
                         display.println("After drinking, sip now is: " + ground.getSips()); // testing
                         new DrinkAction();
                     }
@@ -150,8 +148,7 @@ public class Brachiosaur extends Dinosaur {
 
             }
 
-
-            // if can't breed, then search for food if hungry
+            // if not thirsty, then search for food if hungry
             else if (this.getHitPoints() < 140) {
                 // display hungry message
                 if (!displayedHungry) {
@@ -215,6 +212,10 @@ public class Brachiosaur extends Dinosaur {
         // following another dinosaur to check if can breed
         if (actionBreed != null)
             return actionBreed;
+        // searching for nearest lake
+        else if(this.displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+            return getBehaviour().get(2).getAction(this,map);
+        }
         // searching for nearest food source
         else if (getBehaviour().get(1).getAction(this,map)!=null)
             return getBehaviour().get(1).getAction(this,map);
