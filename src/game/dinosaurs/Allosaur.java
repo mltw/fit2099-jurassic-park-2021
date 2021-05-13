@@ -39,8 +39,8 @@ public class Allosaur extends Dinosaur {
         addCapability(Status.ALLOSAUR);
         this.setBabyCount(1);
         this.maxHitPoints = 100;
-        this.setWaterLevel(60); // initial water level;60
-        this.setMaxWaterLevel(100); // max water level
+        this.setWaterLevel(60);     // initial water level;60
+        this.setMaxWaterLevel(100);
         allosaurCount++;
     }
 
@@ -66,12 +66,12 @@ public class Allosaur extends Dinosaur {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action action = null;
-        displayedHungry = false; // reset
-        moved = false; //reset
-        actionBreed = null; //reset
+        displayedHungry = false;    // reset
+        moved = false;              //reset
+        actionBreed = null;         //reset
         int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
         Location toBeMovedLocation = null;
-        displayThirsty = false; // reset
+        displayThirsty = false;     // reset
 
         eachTurnUpdates(50);
 
@@ -122,15 +122,13 @@ public class Allosaur extends Dinosaur {
             else if(this.getWaterLevel() <40){
                 // display thirsty message
                 if (!displayThirsty){
-                    if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) { // 40
+                    if (this.getWaterLevel() <40 && this.getWaterLevel() !=0) {
                         display.println(this + " at (" + allosaurLocationX + "," + allosaurLocationY + ") is getting thirsty!");
                         display.println("Water level is " + this.getWaterLevel());
                     }
                     // display unconscious message
-                    else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){ // 15 unconscious
-//						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
+                    else if (this.getWaterLevel()==0 && this.getUnconsciousCount() <15){
                         if (((DinosaurGameMap)map).isRained()){
-                            // one turn == one sip(one sip == 30 water level)
                             this.setWaterLevel(10);
                             this.setUnconsciousCount(0);
                         }
@@ -240,13 +238,17 @@ public class Allosaur extends Dinosaur {
         // following another dinosaur to check if can breed
         else if (actionBreed != null)
             return actionBreed;
-            // searching for nearest food source
+        // searching for nearest lake
+        else if(this.displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+            return getBehaviour().get(2).getAction(this,map);
+        }
+        // searching for nearest food source
         else if (getBehaviour().get(1).getAction(this,map)!=null)
             return getBehaviour().get(1).getAction(this,map);
-            // wandering around
+        // wandering around
         else if (getBehaviour().get(0).getAction(this, map)!=null)
             return getBehaviour().get(0).getAction(this, map);
-            // do nothing
+        // do nothing
         else
             return new DoNothingAction();
     }
