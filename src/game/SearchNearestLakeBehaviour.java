@@ -3,6 +3,11 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.ground.Status;
 
+/**
+ * A class that finds the nearest lake and moves the actor one step closer to that lake
+ * @see MoveActorAction
+ */
+
 public class SearchNearestLakeBehaviour implements Behaviour{
     /**
      * Returns a MoveActorAction to the next adjacent location of the actor, towards the nearest lake
