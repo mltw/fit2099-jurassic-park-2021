@@ -65,6 +65,7 @@ public abstract class Dinosaur extends Actor {
      * Updates will be done:
      * - Increase unconsciousCount by 1 if remain unconscious
      * - Deduct hit points by 1 if is still conscious
+     * - Deduct water level by 1 if is still conscious
      * - Increase pregnant count by 1 if it's pregnant
      * - Update maturity status accordingly
      * @param babyCount number of counts upon the baby turns into an adult dinosaur
