@@ -213,18 +213,34 @@ public abstract class Dinosaur extends Actor {
         this.babyCount = babyCount;
     }
 
+    /** Getter
+     * Retrieve the water level of current dinosaur has.
+     * @return the water level of current dinosaur has.
+     */
     public int getWaterLevel() {
         return waterLevel;
     }
 
+    /** Setter
+     * Sets the water level of current dinosaur.
+     * @param waterLevel water level to be updated.
+     */
     public void setWaterLevel(int waterLevel) {
         this.waterLevel = waterLevel;
     }
 
+    /** Getter
+     * Retrieve the maximum water level of current dinosaur.
+     * @return the maximum water level of current dinosaur.
+     */
     public int getMaxWaterLevel() {
         return maxWaterLevel;
     }
 
+    /** Setter
+     * Sets the maximum water level the current dinosaur can have.
+     * @param maxWaterLevel maximum water level to be set.
+     */
     public void setMaxWaterLevel(int maxWaterLevel) {
         this.maxWaterLevel = maxWaterLevel;
     }
