@@ -24,22 +24,18 @@ public class DinosaurGameMap extends GameMap {
         super(groundFactory, lines);
     }
 
-    /**
+    /** Every 10 turns, with 20% probability, the sky will rain
      * Called once per turn, so that maps can experience the passage of time.
      */
     @Override
     public void tick() {
-//        super.tick();
+
         counter++;
         isRained = false;
         double rand = Math.random();
         if(counter%10==0 && rand <=0.2){ // sky rained
-//            display.println(counter + "raining");
             isRained = true;
         }
-//        else{
-//            display.println(counter + "Not raining");
-//        }
         super.tick();
     }
 
