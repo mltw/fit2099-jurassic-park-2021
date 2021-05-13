@@ -7,6 +7,9 @@ import game.ground.Bush;
 import game.ground.Status;
 import game.ground.Tree;
 
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Class representing the Player.
  */
@@ -48,6 +51,20 @@ public class Player extends Actor {
 		// player able to pick up fruits from a tree/fruits lying on the ground of tree : perform SearchFruitAction
 		else if (map.locationOf(this).getGround().hasCapability(Status.TREE)){
 			actions.add(new SearchFruitAction("tree"));
+		}
+
+		// to move to another map
+		// y = 0 of first map means the most north of first map, ie can move to south of the second map
+		if (map.locationOf(this).y() == 0
+				&& ((DinosaurGameMap) map).getName().equals("gameMap1")) {
+			actions.add(new MoveActorAction(Application.gameMap2.at(map.locationOf(this).x(),
+						Application.gameMap2.getYRange().max()),"to new map!"));
+		}
+		// y = max height of second map means the most south of second map, ie can move to north of the first map
+		else if (map.locationOf(this).y() == Application.gameMap2.getYRange().max()
+					&& ((DinosaurGameMap) map).getName().equals("gameMap2")){
+			actions.add(new MoveActorAction(Application.gameMap.at(map.locationOf(this).x(),
+						0),"back to old map!"));
 		}
 
 		return menu.showMenu(this, actions, display);
