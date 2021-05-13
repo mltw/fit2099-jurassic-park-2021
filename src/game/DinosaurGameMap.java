@@ -53,10 +53,18 @@ public class DinosaurGameMap extends GameMap {
         return new DinosaurLocation(this,x,y);
     }
 
+    /** Getter
+     * Return if the map rained.
+     * @return true if map rained, otherwise false.
+     */
     public boolean isRained() {
         return isRained;
     }
 
+    /** Setter
+     * Update if the map rained.
+     * @param rained true if probability of raining met, otherwise false.
+     */
     public void setRained(boolean rained) {
         isRained = rained;
     }
