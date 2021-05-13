@@ -3,6 +3,7 @@ package game.dinosaurs;
 import edu.monash.fit2099.engine.*;
 import game.Behaviour;
 import game.SearchNearestFoodBehaviour;
+import game.SearchNearestLakeBehaviour;
 import game.WanderBehaviour;
 
 import java.lang.reflect.Array;
@@ -40,6 +41,7 @@ public abstract class Dinosaur extends Actor {
         //behaviours
         setBehaviour(new WanderBehaviour());
         setBehaviour(new SearchNearestFoodBehaviour());
+        setBehaviour(new SearchNearestLakeBehaviour());
 
         // pregnancy status
         setPregnantCount(0);

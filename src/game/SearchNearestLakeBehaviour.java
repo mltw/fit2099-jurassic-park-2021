@@ -39,9 +39,10 @@ public class SearchNearestLakeBehaviour implements Behaviour{
                 if (there.getGround().hasCapability(Status.LAKE)){
                     if (stepsToThere < minNumberOfSteps) {
                         minNumberOfSteps = stepsToThere;
-                        moveToLakeAction = new MoveActorAction(
-                                findNextLocationToMove(actorLocationX, actorLocationY, x, y, map),
-                                "to nearest lake");
+                        Location locationToMove = findNextLocationToMove(actorLocationX, actorLocationY, x, y, map);
+                        if ((locationToMove.getGround()).canActorEnter(actor)) {
+                            moveToLakeAction = new MoveActorAction(locationToMove, " to nearest lake");
+                        }
                     }
                 }
             }
@@ -54,8 +55,8 @@ public class SearchNearestLakeBehaviour implements Behaviour{
      *
      * @param actorX X coordinate of the actor
      * @param actorY Y coordinate of the actor
-     * @param destinationX X coordinate of the nearest food source
-     * @param destinationY Y coordinate of the nearest food source
+     * @param destinationX X coordinate of the nearest lake
+     * @param destinationY Y coordinate of the nearest lake
      * @param map the game map
      * @return the next location for the actor to be at (its an adjacent square since actors can only move
      *          one square at a time)

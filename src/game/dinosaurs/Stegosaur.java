@@ -134,8 +134,8 @@ public class Stegosaur extends Dinosaur {
 //						boolean status = destination.getGround().hasCapability(game.ground.Status.LAKE);
 						if (((DinosaurGameMap)map).isRained()){
 							// one turn == one sip(one sip == 30 water level)
-								this.setWaterLevel(10);
-								this.setUnconsciousCount(0);
+							this.setWaterLevel(10);
+							this.setUnconsciousCount(0);
 						}
 						else{
 							display.println(this + " at (" + stegosaurLocationX + "," + stegosaurLocationY + ") is unconscious! Get water for it!");
@@ -204,6 +204,10 @@ public class Stegosaur extends Dinosaur {
 		// following another dinosaur to check if can breed
 		else if (actionBreed != null)
 			return actionBreed;
+		// searching for nearest lake
+		else if(this.displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+			return getBehaviour().get(2).getAction(this,map);
+		}
 		// searching for nearest food source
 		else if (getBehaviour().get(1).getAction(this,map)!=null)
 			return getBehaviour().get(1).getAction(this,map);

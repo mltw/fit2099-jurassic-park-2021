@@ -23,6 +23,11 @@ public class Application {
 		World world = new World(new Display());
 
 		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Tree());
+		// testing
+//		List<String> map = Arrays.asList(
+//				"#_#...+...",
+//				".........+");
+
 		List<String> map = Arrays.asList(
 		"................................................................................",
 		"................................................................................",
@@ -56,6 +61,11 @@ public class Application {
 		Actor player = new Player("Player", '@', 100);
 
 		world.addPlayer(player, gameMap.at(9, 4));
+//		world.addPlayer(player, gameMap.at(1, 1)); //kx
+//		gameMap.at(2, 1).addActor(new Stegosaur(Status.ADULT));
+//		gameMap.at(6, 1).setGround(new Lake(25));
+//		gameMap.at(6, 1).addItem(new Fish("fish", 5));
+
 		// add a vending machine in the map
 		gameMap.at(12,5).addItem(new VendingMachine());
 

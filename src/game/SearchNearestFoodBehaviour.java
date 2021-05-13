@@ -71,10 +71,10 @@ public class SearchNearestFoodBehaviour implements Behaviour{
                             // if found another nearer food source
                             if (stepsToThere < minNumberOfSteps) {
                                 minNumberOfSteps = stepsToThere;
-
-                                moveToFoodAction = new MoveActorAction(
-                                        findNextLocationToMove(actorLocationX, actorLocationY, x, y, map),
-                                        " to nearest food source");
+                                Location locationToMove =findNextLocationToMove(actorLocationX, actorLocationY, x, y, map);
+                                if ((locationToMove.getGround()).canActorEnter(actor)) {
+                                    moveToFoodAction = new MoveActorAction(locationToMove, " to nearest food source");
+                                }
                             }
                         }
                     }
