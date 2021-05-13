@@ -14,14 +14,18 @@ public class DinosaurGameMap extends GameMap {
     private boolean isRained = false;
     private int counter = 0;
     Display display = new Display();
+    private String name = null;
+
     /**
      * Constructor that creates a map from a sequence of ASCII strings.
      *
      * @param groundFactory Factory to create Ground objects
      * @param lines         List of Strings representing rows of the map
+     * @param name          Name of the map
      */
-    public DinosaurGameMap(GroundFactory groundFactory, List<String> lines) {
+    public DinosaurGameMap(GroundFactory groundFactory, List<String> lines, String name) {
         super(groundFactory, lines);
+        this.name = name;
     }
 
     /** Every 10 turns, with 20% probability, the sky will rain
@@ -67,5 +71,14 @@ public class DinosaurGameMap extends GameMap {
      */
     public void setRained(boolean rained) {
         isRained = rained;
+    }
+
+    /**
+     * Getter
+     * Returns the name of the map (used to differentiate between gameMap1 and gameMap2)
+     * @return the name of the map
+     */
+    public String getName() {
+        return name;
     }
 }
