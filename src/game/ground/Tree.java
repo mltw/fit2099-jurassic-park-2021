@@ -7,6 +7,9 @@ import game.portableItems.Fruit;
 
 import java.util.Random;
 
+/** A class that represents tree.
+ *
+ */
 public class Tree extends Ground {
 	private int age = 0;
 	boolean dropped = false;
