@@ -21,6 +21,7 @@ public class Dirt extends Ground {
 	public Dirt() {
 		super('.');
 		addCapability(Status.DEAD);
+		addCapability(Status.DIRT);
 	}
 
 	/**

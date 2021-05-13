@@ -3,11 +3,7 @@ package game;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.FancyGroundFactory;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.World;
+import edu.monash.fit2099.engine.*;
 import game.dinosaurs.Allosaur;
 import game.dinosaurs.Brachiosaur;
 import game.dinosaurs.Status;
@@ -87,18 +83,15 @@ public class Application {
 		gameMap.at(32, 12).addActor(new Stegosaur(Status.ADULT));
 
 		// Place some pools of water in the map
-		gameMap.at(35,12).setGround(new Lake(25));
-		gameMap.at(35,12).addItem(new Fish("fish",5));
-
-		gameMap.at(39,20).setGround(new Lake(25));
-		gameMap.at(39,20).addItem(new Fish("fish",5));
-
-		gameMap.at(19,12).setGround(new Lake(25));
-		gameMap.at(19,12).addItem(new Fish("fish",5));
-
-		gameMap.at(50,19).setGround(new Lake(25));
-		gameMap.at(50,19).addItem(new Fish("fish",5));
-
+		for (int i=10;i<75;i+=10){
+			for (int j=2;j<25;j+=5){
+				Ground ground = gameMap.at(i,j).getGround();
+				if (ground.hasCapability(game.ground.Status.DIRT)) {
+					gameMap.at(i, j).setGround(new Lake(25));
+					gameMap.at(i, j).addItem(new Fish("fish", 5));
+				}
+			}
+		}
 		world.run();
 	}
 }

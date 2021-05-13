@@ -10,5 +10,5 @@ package game.ground;
  * - ON_GROUND: fruits dropped on the ground
  */
 public enum Status {
-    DEAD,ALIVE,ON_TREE,ON_GROUND, BUSH, TREE,LAKE
+    DEAD,ALIVE,ON_TREE,ON_GROUND, BUSH, TREE,LAKE,DIRT
 }
