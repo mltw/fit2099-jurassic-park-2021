@@ -8,8 +8,8 @@ import game.dinosaurs.Dinosaur;
 public class Lake extends Ground {
     private int counter = 0;
     private int sips;
-//    private boolean rained = false;
     Display display = new Display();
+
     /**
      * Constructor.
      * All lake are represented by a '~' character.
@@ -21,7 +21,7 @@ public class Lake extends Ground {
     }
 
     /**
-     * Override this to implement impassable terrain, or terrain that is only passable if conditions are met.
+     * Land-based creatures(Stegosaur, Brachiosaur, Allosaur) cannot enter lake
      *
      * @param actor the Actor to check
      * @return true
@@ -52,7 +52,6 @@ public class Lake extends Ground {
         super.tick(location);
         counter++;
 
-
         // rainfall
         double max = 0.7; // exclusive
         double min = 0.1;
@@ -65,10 +64,18 @@ public class Lake extends Ground {
         }
     }
 
+    /** Getter
+     * Retrieve the number of sips the lake currently has.
+     * @return the number of sips the lake currently has.
+     */
     public int getSips() {
         return sips;
     }
 
+    /** Setter
+     * Sets the number of sips the lake current has.
+     * @param sips number of sips to be updated.
+     */
     public void setSips(int sips) {
         this.sips = sips;
     }
