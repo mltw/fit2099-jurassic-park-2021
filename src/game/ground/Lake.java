@@ -5,6 +5,9 @@ import game.Application;
 import game.DinosaurGameMap;
 import game.dinosaurs.Dinosaur;
 
+/** A class that represents lake.
+ *
+ */
 public class Lake extends Ground {
     private int counter = 0;
     private int sips;
@@ -41,8 +44,7 @@ public class Lake extends Ground {
         return res;
     }
 
-    /**
-     * Ground can also experience the joy of time.
+    /** Every 10 turns, probability of 20%, sky might rain which adds water to all lakes
      *
      * @param location The location of the Ground
      */
@@ -57,7 +59,6 @@ public class Lake extends Ground {
         double min = 0.1;
         double rainfall = Math.random() *(max-min) + min;
 
-        // Every 10 turns, probability of 20%, sky might rain which adds water to all lakes
         if (((DinosaurGameMap)location.map()).isRained()&&counter%10==0){
             sips = (int) (rainfall*20 + sips);
             display.println("Sky rained! Amount of possible sips now is: " + sips); // testing
