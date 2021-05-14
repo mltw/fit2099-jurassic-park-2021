@@ -15,8 +15,15 @@ import java.util.Locale;
  * Class representing the Player.
  */
 public class Player extends Actor {
-//	private static int ecoPointsFromPreviousRound = 0;
+
+	/**
+	 * eco points of the player
+	 */
 	private static int ecoPoints;
+
+	/**
+	 * a Menu instance to display a menu
+	 */
 	private Menu menu = new Menu();
 
 	/**
