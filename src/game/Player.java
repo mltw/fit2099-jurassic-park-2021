@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.actions.ExitAction;
 import game.actions.PurchaseAction;
 import game.actions.SearchFruitAction;
 import game.ground.Bush;
@@ -15,7 +16,7 @@ import java.util.Locale;
  */
 public class Player extends Actor {
 //	private static int ecoPointsFromPreviousRound = 0;
-	private static int ecoPoints = 100;
+	private static int ecoPoints;
 	private Menu menu = new Menu();
 
 	/**
@@ -27,10 +28,13 @@ public class Player extends Actor {
 	 */
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
+		this.setEcoPoints(0); // a player instance would have 0 instance initially in each game
 	}
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		// add Player number of moves
+		Application.setPlayerNumberOfMoves( Application.getPlayerNumberOfMoves() + 1);
 
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
@@ -43,6 +47,9 @@ public class Player extends Actor {
 					actions.add(new PurchaseAction());
 			}
 		}
+
+		// add an exit action to allow the player to choose to exit the game
+		actions.add(new ExitAction());
 
 		// player able to pick up fruits from bush: perform SearchFruitAction
 		if (map.locationOf(this).getGround().hasCapability(Status.BUSH)){
@@ -57,13 +64,13 @@ public class Player extends Actor {
 		// y = 0 of first map means the most north of first map, ie can move to south of the second map
 		if (map.locationOf(this).y() == 0
 				&& ((DinosaurGameMap) map).getName().equals("gameMap1")) {
-			actions.add(new MoveActorAction(Application.gameMap2.at(map.locationOf(this).x(),
-						Application.gameMap2.getYRange().max()),"to new map!"));
+			actions.add(new MoveActorAction(Application.getGameMap2().at(map.locationOf(this).x(),
+						Application.getGameMap2().getYRange().max()),"to new map!"));
 		}
 		// y = max height of second map means the most south of second map, ie can move to north of the first map
-		else if (map.locationOf(this).y() == Application.gameMap2.getYRange().max()
+		else if (map.locationOf(this).y() == Application.getGameMap().getYRange().max()
 					&& ((DinosaurGameMap) map).getName().equals("gameMap2")){
-			actions.add(new MoveActorAction(Application.gameMap.at(map.locationOf(this).x(),
+			actions.add(new MoveActorAction(Application.getGameMap().at(map.locationOf(this).x(),
 						0),"back to old map!"));
 		}
 
@@ -82,7 +89,7 @@ public class Player extends Actor {
 	 * Retrieve player's eco points.
 	 * @return the player's eco points.
 	 */
-	public int getEcoPoints() {
+	public static int getEcoPoints() {
 		return ecoPoints;
 	}
 
