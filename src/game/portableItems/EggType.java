@@ -6,7 +6,8 @@ package game.portableItems;
  * STEGOSAUR  : egg of Stegosaur
  * BRACHIOSAUR: egg of Brachiosaur
  * ALLOSAUR   : egg of Allosaur
+ * PTERODACTYL   : egg of Pterodactyl
  */
 public enum EggType {
-    STEGOSAUR, BRACHIOSAUR,ALLOSAUR;
+    STEGOSAUR, BRACHIOSAUR,ALLOSAUR, PTERODACTYL
 }
