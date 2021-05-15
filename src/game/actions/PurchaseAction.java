@@ -37,8 +37,9 @@ public class PurchaseAction extends Action {
         display.println("| 4. Stegosaur egg       $ 200 |");
         display.println("| 5. Brachiosaur egg     $ 500 |");
         display.println("| 6. Allosaur egg        $1000 |");
-        display.println("| 7. Laser gun           $ 500 |");
-        display.println("| 8. Exit(waste a turn)        |");
+        display.println("| 7. Pterodactyl egg     $ 200 |");
+        display.println("| 8. Laser gun           $ 500 |");
+        display.println("| 9. Exit(waste a turn)        |");
         display.println("+==============================+");
         display.println("Enter your option (the number): ");
 
@@ -72,11 +73,15 @@ public class PurchaseAction extends Action {
                     Player.addEcoPoints(-1000);
                     itemPurchased = new Egg(EggType.ALLOSAUR);
                 }
-                else if (playerOption == '7' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+                else if (playerOption == '7' && ((Player) actor).getEcoPoints() - 200 >= 0) {
+                    Player.addEcoPoints(-200);
+                    itemPurchased = new Egg(EggType.PTERODACTYL);
+                }
+                else if (playerOption == '8' && ((Player) actor).getEcoPoints() - 500 >= 0) {
                     Player.addEcoPoints(-500);
                     itemPurchased = new LaserGun();
                 }
-                else if (playerOption == '8') {
+                else if (playerOption == '9') {
                     return actor + " didn't purchase anything";
                 }
                 else {
