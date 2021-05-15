@@ -30,7 +30,9 @@ public abstract class Dinosaur extends Actor {
 
     /**
      * Constructor.
-     * Each dinosaur initially would have 0 unconscious count, and wander behaviour, and a random gender (M/F).
+     * Each dinosaur initially would have 0 unconscious count,
+     * wander behaviour, search for nearest food and lake behaviour,
+     * and a random gender (M/F).
      * @param name        the name of the Dinosaur
      * @param displayChar the character that will represent the Dinosaur in the display
      * @param hitPoints   the Dinosaur's starting hit points
@@ -55,6 +57,9 @@ public abstract class Dinosaur extends Actor {
         Random generator = new Random();
         int randomIndex = generator.nextInt(gender.length);
         setGender(gender[randomIndex]);
+
+        this.setWaterLevel(60);     // initial water level:60
+        this.setMaxWaterLevel(100);
     }
 
     /** This is a method similar to tick() in other classes.

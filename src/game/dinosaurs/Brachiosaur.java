@@ -33,8 +33,8 @@ public class Brachiosaur extends Dinosaur {
         addCapability(status);
         addCapability(Status.BRACHIOSAUR);
         maxHitPoints = 160;
-        this.setWaterLevel(60);         // initial water level;60
-        this.setMaxWaterLevel(200);
+        this.setMaxWaterLevel(200); //Brachiosaur has max 200 capacity, so overwrite the one set in Dinosaur class
+
         if (hasCapability(Status.BABY)) {
             this.setBabyCount(1);
             this.setHitPoints(10);      //if is baby, starting hit points is 10

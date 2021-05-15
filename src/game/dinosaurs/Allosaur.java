@@ -39,8 +39,7 @@ public class Allosaur extends Dinosaur {
         addCapability(Status.ALLOSAUR);
         this.setBabyCount(1);
         this.maxHitPoints = 100;
-        this.setWaterLevel(60);     // initial water level;60
-        this.setMaxWaterLevel(100);
+
         allosaurCount++;
     }
 

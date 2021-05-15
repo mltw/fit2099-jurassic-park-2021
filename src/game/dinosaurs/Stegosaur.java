@@ -36,8 +36,7 @@ public class Stegosaur extends Dinosaur {
 		addCapability(status);
 		addCapability(Status.STEGOSAUR);
 		maxHitPoints = 100;
-		this.setWaterLevel(60); 		// initial water level:60
-		this.setMaxWaterLevel(100);
+
 		if(hasCapability(Status.BABY)) {
 			this.setBabyCount(1);
 			this.setHitPoints(10); 		//if is baby, starting hit points is 10
@@ -77,7 +76,6 @@ public class Stegosaur extends Dinosaur {
 		displayThirsty = false; 	// reset
 
 		eachTurnUpdates(30); // to handle necessary updates for each turn
-
 
 		int stegosaurLocationX = map.locationOf(this).x();
 		int stegosaurLocationY = map.locationOf(this).y();
