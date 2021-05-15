@@ -34,6 +34,10 @@ public class DieAction extends Action {
             Item corpse = new Corpse("dead " + actor, CorpseType.STEGOSAUR);
             map.locationOf(actor).addItem(corpse);
         }
+        else if (actor.hasCapability(Status.PTERODACTYL)){
+            Item corpse = new Corpse("dead " + actor, CorpseType.PTERODACTYL);
+            map.locationOf(actor).addItem(corpse);
+        }
 
         Actions dropActions = new Actions();
         for (Item item : actor.getInventory())
