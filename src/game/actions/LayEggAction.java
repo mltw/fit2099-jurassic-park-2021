@@ -34,6 +34,9 @@ public class LayEggAction extends Action {
         else if (actor.hasCapability(Status.STEGOSAUR)){
             map.locationOf(actor).addItem(new Egg(EggType.STEGOSAUR));
         }
+        else if (actor.hasCapability(Status.PTERODACTYL)){
+            map.locationOf(actor).addItem(new Egg(EggType.PTERODACTYL));
+        }
 
         return actor + " just laid an egg at (" + map.locationOf(actor).x() + "," +map.locationOf(actor).y() +")!";
 
