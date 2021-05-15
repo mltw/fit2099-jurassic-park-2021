@@ -47,6 +47,9 @@ public class Egg extends PortableItem {
                 else if (this.hasCapability(EggType.BRACHIOSAUR) && this.getCount() == 30) {
                     newBorn = new Brachiosaur(Status.BABY);
                 }
+                else if (this.hasCapability(EggType.PTERODACTYL) && this.getCount() == 40){
+                    newBorn = new Pterodactyl(Status.BABY);
+                }
 
                 currentLocation.removeItem(this);
                 currentLocation.addActor(newBorn);
@@ -78,8 +81,8 @@ public class Egg extends PortableItem {
             }
         }
         if (hatched){
-            // when a Stegosaur hatches, 100 eco points is gained
-            if (this.hasCapability(EggType.STEGOSAUR))
+            // when a Stegosaur/Pterodactyl hatches, 100 eco points is gained
+            if (this.hasCapability(EggType.STEGOSAUR) || this.hasCapability(EggType.PTERODACTYL))
                 Player.addEcoPoints(100);
             // when a Brachiosaur/Allosaur hatches, 1000 eco points is gained
             else
