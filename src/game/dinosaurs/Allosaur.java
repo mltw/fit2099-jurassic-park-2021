@@ -181,6 +181,14 @@ public class Allosaur extends Dinosaur {
                     }
                 }
 
+                // if found a Pterodactyl
+                if (destination.containsAnActor() &&
+                        destination.getActor().hasCapability(Status.PTERODACTYL)) {
+                    map.moveActor(this, destination);
+
+                    return new EatAction(destination.getActor(), false);
+                }
+
                 // if destination contains a corpse
                 else if(destination.getItems().stream().filter(c -> c instanceof Corpse).count()>=1){
 //                        || destination.getDisplayChar() == '('
