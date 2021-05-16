@@ -215,6 +215,7 @@ public class Application {
 
 		world.addPlayer(player, gameMap.at(9, 4));
 
+		// testing
 //		world.addPlayer(player, gameMap.at(1, 1)); //kx
 //		gameMap.at(2, 1).addActor(new Stegosaur(Status.ADULT));
 //		for (int i = 0; i < 5; i+=2) {
@@ -259,6 +260,7 @@ public class Application {
 		gameMap.at(32, 12).addActor(new Stegosaur(Status.ADULT));
 
 		// Place some pools of water in the map
+		// Fish count will be updated accordingly(initial each lake has only 5 fish)
 		for (int i = 10; i < 75; i += 10) {
 			for (int j = 2; j < 25; j += 5) {
 				Ground ground = gameMap.at(i, j).getGround();

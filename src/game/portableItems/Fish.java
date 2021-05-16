@@ -8,7 +8,6 @@ import game.PortableItem;
  * Fish is a portable item.
  */
 public class Fish extends PortableItem {
-    private static int count = 0;
     private int foodpoints = 0;
     Display display = new Display();
 
@@ -19,13 +18,10 @@ public class Fish extends PortableItem {
         super(name, 'h');
         addCapability(ItemType.FISH);
         this.foodpoints = 5;          // each fish providing 5 food points
-//        setCount(count+1);
 
     }
 
-    /** Each lake can hold up to maximum 25 fish
-     *  Each turn, there is a probability of 60% for a new fish to be born
-     *  (increasing the number of fish of the lake by 1)
+    /**
      * @param currentLocation The location of the ground on which we lie.
      */
     @Override
@@ -44,21 +40,4 @@ public class Fish extends PortableItem {
 //        }
     }
 
-    /** Getter
-     * Retrieve the number of fish the lake currently has.
-     * @return the number of fish the lake currently has.
-     */
-    @Override
-    public int getCount() {
-        return count;
-    }
-
-    /** Setter
-     * Sets the number of fish of the lake.
-     * @param count number of fish of the lake to be updated.
-     */
-    @Override
-    public void setCount(int count) {
-        this.count = count;
-    }
 }

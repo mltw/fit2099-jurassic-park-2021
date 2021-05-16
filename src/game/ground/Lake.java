@@ -47,13 +47,12 @@ public class Lake extends Ground {
     }
 
     /** Every 10 turns, probability of 20%, sky might rain which adds water to all lakes
-     *
+     * Each turn, each lake can hold a maximum of 25 fish, if probability of having a new fish is met,
+     * new fish will then be added into the lake.
      * @param location The location of the Ground
      */
     @Override
     public void tick(Location location) {
-        // access fish count
-//        Fish item = (Fish) location.getItems().get(location.getItems().size()-1);
         super.tick(location);
         counter++;
 
@@ -80,10 +79,18 @@ public class Lake extends Ground {
 
     }
 
+    /** Getter
+     * Retrieve the number of fish this lake currently has.
+     * @return number of fish this lake currently has
+     */
     public int getFishCount() {
         return fishCount;
     }
 
+    /** Setter
+     * Update the number of fish this lake currently has.
+     * @param fishCount number of fish this lake to be updated.
+     */
     public void setFishCount(int fishCount) {
         this.fishCount = fishCount;
     }
