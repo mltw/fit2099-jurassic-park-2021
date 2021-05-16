@@ -12,7 +12,7 @@ import game.dinosaurs.*;
  * Egg is a portable item.
  */
 public class Egg extends PortableItem {
-    private Dinosaur newBorn = new Stegosaur(Status.BABY); // let default be a Stegosaur
+    private Dinosaur newBorn =null;
 
     /**
      * Constructor.
@@ -39,34 +39,44 @@ public class Egg extends PortableItem {
         boolean hatched = false;
 
         // if reach specific count: the dinosaur hatched the eggs & turn into a baby dinosaur
-        if (this.getCount() == 30 || this.getCount() == 40 || this.getCount() == 50) {
+        if (this.getCount() == 50 || this.getCount() == 40 || this.getCount() == 30) {
             try {
+                display.println(this.getCount()+"");
                 if (this.hasCapability(EggType.ALLOSAUR) && this.getCount() == 50) {
                     newBorn = new Allosaur(Status.BABY);
-                }
-                else if (this.hasCapability(EggType.BRACHIOSAUR) && this.getCount() == 30) {
-                    newBorn = new Brachiosaur(Status.BABY);
+                    hatched = true;
                 }
                 else if (this.hasCapability(EggType.PTERODACTYL) && this.getCount() == 40){
                     newBorn = new Pterodactyl(Status.BABY);
+                    hatched = true;
+                }
+                else if (this.hasCapability(EggType.STEGOSAUR) && this.getCount() == 40){
+                    newBorn = new Stegosaur(Status.BABY);
+                    hatched = true;
+                }
+                else if (this.hasCapability(EggType.BRACHIOSAUR) && this.getCount() == 30) {
+                    newBorn = new Brachiosaur(Status.BABY);
+                    hatched = true;
                 }
 
-                currentLocation.removeItem(this);
-                currentLocation.addActor(newBorn);
-                display.println("Yay! " + newBorn + " just hatched at (" + currentLocation.x() + ","
-                        + currentLocation.y() + ")");
-                hatched = true;
+                if (hatched) {
+                    currentLocation.addActor(newBorn);
+                    currentLocation.removeItem(this);
+                    display.println("Yay! " + newBorn + " just hatched at (" + currentLocation.x() + ","
+                            + currentLocation.y() + ")");
+                }
 
             }
             catch (Exception e) {
+                hatched = false;
                 // will have Exception if current location of egg has an Actor, since
                 // can't create a new Actor instance in a square which is already occupied by an Actor
                 for (Exit exit : currentLocation.getExits()) {
                     if (!exit.getDestination().containsAnActor()) {
                         currentLocation.removeItem(this);
                         exit.getDestination().addActor(newBorn);
-                        display.println("Yay! " + newBorn + " just hatched at (" + currentLocation.x() + ","
-                                + currentLocation.y() + ")");
+                        display.println("Yay! " + newBorn + " just hatched at (" + exit.getDestination().x() + ","
+                                + exit.getDestination().y() + ")");
                         hatched = true;
                         break;
                     }
