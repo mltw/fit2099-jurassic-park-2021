@@ -9,6 +9,10 @@ import game.PortableItem;
  * Corpse is a portable item.
  */
 public class Corpse extends PortableItem {
+    /**
+     * the number of times it can be eaten by a Pterodactyl
+     */
+    private int edibleCount;
 
     /**
      * Constructor
@@ -18,12 +22,21 @@ public class Corpse extends PortableItem {
     public Corpse(String name, Enum corpseType) {
         super(name, ')'); //default
         addCapability(ItemType.CORPSE);
+        edibleCount = 5;
 
-        // overwrite the display char
-        if (corpseType == CorpseType.BRACHIOSAUR)
+        // overwrite the display char and edible count
+        if (corpseType == CorpseType.BRACHIOSAUR) {
             displayChar = '(';
-        else if (corpseType == CorpseType.ALLOSAUR)
+            edibleCount = 10;
+        }
+        else if (corpseType == CorpseType.ALLOSAUR) {
             displayChar = '%';
+            edibleCount = 5;
+        }
+        else if (corpseType == CorpseType.PTERODACTYL) {
+            displayChar = '/';
+            edibleCount = 3;
+        }
     }
 
     /**
@@ -35,19 +48,35 @@ public class Corpse extends PortableItem {
         super.tick(currentLocation);
 
         this.setCount( this.getCount()+1);
-        Display display = new Display();
 
         // if allosaur corpse remain in the game for more than 30 turns, remove it
-        if ((this.getDisplayChar() == '%') && (this.getCount() > 30)){
+        if ((this.hasCapability(CorpseType.ALLOSAUR)) && (this.getCount() > 30)){
             currentLocation.removeItem(this);
         }
-        // if stegosaur corpse remain in the game for more than 20 turns, remove it
-        else if ((this.getDisplayChar() == ')') && (this.getCount() > 20)){
+        // if stegosaur/pterodactyl corpse remain in the game for more than 20 turns, remove it
+        else if ((this.hasCapability(CorpseType.STEGOSAUR) || this.hasCapability(CorpseType.PTERODACTYL))
+                && (this.getCount() > 20)){
             currentLocation.removeItem(this);
         }
         // if brachiosaur corpse remain in the game for more than 25 turns, remove it
-        else if ((this.getDisplayChar() == '(') && (this.getCount() > 25)){
+        else if ((this.hasCapability(CorpseType.BRACHIOSAUR)) && (this.getCount() > 25)){
             currentLocation.removeItem(this);
         }
+    }
+
+    /**
+     * Getter for the corpse's edible count
+     * @return the corpse's edible count
+     */
+    public int getEdibleCount() {
+        return edibleCount;
+    }
+
+    /**
+     * Setter for the corpse's edible count
+     * @param edibleCount the corpse's edible count
+     */
+    public void setEdibleCount(int edibleCount) {
+        this.edibleCount = edibleCount;
     }
 }
