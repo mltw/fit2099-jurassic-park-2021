@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.*;
 import game.Application;
 import game.DinosaurGameMap;
 import game.dinosaurs.Dinosaur;
+import game.portableItems.Fish;
 
 /** A class that represents lake.
  *
@@ -12,6 +13,7 @@ public class Lake extends Ground {
     private int counter = 0;
     private int sips;
     Display display = new Display();
+    private int fishCount = 0;
 
     /**
      * Constructor.
@@ -50,7 +52,8 @@ public class Lake extends Ground {
      */
     @Override
     public void tick(Location location) {
-
+        // access fish count
+//        Fish item = (Fish) location.getItems().get(location.getItems().size()-1);
         super.tick(location);
         counter++;
 
@@ -63,6 +66,26 @@ public class Lake extends Ground {
             sips = (int) (rainfall*20 + sips);
             display.println("Sky rained! Amount of possible sips now is: " + sips); // testing
         }
+
+        double fishProbability = Math.random();
+        if (fishCount<25 && fishProbability >=0.6){
+            Fish newFish = new Fish("fish",'h');
+            location.addItem(newFish);
+            fishCount++;
+            display.println("Lake has " + fishCount + " fish!");                // testing
+        }
+        else if (fishCount==25){
+            display.println("This lake has reached the maximum of 25 fish!"); // testing
+        }
+
+    }
+
+    public int getFishCount() {
+        return fishCount;
+    }
+
+    public void setFishCount(int fishCount) {
+        this.fishCount = fishCount;
     }
 
     /** Getter

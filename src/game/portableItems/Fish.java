@@ -8,19 +8,19 @@ import game.PortableItem;
  * Fish is a portable item.
  */
 public class Fish extends PortableItem {
-    private int count = 0;
+    private static int count = 0;
     private int foodpoints = 0;
     Display display = new Display();
 
     /** Constructor
      * @param name name of fish
-     * @param count number of fish in the current lake.
      */
-    public Fish(String name,int count) {
+    public Fish(String name,char displayChar) {
         super(name, 'h');
         addCapability(ItemType.FISH);
-        this.foodpoints = 5*count;          // each fish providing 5 food points
-        this.count = count;
+        this.foodpoints = 5;          // each fish providing 5 food points
+//        setCount(count+1);
+
     }
 
     /** Each lake can hold up to maximum 25 fish
@@ -32,14 +32,16 @@ public class Fish extends PortableItem {
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
 
-        double fishProbability = Math.random();
-        if (this.getCount()<25 && fishProbability >=0.6){
-            this.count++;
-            display.println("Lake has " + count + " fish!");                // testing
-        }
-        else if (this.getCount()==25){
-            display.println("This lake has reached the maximum of 25 fish!"); // testing
-        }
+//        double fishProbability = Math.random();
+//        if (this.getCount()<25 && fishProbability >=0.6){
+//            Fish item = new Fish("fish",'h');
+//            currentLocation.addItem(item);
+////            this.count++;
+//            display.println("Lake has " + count + " fish!");                // testing
+//        }
+//        else if (this.getCount()==25){
+//            display.println("This lake has reached the maximum of 25 fish!"); // testing
+//        }
     }
 
     /** Getter

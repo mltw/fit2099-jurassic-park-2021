@@ -204,11 +204,34 @@ public class Application {
 
 		Actor player = new Player("Player", '@', 100);
 
+		// testing
+//		List<String> map = Arrays.asList(
+//				"#.........+",
+//				"...........",
+//				"...........");
+//		gameMap = new DinosaurGameMap(groundFactory, map, "gameMap1");
+//		world.addGameMap(gameMap);
+
+
 		world.addPlayer(player, gameMap.at(9, 4));
+
 //		world.addPlayer(player, gameMap.at(1, 1)); //kx
 //		gameMap.at(2, 1).addActor(new Stegosaur(Status.ADULT));
-//		gameMap.at(6, 1).setGround(new Lake(25));
-//		gameMap.at(6, 1).addItem(new Fish("fish", 5));
+//		for (int i = 0; i < 5; i+=2) {
+//			for (int j = 0; j < 1; j++) {
+//				Ground ground = gameMap.at(i, j).getGround();
+//				if (ground.hasCapability(game.ground.Status.DIRT)) {
+//					gameMap.at(i, j).setGround(new Lake(25));
+//					for (int k=0;k<5;k++) {
+//						Lake lake = (Lake)gameMap.at(i,j).getGround();
+//						lake.setFishCount(lake.getFishCount()+1);
+//						gameMap.at(i, j).addItem(new Fish("fish", 'h'));
+//					}
+//				}
+//			}
+//		}
+
+
 
 		// add a vending machine in the map
 		gameMap.at(12, 5).addItem(new VendingMachine());
@@ -241,7 +264,11 @@ public class Application {
 				Ground ground = gameMap.at(i, j).getGround();
 				if (ground.hasCapability(game.ground.Status.DIRT)) {
 					gameMap.at(i, j).setGround(new Lake(25));
-					gameMap.at(i, j).addItem(new Fish("fish", 5));
+					for (int k=0;k<5;k++) {
+						Lake lake = (Lake)gameMap.at(i,j).getGround();
+						gameMap.at(i, j).addItem(new Fish("fish", 'h'));
+						lake.setFishCount(lake.getFishCount()+1);
+					}
 				}
 			}
 		}
