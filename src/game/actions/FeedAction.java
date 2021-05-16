@@ -57,12 +57,17 @@ public class FeedAction extends Action {
                 // player decides to feed
                 Item itemToFeed = actor.getInventory().get(Character.getNumericValue(playerOption));
                 display.println(itemToFeed+"");
-                if (target.hasCapability(Status.ALLOSAUR)
+                if ((target.hasCapability(Status.ALLOSAUR) || target.hasCapability(Status.PTERODACTYL))
                         && (itemToFeed.hasCapability(MealKitType.CARNIVORE)
                             || itemToFeed.hasCapability(ItemType.EGG))){
                     actor.removeItemFromInventory(itemToFeed);
                     output = System.lineSeparator() + actor + "feeds " + target;
                     output += System.lineSeparator() + new EatAction(itemToFeed, true).execute(target, map);
+
+                    // if player feeds Pterodactyl, 10 eco points is gained
+                    if (target.hasCapability(Status.PTERODACTYL))
+                        Player.addEcoPoints(10);
+
                 }
                 else if ( (target.hasCapability(Status.BRACHIOSAUR) || target.hasCapability(Status.STEGOSAUR) )
                             && ((itemToFeed.hasCapability(MealKitType.VEGETARIAN))
