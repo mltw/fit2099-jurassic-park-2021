@@ -2,14 +2,14 @@ package game.dinosaurs;
 
 import edu.monash.fit2099.engine.*;
 import game.DinosaurGameMap;
-import game.actions.DieAction;
-import game.actions.DrinkAction;
-import game.actions.EatAction;
-import game.actions.LayEggAction;
+import game.actions.*;
 import game.ground.Lake;
 import game.portableItems.Fish;
 import game.portableItems.Fruit;
 import game.portableItems.ItemType;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Pterodactyl extends Dinosaur{
     private static int pterodactylCount = 1;       // used to give a unique name for each Pterodactyl
@@ -36,6 +36,20 @@ public class Pterodactyl extends Dinosaur{
         pterodactylCount++;
     }
 
+    /**
+     * A pterodactyl can be fed by a player.
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return all actions that can be performed on this pterodactyl.
+     */
+    @Override
+    public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
+        Actions actions = new Actions();
+        actions.add(new FeedAction(this));
+        return actions;
+    }
+
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action action = null;
@@ -55,12 +69,12 @@ public class Pterodactyl extends Dinosaur{
         for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
 
-
             // Egg can only be laid on a tree
             if (this.getPregnantCount() >= 10 && here.getGround().hasCapability(game.ground.Status.TREE)) {
                 return new LayEggAction();
             }
 
+            // if thirsty
             else if (this.getWaterLevel() < 40) {
                 // display thirsty message
                 if (!displayThirsty) {
@@ -87,14 +101,16 @@ public class Pterodactyl extends Dinosaur{
                         display.println("After drinking, sip now is: " + ground.getSips()); // testing
                         action = new DrinkAction();
                     }
-                    // if empty(sip==0): lose ability to be drunk by stegosaur
-                } else if (this.getUnconsciousCount() == 15) {
+                }
+
+                // dies after 15 turns of unconsciousness without water
+                else if (this.getUnconsciousCount() == 15) {
                     return new DieAction();
                 }
 
             }
 
-            // if not thirsty, then search for food if hungry & NOT thirsty
+            // if not thirsty, then search for food if hungry
             else if (this.getHitPoints() < 90 && this.getWaterLevel()>=40) {
                 // display hungry message
                 if (!displayedHungry){
@@ -109,29 +125,74 @@ public class Pterodactyl extends Dinosaur{
                     displayedHungry = true;
                 }
 
+                // if its on a lake and the lake has at least one fish
+                if (destination.getGround().hasCapability(game.ground.Status.LAKE) &&
+                    (destination.getItems().stream().filter(c -> c instanceof Fish).count()>=1)){
 
-                if (destination.getGround().hasCapability(game.ground.Status.LAKE)){
-                    if(destination.getItems().stream().filter(c -> c instanceof Fish).count()>=1){
-                        for (Item item : destination.getItems()){
-
+                    ArrayList<Integer> indexOfFish = new ArrayList<>();
+                    for (int i=0; i<destination.getItems().size(); i++){
+                        if(destination.getItems().get(i).hasCapability(ItemType.FISH) && this.isConscious()){
+                            indexOfFish.add(i);
                         }
+                    }
+                    // gender: generate a random number in between 0-2
+                    int[] canCatch = new int[]{0,1,2};
+                    Random generator = new Random();
+                    int randomIndex = generator.nextInt(canCatch.length);
+                    int numOfFishCaught = canCatch[randomIndex];
+
+                    if (numOfFishCaught==0){
+                        display.println(this + " couldn't catch any fish from the lake");
 
                     }
+                    else{
+                        map.moveActor(this,destination);
+                        int i =1;
+                        int fishIndex = 0;
+                        while (i<=numOfFishCaught && indexOfFish.size()!=0){
+                            new EatAction(destination.getItems().get(indexOfFish.get(fishIndex)),
+                                    false).execute(this,map);
 
+                            i++;
+                            indexOfFish.remove(fishIndex);
+                            fishIndex++;
+                        }
+                        display.println(this + " ate "+ (i-1) + " fish from lake");
+                    }
+                    new DrinkAction().execute(this, map);
+
+                    return new DoNothingAction();
                 }
-//                // if fruit on bush/on ground under a tree & stegosaur still able to move
-//                if (destination.getItems().stream().filter(c -> c instanceof Fruit).count() >=1) {
-//                    for (Item item: destination.getItems()) {
-//                        if (item.hasCapability(ItemType.FRUIT) && this.getHitPoints() != 0 && !eaten) {
-//                            // check if adjacent square's fruit is on ground first: if yes, means stegosaur can eat, then only move & perform eat action
-//                            if (destination.getItems().get(destination.getItems().size() - 1).hasCapability(game.ground.Status.ON_GROUND)) {
-//                                map.moveActor(this, destination);            // moveActor to food source
-//                                action = new EatAction(item, false);    // eat from 1 adjacent square == 1 turn, so if eaten, then cant eat anymore
-//                                eaten = true;
-//                            }
-//                        }
-//                    }
-//                }
+
+                // if its on a ground, and there's a dead corpse
+                else if((destination.getItems().stream().filter(
+                        c -> c.hasCapability(ItemType.CORPSE)).count()>=1)){
+
+                    // check if there are any dinosaurs around the corpse
+                    boolean noDinosaursAround = true;
+                    for (Exit exit1: destination.getExits() ){
+                        if ((exit1.getDestination().getActor().hasCapability(Status.ALLOSAUR) )||
+                            (exit1.getDestination().getActor().hasCapability(Status.BRACHIOSAUR) )||
+                            (exit1.getDestination().getActor().hasCapability(Status.PTERODACTYL) )||
+                            (exit1.getDestination().getActor().hasCapability(Status.STEGOSAUR)) &&
+                            (exit1.getDestination().getActor()!=this)){
+                            noDinosaursAround = false;
+                        }
+                    }
+                    Item thatCorpse = null;
+
+                    // if no dinosaurs, eat that corpse
+                    if (noDinosaursAround){
+                        for (Item item: destination.getItems()){
+                            if (item.hasCapability(ItemType.CORPSE)) {
+                                thatCorpse = item;
+                                break;
+                            }
+                        }
+                        action = new EatAction(thatCorpse,false);
+                    }
+                }
+
 
                 // if remain unconscious for 20 turns, pterodactyl is dead & will turn into a corpse
                 else if (this.getUnconsciousCount()==20){
@@ -139,7 +200,13 @@ public class Pterodactyl extends Dinosaur{
                 }
             }
         }
-
-        return action;
+        if (action != null)
+            return action;
+        // wandering around
+        else if (getBehaviour().get(0).getAction(this, map)!=null)
+            return getBehaviour().get(0).getAction(this, map);
+        // do nothing
+        else
+            return new DoNothingAction();
     }
 }
