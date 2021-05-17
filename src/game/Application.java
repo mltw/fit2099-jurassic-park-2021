@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import edu.monash.fit2099.engine.*;
-import game.dinosaurs.Allosaur;
-import game.dinosaurs.Brachiosaur;
-import game.dinosaurs.Status;
-import game.dinosaurs.Stegosaur;
+import game.dinosaurs.*;
 import game.ground.Dirt;
 import game.ground.Lake;
 import game.ground.Tree;
@@ -152,7 +149,7 @@ public class Application {
 				".....#_____#....................................................................",
 				".....###.###....................................................................",
 				"................................................................................",
-				"......................................+++.......................................",
+				"...................++++++++++++++++++++++.......................................",
 				".......................................++++.....................................",
 				"...................................+++++........................................",
 				".....................................++++++.....................................",
@@ -259,6 +256,13 @@ public class Application {
 		gameMap.at(30, 12).addActor(new Stegosaur(Status.ADULT));
 		gameMap.at(32, 12).addActor(new Stegosaur(Status.ADULT));
 
+
+
+		gameMap.at(35, 12).addActor(new Allosaur(Status.ADULT));
+//		gameMap.at(36, 12).addActor(new Allosaur(Status.ADULT));
+		gameMap.at(37, 12).addActor(new Allosaur(Status.ADULT));
+
+
 		// Place some pools of water in the map
 		// Fish count will be updated accordingly(initial each lake has only 5 fish)
 		for (int i = 10; i < 75; i += 10) {
@@ -269,8 +273,12 @@ public class Application {
 					for (int k=0;k<5;k++) {
 						Lake lake = (Lake)gameMap.at(i,j).getGround();
 						gameMap.at(i, j).addItem(new Fish("fish", 'h'));
+
+
+
 						lake.setFishCount(lake.getFishCount()+1);
 					}
+					gameMap.at(i+1, j).addActor(new Pterodactyl(Status.ADULT));
 				}
 			}
 		}

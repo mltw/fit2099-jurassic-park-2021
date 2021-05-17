@@ -56,7 +56,7 @@ public class FeedAction extends Action {
 
                 // player decides to feed
                 Item itemToFeed = actor.getInventory().get(Character.getNumericValue(playerOption));
-                display.println(itemToFeed+"");
+
                 if ((target.hasCapability(Status.ALLOSAUR) || target.hasCapability(Status.PTERODACTYL))
                         && (itemToFeed.hasCapability(MealKitType.CARNIVORE)
                             || itemToFeed.hasCapability(ItemType.EGG)
