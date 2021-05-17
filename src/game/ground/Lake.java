@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.*;
 import game.Application;
 import game.DinosaurGameMap;
 import game.dinosaurs.Dinosaur;
+import game.dinosaurs.Pterodactyl;
 import game.portableItems.Fish;
 
 /** A class that represents lake.
@@ -40,8 +41,13 @@ public class Lake extends Ground {
                 actor.hasCapability(game.dinosaurs.Status.ALLOSAUR)){
             res = false;
         }
-        else{
+        // Pterodactyl can only enter (traverse) lake squares when it is flying, not when walking on land
+        else if(actor.hasCapability(game.dinosaurs.Status.PTERODACTYL)
+                    && actor.hasCapability(game.dinosaurs.Status.ON_SKY)){
             res = true;
+        }
+        else {
+            res = false;
         }
         return res;
     }
