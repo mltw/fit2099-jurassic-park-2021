@@ -66,7 +66,25 @@ public class SearchNearestFoodBehaviour implements Behaviour{
                     }
                     // case Allosaur
                     else if (actor.hasCapability(game.dinosaurs.Status.ALLOSAUR)) {
-                        if (item.hasCapability(ItemType.EGG) || item.hasCapability(ItemType.CORPSE)) {
+                        if ((item.hasCapability(ItemType.EGG) || item.hasCapability(ItemType.CORPSE))
+                            || (there.containsAnActor()
+                                    && there.getActor().hasCapability(game.dinosaurs.Status.PTERODACTYL))
+                                    && there.getActor().hasCapability(game.dinosaurs.Status.ON_LAND)){
+
+                            // if found another nearer food source
+                            if (stepsToThere < minNumberOfSteps) {
+                                minNumberOfSteps = stepsToThere;
+                                Location locationToMove =findNextLocationToMove(actorLocationX, actorLocationY, x, y, map);
+                                if ((locationToMove.getGround()).canActorEnter(actor)) {
+                                    moveToFoodAction = new MoveActorAction(locationToMove, " to nearest food source");
+                                }
+                            }
+                        }
+                    }
+                    // case Pterodactyl
+                    else if (actor.hasCapability(game.dinosaurs.Status.PTERODACTYL)) {
+                        if (item.hasCapability(ItemType.EGG) || item.hasCapability(ItemType.CORPSE)
+                                || item.hasCapability(ItemType.FISH)) {
 
                             // if found another nearer food source
                             if (stepsToThere < minNumberOfSteps) {
