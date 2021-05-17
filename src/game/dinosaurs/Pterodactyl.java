@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class Pterodactyl extends Dinosaur{
     private static int pterodactylCount = 1;       // used to give a unique name for each Pterodactyl
+    private int flyCount = 0;
 
     /**
      * Constructor.
@@ -26,6 +27,7 @@ public class Pterodactyl extends Dinosaur{
         super("Pterodactyl"+pterodactylCount, 'p', 50);
         addCapability(status);
         addCapability(Status.PTERODACTYL);
+        addCapability(Status.ON_SKY);
         maxHitPoints = 100;
 
         if(hasCapability(Status.BABY)) {
@@ -60,18 +62,57 @@ public class Pterodactyl extends Dinosaur{
         boolean displayThirsty = false; 	// reset
 
         eachTurnUpdates(30);
+        this.flyCount++;
+        // if flew for more than 30 turns, it has to land on ground and rest on a tree to recharge
+        if (this.flyCount >30){
+            this.removeCapability(Status.ON_SKY);
+            this.addCapability(Status.ON_LAND);
+        }
 
         int pterodactylLocationX = map.locationOf(this).x();
         int pterodactylLocationY = map.locationOf(this).y();
 
         Location here = map.locationOf(this);
 
+        // if pterodactyl already on a tree, it would rest and reset its flying count
+        if (here.getGround().hasCapability(game.ground.Status.TREE)
+            && this.hasCapability(Status.ON_LAND)){
+            this.flyCount = 0;
+            this.removeCapability(Status.ON_LAND);
+            this.addCapability(Status.ON_SKY);
+        }
+
+
         for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
+
+            // if adjacent square has a tree, let it rest
+            if (destination.getGround().hasCapability(game.ground.Status.TREE)
+                    && this.hasCapability(Status.ON_LAND)){
+                map.moveActor(this,destination);
+                this.flyCount = 0;
+                this.removeCapability(Status.ON_LAND);
+                this.addCapability(Status.ON_SKY);
+            }
 
             // Egg can only be laid on a tree
             if (this.getPregnantCount() >= 10 && here.getGround().hasCapability(game.ground.Status.TREE)) {
                 return new LayEggAction();
+            }
+
+            // breeding (only on trees)
+            else if (this.getHitPoints() > 90 && !this.isPregnant() && this.hasCapability(Status.ADULT)
+                    && here.getGround().hasCapability(game.ground.Status.TREE)){
+                if (destination.containsAnActor()
+                        && destination.getActor().hasCapability(Status.PTERODACTYL)
+                        && destination.getGround().hasCapability(game.ground.Status.TREE)){
+                    Pterodactyl adjcPterodactyl = (Pterodactyl) destination.getActor();
+                    if (!adjcPterodactyl.isPregnant()
+                            && adjcPterodactyl.hasCapability(Status.ADULT)
+                            && !(this.getGender().equals(adjcPterodactyl.getGender()))   ){
+                        return new BreedAction((Pterodactyl) destination.getActor());
+                    }
+                }
             }
 
             // if thirsty
@@ -157,14 +198,14 @@ public class Pterodactyl extends Dinosaur{
                             indexOfFish.remove(fishIndex);
                             fishIndex++;
                         }
-                        display.println(this + " ate "+ (i-1) + " fish from lake");
+                        display.println(this + " ate "+ (i-1) + " fish from lake, and restored 30 water level");
                     }
                     new DrinkAction().execute(this, map);
 
                     return new DoNothingAction();
                 }
 
-                // if its on a ground, and there's a dead corpse
+                // if there's a dead corpse on the ground
                 else if((destination.getItems().stream().filter(
                         c -> c.hasCapability(ItemType.CORPSE)).count()>=1)){
 
@@ -193,15 +234,24 @@ public class Pterodactyl extends Dinosaur{
                     }
                 }
 
-
                 // if remain unconscious for 20 turns, pterodactyl is dead & will turn into a corpse
                 else if (this.getUnconsciousCount()==20){
                     return new DieAction();
                 }
             }
         }
+        // Finally choose which action to return if previously never return any action.
+        // Priority from most important to least:
+        // eating
         if (action != null)
             return action;
+        // searching for nearest lake
+        else if(displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+            return getBehaviour().get(2).getAction(this,map);
+        }
+        // searching for nearest food source
+        else if (getBehaviour().get(1).getAction(this,map)!=null)
+            return getBehaviour().get(1).getAction(this,map);
         // wandering around
         else if (getBehaviour().get(0).getAction(this, map)!=null)
             return getBehaviour().get(0).getAction(this, map);
