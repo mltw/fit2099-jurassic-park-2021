@@ -86,7 +86,7 @@ public class EatAction extends Action {
             map.removeActor(dinosaurToBeEaten);
         }
 
-        else {
+        else if (this.itemToBeEaten != null){
             // allosaur or stegosaur corpse
             if (itemToBeEaten.hasCapability(CorpseType.ALLOSAUR)
                     || itemToBeEaten.hasCapability(CorpseType.STEGOSAUR)) {
