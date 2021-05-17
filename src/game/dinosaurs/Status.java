@@ -8,5 +8,5 @@ package game.dinosaurs;
  * STEGOSAUR, BRACHIOSAUR, ALLOSAUR: 3 enums indicating its respective class
  */
 public enum Status {
-    BABY, ADULT, STEGOSAUR, BRACHIOSAUR, ALLOSAUR, PTERODACTYL
+    BABY, ADULT, STEGOSAUR, BRACHIOSAUR, ALLOSAUR, PTERODACTYL, ON_LAND, ON_SKY
 }
