@@ -26,7 +26,7 @@ public class PurchaseAction extends Action {
         Display display = new Display();
         Item itemPurchased = null;
 
-        display.println(actor + " has $" + ((Player) actor).getEcoPoints());
+        display.println(actor + " has $" + Player.getEcoPoints());
 
         display.println("+==============================+");
         display.println("|        Items for sale:       |");
@@ -48,36 +48,36 @@ public class PurchaseAction extends Action {
             flag = false;
             try {
                 char playerOption = display.readChar();
-                if (playerOption == '1' && ((Player) actor).getEcoPoints() - 30 >= 0) {
+                if (playerOption == '1' && Player.getEcoPoints() - 30 >= 0) {
                     Player.addEcoPoints(-30);
                     itemPurchased = new Fruit("fruit", 'f');
                     itemPurchased.addCapability(Status.ON_GROUND);
                 }
-                else if (playerOption == '2' && ((Player) actor).getEcoPoints() - 100 >= 0) {
+                else if (playerOption == '2' && Player.getEcoPoints() - 100 >= 0) {
                     Player.addEcoPoints(-100);
                     itemPurchased = new MealKit(MealKitType.VEGETARIAN);
                 }
-                else if (playerOption == '3' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+                else if (playerOption == '3' && Player.getEcoPoints() - 500 >= 0) {
                     Player.addEcoPoints(-500);
                     itemPurchased = new MealKit(MealKitType.CARNIVORE);
                 }
-                else if (playerOption == '4' && ((Player) actor).getEcoPoints() - 200 >= 0) {
+                else if (playerOption == '4' && Player.getEcoPoints() - 200 >= 0) {
                     Player.addEcoPoints(-200);
                     itemPurchased = new Egg(EggType.STEGOSAUR);
                 }
-                else if (playerOption == '5' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+                else if (playerOption == '5' && Player.getEcoPoints() - 500 >= 0) {
                     Player.addEcoPoints(-500);
                     itemPurchased = new Egg(EggType.BRACHIOSAUR);
                 }
-                else if (playerOption == '6' && ((Player) actor).getEcoPoints() - 1000 >= 0) {
+                else if (playerOption == '6' && Player.getEcoPoints() - 1000 >= 0) {
                     Player.addEcoPoints(-1000);
                     itemPurchased = new Egg(EggType.ALLOSAUR);
                 }
-                else if (playerOption == '7' && ((Player) actor).getEcoPoints() - 200 >= 0) {
+                else if (playerOption == '7' && Player.getEcoPoints() - 200 >= 0) {
                     Player.addEcoPoints(-200);
                     itemPurchased = new Egg(EggType.PTERODACTYL);
                 }
-                else if (playerOption == '8' && ((Player) actor).getEcoPoints() - 500 >= 0) {
+                else if (playerOption == '8' && Player.getEcoPoints() - 500 >= 0) {
                     Player.addEcoPoints(-500);
                     itemPurchased = new LaserGun();
                 }
