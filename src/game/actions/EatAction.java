@@ -77,8 +77,10 @@ public class EatAction extends Action {
                 map.locationOf(actor).removeItem(itemToBeEaten);
         }
 
-        // handle Allosaur eating live Pterodactyl
-        else if (this.dinosaurToBeEaten != null){
+        // handle Allosaur eating live Pterodactyl that is walking on the ground
+        else if (this.dinosaurToBeEaten != null
+                && this.dinosaurToBeEaten.hasCapability(game.dinosaurs.Status.ON_LAND)
+                && !map.locationOf(this.dinosaurToBeEaten).getGround().hasCapability(Status.TREE)){
             actor.heal(100);
             message = actor + " ate " + "a live Pterodactyl to restore food level to max";
             map.removeActor(dinosaurToBeEaten);
