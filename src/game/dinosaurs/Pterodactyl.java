@@ -80,8 +80,46 @@ public class Pterodactyl extends Dinosaur{
             this.flyCount = 0;
             this.removeCapability(Status.ON_LAND);
             this.addCapability(Status.ON_SKY);
+            display.println(this + " rested on a tree in the same square");
         }
 
+        // if pterodactly already on a lake, it can eat fish
+        if (here.getGround().hasCapability(game.ground.Status.LAKE) &&
+                (here.getItems().stream().filter(c -> c instanceof Fish).count()>=1)){
+
+            ArrayList<Integer> indexOfFish = new ArrayList<>();
+            for (int i=0; i<here.getItems().size(); i++){
+                if(here.getItems().get(i).hasCapability(ItemType.FISH) && this.isConscious()){
+                    indexOfFish.add(i);
+                }
+            }
+            // gender: generate a random number in between 0-2
+            int[] canCatch = new int[]{0,1,2};
+            Random generator = new Random();
+            int randomIndex = generator.nextInt(canCatch.length);
+            int numOfFishCaught = canCatch[randomIndex];
+
+            if (numOfFishCaught==0){
+                display.println(this + " couldn't catch any fish from the lake");
+
+            }
+            else{
+                int i =1;
+                int fishIndex = indexOfFish.size()-1;
+                while (i<=numOfFishCaught && indexOfFish.size()!=0){
+                    new EatAction(here.getItems().get(indexOfFish.get(fishIndex)),
+                            false).execute(this,map);
+
+                    i++;
+                    indexOfFish.remove(fishIndex);
+                    fishIndex--;
+                }
+                display.println(this + " ate "+ (i-1) + " fish from lake, and restored 30 water level");
+            }
+            new DrinkAction().execute(this, map);
+
+            return new DoNothingAction();
+        }
 
         for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
@@ -93,6 +131,7 @@ public class Pterodactyl extends Dinosaur{
                 this.flyCount = 0;
                 this.removeCapability(Status.ON_LAND);
                 this.addCapability(Status.ON_SKY);
+                display.println(this + " rested on an adjacent tree");
             }
 
             // Egg can only be laid on a tree
@@ -166,7 +205,7 @@ public class Pterodactyl extends Dinosaur{
                     displayedHungry = true;
                 }
 
-                // if its on a lake and the lake has at least one fish
+                // if its adjacent square has a lake and the lake has at least one fish
                 if (destination.getGround().hasCapability(game.ground.Status.LAKE) &&
                     (destination.getItems().stream().filter(c -> c instanceof Fish).count()>=1)){
 
@@ -189,14 +228,14 @@ public class Pterodactyl extends Dinosaur{
                     else{
                         map.moveActor(this,destination);
                         int i =1;
-                        int fishIndex = 0;
+                        int fishIndex = indexOfFish.size()-1;
                         while (i<=numOfFishCaught && indexOfFish.size()!=0){
                             new EatAction(destination.getItems().get(indexOfFish.get(fishIndex)),
                                     false).execute(this,map);
 
                             i++;
                             indexOfFish.remove(fishIndex);
-                            fishIndex++;
+                            fishIndex--;
                         }
                         display.println(this + " ate "+ (i-1) + " fish from lake, and restored 30 water level");
                     }
@@ -212,11 +251,12 @@ public class Pterodactyl extends Dinosaur{
                     // check if there are any dinosaurs around the corpse
                     boolean noDinosaursAround = true;
                     for (Exit exit1: destination.getExits() ){
-                        if ((exit1.getDestination().getActor().hasCapability(Status.ALLOSAUR) )||
+                        if (exit1.getDestination().containsAnActor() &&
+                            ((exit1.getDestination().getActor().hasCapability(Status.ALLOSAUR) )||
                             (exit1.getDestination().getActor().hasCapability(Status.BRACHIOSAUR) )||
                             (exit1.getDestination().getActor().hasCapability(Status.PTERODACTYL) )||
                             (exit1.getDestination().getActor().hasCapability(Status.STEGOSAUR)) &&
-                            (exit1.getDestination().getActor()!=this)){
+                            (exit1.getDestination().getActor()!=this))){
                             noDinosaursAround = false;
                         }
                     }
