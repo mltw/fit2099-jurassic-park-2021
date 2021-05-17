@@ -61,18 +61,18 @@ public class Pterodactyl extends Dinosaur{
         boolean eaten = false; 				// reset
         boolean displayThirsty = false; 	// reset
 
+        int pterodactylLocationX = map.locationOf(this).x();
+        int pterodactylLocationY = map.locationOf(this).y();
+        Location here = map.locationOf(this);
+
         eachTurnUpdates(30);
         this.flyCount++;
-        // if flew for more than 30 turns, it has to land on ground and rest on a tree to recharge
-        if (this.flyCount >30){
+        // if flew for more than 30 turns, it has to land on ground.
+        // if the current square it is on is a Lake, let it fly first until reaches a ground.
+        if (this.flyCount >30 && !here.getGround().hasCapability(game.ground.Status.LAKE)){
             this.removeCapability(Status.ON_SKY);
             this.addCapability(Status.ON_LAND);
         }
-
-        int pterodactylLocationX = map.locationOf(this).x();
-        int pterodactylLocationY = map.locationOf(this).y();
-
-        Location here = map.locationOf(this);
 
         // if pterodactyl already on a tree, it would rest and reset its flying count
         if (here.getGround().hasCapability(game.ground.Status.TREE)
