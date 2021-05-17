@@ -184,8 +184,7 @@ public class Allosaur extends Dinosaur {
                 // if found a Pterodactyl
                 if (destination.containsAnActor() &&
                         destination.getActor().hasCapability(Status.PTERODACTYL)) {
-                    map.moveActor(this, destination);
-
+//                    map.moveActor(this, destination); // dont need to move cuz cant two actors on same square
                     return new EatAction(destination.getActor(), false);
                 }
 
