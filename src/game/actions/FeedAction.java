@@ -59,7 +59,8 @@ public class FeedAction extends Action {
                 display.println(itemToFeed+"");
                 if ((target.hasCapability(Status.ALLOSAUR) || target.hasCapability(Status.PTERODACTYL))
                         && (itemToFeed.hasCapability(MealKitType.CARNIVORE)
-                            || itemToFeed.hasCapability(ItemType.EGG))){
+                            || itemToFeed.hasCapability(ItemType.EGG)
+                            || itemToFeed.hasCapability(ItemType.CORPSE))){
                     actor.removeItemFromInventory(itemToFeed);
                     output = System.lineSeparator() + actor + "feeds " + target;
                     output += System.lineSeparator() + new EatAction(itemToFeed, true).execute(target, map);
