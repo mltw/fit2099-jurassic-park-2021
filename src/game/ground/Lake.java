@@ -20,9 +20,9 @@ public class Lake extends Ground {
      * Constructor.
      * All lake are represented by a '~' character.
      */
-    public Lake(int sips) {
+    public Lake() {
         super('~');
-        this.sips = sips;
+        this.sips = 25;
         addCapability(Status.LAKE);
     }
 
