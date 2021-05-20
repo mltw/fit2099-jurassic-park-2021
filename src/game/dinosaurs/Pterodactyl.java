@@ -56,9 +56,6 @@ public class Pterodactyl extends Dinosaur{
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action action = null;
         boolean displayedHungry = false;	// reset
-        boolean moved = false; 				// reset
-        Action actionBreed = null; 		// reset
-        boolean eaten = false; 				// reset
         boolean displayThirsty = false; 	// reset
 
         int pterodactylLocationX = map.locationOf(this).x();
@@ -81,6 +78,7 @@ public class Pterodactyl extends Dinosaur{
             this.removeCapability(Status.ON_LAND);
             this.addCapability(Status.ON_SKY);
             display.println(this + " rested on a tree in the same square");
+            return new DoNothingAction();
         }
 
         // if pterodactly already on a lake, it can eat fish
@@ -132,6 +130,7 @@ public class Pterodactyl extends Dinosaur{
                 this.removeCapability(Status.ON_LAND);
                 this.addCapability(Status.ON_SKY);
                 display.println(this + " rested on an adjacent tree");
+                return new DoNothingAction();
             }
 
             // Egg can only be laid on a tree
