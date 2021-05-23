@@ -14,7 +14,6 @@ import game.portableItems.Fish;
 
 /**
  * The main class for the Jurassic World game.
- *
  */
 public class Application {
 
@@ -59,6 +58,7 @@ public class Application {
 			display.println("2. I want to chill, Sandbox");
 			display.println("3. A lil too tired.. Exit");
 			display.println("Your option: ");
+
 			char playerOption = display.readChar();
 
 			switch (playerOption) {
@@ -89,7 +89,6 @@ public class Application {
 		Display display = new Display();
 		// use a scanner to read in user input of more than 1 character,
 		// eg number of moves which can easily have two or more digits
-
 
 		Application.gameMode = gameMode;
 
@@ -266,14 +265,6 @@ public class Application {
 	 */
 	public static int getNumberOfEcopoints() {
 		return numberOfEcopoints;
-	}
-
-	/**
-	 * A getter for the game mode
-	 * @return an integer representing the game mode
-	 */
-	public static int getGameMode() {
-		return gameMode;
 	}
 
 	/**
