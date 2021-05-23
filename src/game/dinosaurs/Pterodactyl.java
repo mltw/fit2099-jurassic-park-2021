@@ -254,8 +254,8 @@ public class Pterodactyl extends Dinosaur{
                             ((exit1.getDestination().getActor().hasCapability(Status.ALLOSAUR) )||
                             (exit1.getDestination().getActor().hasCapability(Status.BRACHIOSAUR) )||
                             (exit1.getDestination().getActor().hasCapability(Status.PTERODACTYL) )||
-                            (exit1.getDestination().getActor().hasCapability(Status.STEGOSAUR)) &&
-                            (exit1.getDestination().getActor()!=this))){
+                            (exit1.getDestination().getActor().hasCapability(Status.STEGOSAUR))) &&
+                            (exit1.getDestination().getActor()!=this)){
                             noDinosaursAround = false;
                         }
                     }
