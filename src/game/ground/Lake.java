@@ -69,7 +69,6 @@ public class Lake extends Ground {
 
         if (((DinosaurGameMap)location.map()).isRained()&&counter%10==0){
             sips = (int) (rainfall*20 + sips);
-            display.println("Sky rained! Amount of possible sips now is: " + sips); // testing
         }
 
         double fishProbability = Math.random();
@@ -77,12 +76,7 @@ public class Lake extends Ground {
             Fish newFish = new Fish("fish",'h');
             location.addItem(newFish);
             fishCount++;
-            display.println("Lake has " + fishCount + " fish!");                // testing
         }
-        else if (fishCount==25){
-            display.println("This lake has reached the maximum of 25 fish!"); // testing
-        }
-
     }
 
     /** Getter
