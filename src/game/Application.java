@@ -77,7 +77,6 @@ public class Application {
 					break;
 			}
 		}
-
 		while (!flag);
 	}
 
@@ -88,9 +87,9 @@ public class Application {
 	 */
 	public static void runGame(int gameMode){
 		Display display = new Display();
-		// use a scanner to read in user input of more than 1 character, eg number of moves
-		// can easily have two or more digits
-		Scanner scanner = new Scanner(System.in);
+		// use a scanner to read in user input of more than 1 character,
+		// eg number of moves which can easily have two or more digits
+
 
 		Application.gameMode = gameMode;
 
@@ -101,6 +100,7 @@ public class Application {
 			do {
 				flag = false;
 				try {
+					Scanner scanner = new Scanner(System.in);
 					// input eco points
 					display.println("Enter eco points goal: ");
 					int ecoGoal = scanner.nextInt();
@@ -202,40 +202,13 @@ public class Application {
 
 		Actor player = new Player("Player", '@', 100);
 
-		// testing
-//		List<String> map = Arrays.asList(
-//				"#.........+",
-//				"...........",
-//				"...........");
-//		gameMap = new DinosaurGameMap(groundFactory, map, "gameMap1");
-//		world.addGameMap(gameMap);
-
-
+		// Add player
 		world.addPlayer(player, gameMap.at(9, 4));
 
-		// testing
-//		world.addPlayer(player, gameMap.at(1, 1)); //kx
-//		gameMap.at(2, 1).addActor(new Stegosaur(Status.ADULT));
-//		for (int i = 0; i < 5; i+=2) {
-//			for (int j = 0; j < 1; j++) {
-//				Ground ground = gameMap.at(i, j).getGround();
-//				if (ground.hasCapability(game.ground.Status.DIRT)) {
-//					gameMap.at(i, j).setGround(new Lake(25));
-//					for (int k=0;k<5;k++) {
-//						Lake lake = (Lake)gameMap.at(i,j).getGround();
-//						lake.setFishCount(lake.getFishCount()+1);
-//						gameMap.at(i, j).addItem(new Fish("fish", 'h'));
-//					}
-//				}
-//			}
-//		}
-
-
-
-		// add a vending machine in the map
+		// Place a vending machine in the map
 		gameMap.at(12, 5).addItem(new VendingMachine());
 
-		// placed 2 male 2 female brachiosaurs in the map
+		// Place 2 male 2 female brachiosaurs in the map
 		Brachiosaur maleBrachiosaur1 = new Brachiosaur(Status.ADULT);
 		maleBrachiosaur1.setGender("M");
 		gameMap.at(20, 20).addActor(maleBrachiosaur1);
@@ -252,20 +225,17 @@ public class Application {
 		femaleBrachiosaur2.setGender("F");
 		gameMap.at(42, 20).addActor(femaleBrachiosaur2);
 
-
 		// Place a pair of stegosaurs in the middle of the map
 		gameMap.at(30, 12).addActor(new Stegosaur(Status.ADULT));
 		gameMap.at(32, 12).addActor(new Stegosaur(Status.ADULT));
 
-
-
-		gameMap.at(35, 12).addActor(new Allosaur(Status.ADULT));
-//		gameMap.at(36, 12).addActor(new Allosaur(Status.ADULT));
-		gameMap.at(37, 12).addActor(new Allosaur(Status.ADULT));
-
+		// Place 3 Pterodactyls in the map
+		gameMap.at(30, 17).addActor(new Pterodactyl(Status.ADULT));
+		gameMap.at(30, 22).addActor(new Pterodactyl(Status.ADULT));
+		gameMap.at(20, 22).addActor(new Pterodactyl(Status.ADULT));
 
 		// Place some pools of water in the map
-		// Fish count will be updated accordingly(initial each lake has only 5 fish)
+		// Fish count will be updated accordingly (initial each lake has only 5 fish)
 		for (int i = 10; i < 75; i += 10) {
 			for (int j = 2; j < 25; j += 5) {
 				Ground ground = gameMap.at(i, j).getGround();
@@ -274,12 +244,8 @@ public class Application {
 					for (int k=0;k<5;k++) {
 						Lake lake = (Lake)gameMap.at(i,j).getGround();
 						gameMap.at(i, j).addItem(new Fish("fish", 'h'));
-
-
-
 						lake.setFishCount(lake.getFishCount()+1);
 					}
-					gameMap.at(i+1, j).addActor(new Pterodactyl(Status.ADULT));
 				}
 			}
 		}
