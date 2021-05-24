@@ -16,11 +16,15 @@ import java.util.List;
  * It's main actions will be handled in the playTurn method.
  */
 public class Stegosaur extends Dinosaur {
-	private static int stegosaurCount = 1; // used to give a unique name for each stegosaur
-	private boolean displayedHungry = false;
-	private boolean displayThirsty = false;
-	private boolean moved = false;
-	private boolean eaten = false;
+
+	/**
+	 * A count for number of Stegosaurs instantiated, used to give a unique name for each Steogsaur
+	 */
+	private static int stegosaurCount = 1;
+
+	/**
+	 * An Action, to store a breeding action if possible to breed. Else, it'll be null.
+	 */
 	Action actionBreed;
 
 	/** 
@@ -69,11 +73,11 @@ public class Stegosaur extends Dinosaur {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		Action action = null;
-		displayedHungry = false;	// reset
-		moved = false; 				// reset
+		boolean displayedHungry = false;
+		boolean moved = false;
+		boolean eaten = false;
+		boolean displayThirsty = false;
 		actionBreed = null; 		// reset
-		eaten = false; 				// reset
-		displayThirsty = false; 	// reset
 
 		eachTurnUpdates(30); // to handle necessary updates for each turn
 
@@ -118,7 +122,6 @@ public class Stegosaur extends Dinosaur {
 				}
 			}
 
-			// 12/5
 			else if(this.getWaterLevel() <40){
 				// display thirsty message
 				if (!displayThirsty){
@@ -143,10 +146,8 @@ public class Stegosaur extends Dinosaur {
 					Lake ground = (Lake) destination.getGround();
 					if (ground.getSips()>0) {
 						ground.setSips(ground.getSips() - 1); // one turn == one sip(one sip == 30 water level)
-						display.println("After drinking, sip now is: " + ground.getSips()); // testing
 						action = new DrinkAction();
 					}
-					// if empty(sip==0): lose ability to be drunk by stegosaur
 				}
 
 				else if (this.getUnconsciousCount()==15){
@@ -200,7 +201,7 @@ public class Stegosaur extends Dinosaur {
 		else if (actionBreed != null)
 			return actionBreed;
 		// searching for nearest lake
-		else if(this.displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+		else if(displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
 			return getBehaviour().get(2).getAction(this,map);
 		}
 		// searching for nearest food source

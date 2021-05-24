@@ -16,13 +16,24 @@ import java.util.concurrent.ConcurrentHashMap;
  * It's main actions will be handled in the playTurn method.
  */
 public class Allosaur extends Dinosaur {
-    // use ConcurrentHashMap to prevent from throwing ConcurrentModificationException
+
+    /**
+     * A hashMap to store key-pair values of the stegosaurs that can't be attacked for the next
+     * 20 rounds. Key-pair format in (Stegosaur's name, n-th round of not being able to be attacked).
+     * Also, we use ConcurrentHashMap instead of normal hash map,
+     * to prevent from throwing ConcurrentModificationException when editing the hash map.
+     */
     private ConcurrentHashMap<String, Integer> cantAttack = new ConcurrentHashMap<>();
-    private static int allosaurCount = 1;       // used to give a unique name for each Allosaur
-    boolean moved = false;
-    boolean displayedHungry = false;
-    private boolean displayThirsty = false;
-    Action actionBreed = null;
+
+    /**
+     * A count for number of Allosaurs instantiated, used to give a unique name for each Allosaur
+     */
+    private static int allosaurCount = 1;
+
+    /**
+     * An Action, to store a breeding action if possible to breed. Else, it'll be null.
+     */
+    private Action actionBreed = null;
 
     /**
      * Constructor.
@@ -65,12 +76,12 @@ public class Allosaur extends Dinosaur {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action action = null;
-        displayedHungry = false;    // reset
-        moved = false;              //reset
+        boolean displayedHungry = false;
+        boolean displayThirsty = false;
+        boolean moved = false;
         actionBreed = null;         //reset
         int toBeAddedHitPoints = 0; // used to compare and find which food adds most hitPoints, and eats that
         Location toBeMovedLocation = null;
-        displayThirsty = false;     // reset
 
         eachTurnUpdates(50);
 
@@ -245,7 +256,7 @@ public class Allosaur extends Dinosaur {
         else if (actionBreed != null)
             return actionBreed;
         // searching for nearest lake
-        else if(this.displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+        else if(displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
             return getBehaviour().get(2).getAction(this,map);
         }
         // searching for nearest food source

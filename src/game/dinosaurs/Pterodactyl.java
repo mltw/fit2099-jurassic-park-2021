@@ -11,8 +11,20 @@ import game.portableItems.ItemType;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Pterodactyl is a carnivore dinosaur which can fly.
+ * It's main actions will be handled in the playTurn method.
+ */
 public class Pterodactyl extends Dinosaur{
-    private static int pterodactylCount = 1;       // used to give a unique name for each Pterodactyl
+
+    /**
+     * A count for number of Pterodactyls instantiated, used to give a unique name for each Pterodactyl
+     */
+    private static int pterodactylCount = 1;
+
+    /**
+     * A count for number of turns the Pterodactyl has been flying.
+     */
     private int flyCount = 0;
 
     /**
@@ -52,11 +64,16 @@ public class Pterodactyl extends Dinosaur{
         return actions;
     }
 
+    /**
+     * This method will determine what action a Pterodactyl can perform, considering it's hitpoints,
+     * and its surrounding(adjacent square)
+     * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
+     */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         Action action = null;
-        boolean displayedHungry = false;	// reset
-        boolean displayThirsty = false; 	// reset
+        boolean displayedHungry = false;
+        boolean displayThirsty = false;
 
         int pterodactylLocationX = map.locationOf(this).x();
         int pterodactylLocationY = map.locationOf(this).y();
@@ -64,6 +81,7 @@ public class Pterodactyl extends Dinosaur{
 
         eachTurnUpdates(30);
         this.flyCount++;
+
         // if flew for more than 30 turns, it has to land on ground.
         // if the current square it is on is a Lake, let it fly first until reaches a ground.
         if (this.flyCount >30 && !here.getGround().hasCapability(game.ground.Status.LAKE)){

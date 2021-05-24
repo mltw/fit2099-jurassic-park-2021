@@ -15,11 +15,16 @@ import java.util.List;
  * It's main actions will be handled in the playTurn method.
  */
 public class Brachiosaur extends Dinosaur {
-    private static int brachiosaurCount = 1;    // used to give a unique name for each brachiosaur
-    private boolean displayedHungry = false;
-    private boolean displayThirsty = false;
-    private boolean moved = false;
-    Action actionBreed;
+
+    /**
+     * A count for number of Brachiosaurs instantiated, used to give a unique name for each Brachiosaur
+     */
+    private static int brachiosaurCount = 1;
+
+    /**
+     * An Action, to store a breeding action if possible to breed. Else, it'll be null.
+     */
+    private Action actionBreed;
 
     /**
      * Constructor.
@@ -63,10 +68,10 @@ public class Brachiosaur extends Dinosaur {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        displayedHungry = false;        // reset
-        moved = false;                  // reset
+        boolean displayedHungry = false;
+        boolean moved = false;
+        boolean displayThirsty = false;
         actionBreed = null;             // reset
-        displayThirsty = false;         // reset
 
         eachTurnUpdates(50);  // to handle necessary updates for each turn
 
@@ -213,7 +218,7 @@ public class Brachiosaur extends Dinosaur {
         if (actionBreed != null)
             return actionBreed;
         // searching for nearest lake
-        else if(this.displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
+        else if(displayThirsty && getBehaviour().get(2).getAction(this,map)!=null){
             return getBehaviour().get(2).getAction(this,map);
         }
         // searching for nearest food source
