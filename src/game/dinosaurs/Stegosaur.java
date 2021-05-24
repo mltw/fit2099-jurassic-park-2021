@@ -25,7 +25,7 @@ public class Stegosaur extends Dinosaur {
 	/**
 	 * An Action, to store a breeding action if possible to breed. Else, it'll be null.
 	 */
-	Action actionBreed;
+	private Action actionBreed;
 
 	/** 
 	 * Constructor.
