@@ -11,8 +11,16 @@ import java.util.Random;
  *
  */
 public class Tree extends Ground {
+
+	/**
+	 * Age of the tree
+	 */
 	private int age = 0;
-	boolean dropped = false;
+
+	/**
+	 * Whether the tree has dropped fruit
+	 */
+	private boolean dropped = false;
 
 	/** Constructor
 	 * All trees are represented by a '+' character OR 't' character OR 'T' character.

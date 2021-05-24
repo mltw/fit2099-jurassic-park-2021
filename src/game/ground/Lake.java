@@ -11,14 +11,25 @@ import game.portableItems.Fish;
  *
  */
 public class Lake extends Ground {
+
+    /**
+     * Counter used to keep track for rainfalls
+     */
     private int counter = 0;
-    private int sips;
-    Display display = new Display();
+
+    /**
+     * Number of sips the Lake has.
+     */
+    private int sips = 0;
+
+    /**
+     * Number of fish in the lake.
+     */
     private int fishCount = 0;
 
     /**
      * Constructor.
-     * All lake are represented by a '~' character.
+     * All lakes are represented by a '~' character.
      */
     public Lake() {
         super('~');
@@ -73,7 +84,7 @@ public class Lake extends Ground {
 
         double fishProbability = Math.random();
         if (fishCount<25 && fishProbability >=0.6){
-            Fish newFish = new Fish("fish",'h');
+            Fish newFish = new Fish("fish", 'h');
             location.addItem(newFish);
             fishCount++;
         }

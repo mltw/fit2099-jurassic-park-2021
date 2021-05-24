@@ -8,11 +8,15 @@ import game.PortableItem;
  * Fish is a portable item.
  */
 public class Fish extends PortableItem {
-    private int foodpoints = 0;
-    Display display = new Display();
+
+    /**
+     * Food points provided to Actor that eats a Fish.
+     */
+    private int foodpoints;
 
     /** Constructor
      * @param name name of fish
+     * @param displayChar display character of a Fish
      */
     public Fish(String name,char displayChar) {
         super(name, 'h');
@@ -27,17 +31,6 @@ public class Fish extends PortableItem {
     @Override
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
-
-//        double fishProbability = Math.random();
-//        if (this.getCount()<25 && fishProbability >=0.6){
-//            Fish item = new Fish("fish",'h');
-//            currentLocation.addItem(item);
-////            this.count++;
-//            display.println("Lake has " + count + " fish!");                // testing
-//        }
-//        else if (this.getCount()==25){
-//            display.println("This lake has reached the maximum of 25 fish!"); // testing
-//        }
     }
 
 }

@@ -11,6 +11,10 @@ import java.util.Random;
  * A class that represents bare dirt.
  */
 public class Dirt extends Ground {
+
+	/**
+	 * A boolean used for internal code.
+	 */
 	private boolean read = false;
 
 	/**

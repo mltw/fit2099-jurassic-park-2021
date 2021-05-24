@@ -12,6 +12,10 @@ import game.dinosaurs.*;
  * Egg is a portable item.
  */
 public class Egg extends PortableItem {
+
+    /**
+     * The new born dinosuar this egg will hatch into
+     */
     private Dinosaur newBorn =null;
 
     /**
