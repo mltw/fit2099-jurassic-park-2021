@@ -6,26 +6,56 @@ import game.SearchNearestFoodBehaviour;
 import game.SearchNearestLakeBehaviour;
 import game.WanderBehaviour;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
  * This is an abstract class for a Dinosaur.
  * Since all different dinosaur will have same attributes but with different values, this
- * abstract class is used to implements methods related.
- * Subclasses(eg: a specific Dinosaur type, Stegosaur) will provides implementations for the methods this class.
+ * abstract class is used to implements those related attributes and methods.
+ * Subclasses(eg: a specific Dinosaur type, Stegosaur) will provide implementations for the methods
+ * and attribute in this class.
  */
 public abstract class Dinosaur extends Actor {
 
-    private ArrayList<Behaviour> behaviour = new ArrayList<Behaviour>();
-    private int unconsciousCount;
-    private int pregnantCount;
+    /**
+     * An ArrayList to store the dinosaur's behaviour.
+     */
+    private ArrayList<Behaviour> behaviour = new ArrayList<>();
+
+    /**
+     * The dinosaur's gender.
+     */
     private String gender;
+
+    /**
+     * Number of turns the dinosaur has been unconscious.
+     */
+    private int unconsciousCount;
+
+    /**
+     * Number of turns the dinosaur has been pregnant.
+     */
+    private int pregnantCount;
+
+    /**
+     * An indicator whether the dinoaur is pregnant. True if pregnant, false otherwise
+     */
     private boolean isPregnant;
+
+    /**
+     * Number of turns the dinosaur has been a baby.
+     */
     private int babyCount;
+
+    /**
+     * Water level of the dinosaur.
+     */
     private int waterLevel;
+
+    /**
+     * Maximum water level (water capacity) of the dinosaur.
+     */
     private int maxWaterLevel;
 
     /**
@@ -76,15 +106,13 @@ public abstract class Dinosaur extends Actor {
      * @param babyCount number of counts upon the baby turns into an adult dinosaur
      */
     public void eachTurnUpdates(int babyCount){
-        // if dinosaur is unconscious: update unconsciousCount
-        // 12/5 : water level reaches 0 also cant move: unconscious
+        // if dinosaur is unconscious (by hunger or thirst): update unconsciousCount
         if (!this.isConscious() || this.getWaterLevel() ==0){
             this.setUnconsciousCount( this.getUnconsciousCount() + 1);
         }
         else {
-            // else dinosaur is conscious: deduct food level by 1 each turn
+            // else dinosaur is conscious: deduct food and water level by 1 each turn
             this.setHitPoints(this.getHitPoints() - 1);
-            // 12/5 : decrease water level by 1 each turn
             this.setWaterLevel(Math.max(this.getWaterLevel()-1,0));
         }
 
