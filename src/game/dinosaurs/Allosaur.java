@@ -153,7 +153,6 @@ public class Allosaur extends Dinosaur {
                     Lake ground = (Lake) destination.getGround();
                     if (ground.getSips()>0) {
                         ground.setSips(ground.getSips() - 1); // one turn == one sip
-                        display.println("After drinking, sip now is: " + ground.getSips()); // testing
                         action = new DrinkAction();
                     }
                     // if empty(sip==0): lose ability to be drunk by stegosaur

@@ -195,7 +195,6 @@ public class Pterodactyl extends Dinosaur{
                     Lake ground = (Lake) destination.getGround();
                     if (ground.getSips() > 0) {
                         ground.setSips(ground.getSips() - 1); // one turn == one sip(one sip == 30 water level)
-                        display.println("After drinking, sip now is: " + ground.getSips()); // testing
                         action = new DrinkAction();
                     }
                 }

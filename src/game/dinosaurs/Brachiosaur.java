@@ -141,7 +141,6 @@ public class Brachiosaur extends Dinosaur {
                     Lake ground = (Lake) destination.getGround();
                     if (ground.getSips()>0) {
                         ground.setSips(ground.getSips() - 1); // one turn == one sip(one sip == 80 water level)
-                        display.println("After drinking, sip now is: " + ground.getSips()); // testing
                         new DrinkAction();
                     }
                     // if empty(sip==0): lose ability to be drunk by stegosaur
