@@ -44,10 +44,6 @@ public class DrinkAction extends Action {
         message += (actor + " at ("+map.locationOf(actor).x() + "," +
                     map.locationOf(actor).y()+")"+ " drank water in adjacent square" + '\n');
 
-        // testing
-        message += (((Dinosaur) actor)+" ,water level after drinking: " + ((Dinosaur) actor).getWaterLevel());
-
-
         return message;
     }
 
