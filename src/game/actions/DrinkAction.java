@@ -16,9 +16,9 @@ public class DrinkAction extends Action {
 
     /**
      * Perform the drinking Action.
-     * When this method is called: it means dinosaur found an adjacent lake & it is thirsty
+     * When this method is called: it means dinosaur found an adjacent lake and it is thirsty
      * Different dinosaur has different water level that it can consume once
-     * Eg: Stegosaur, Allosaur & Pterodactyl: each sip will increase water level by 30
+     * Eg: Stegosaur, Allosaur and Pterodactyl: each sip will increase water level by 30
      *     Brachiosaur                      : each sip will increase water level by 80
      *
      * @param actor The actor performing the action.
