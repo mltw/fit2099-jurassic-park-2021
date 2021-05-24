@@ -14,6 +14,13 @@ import java.util.Random;
  */
 public class DinosaurLocation extends Location {
 
+    /**
+     * Constructor
+     *
+     * @param map the map that contains this location
+     * @param x x coordinate of this location within the map
+     * @param y y coordinate of this location within the map
+     */
     public DinosaurLocation(GameMap map, int x, int y) {
         super(map, x, y);
     }
