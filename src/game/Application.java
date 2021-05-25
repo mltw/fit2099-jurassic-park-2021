@@ -52,6 +52,12 @@ public class Application {
 		do {
 			flag = false;
 			Display display = new Display();
+			// reset static variables of the game
+			DinosaurWorld.setPlayerExits(false);
+			Stegosaur.resetStegosaurCount();
+			Brachiosaur.resetBrachiosaurCount();
+			Allosaur.resetAllosaurCount();
+			Pterodactyl.resetPterodactylCount();
 
 			display.println("Choose your mode: ");
 			display.println("1. I'm in for a Challenge!");
@@ -87,9 +93,6 @@ public class Application {
 	 */
 	public static void runGame(int gameMode){
 		Display display = new Display();
-		// use a scanner to read in user input of more than 1 character,
-		// eg number of moves which can easily have two or more digits
-
 		Application.gameMode = gameMode;
 
 		if (gameMode == 1){
