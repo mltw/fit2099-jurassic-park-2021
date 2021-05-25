@@ -230,6 +230,13 @@ public class Brachiosaur extends Dinosaur {
         else
             return new DoNothingAction();
     }
+
+    /**
+     * Reset the brachiosaur count. Used when a new round of game is called.
+     */
+    public static void resetBrachiosaurCount(){
+        brachiosaurCount = 1;
+    }
 }
 
 

@@ -284,6 +284,10 @@ public class Allosaur extends Dinosaur {
         return new IntrinsicWeapon(20, "bites");
     }
 
-
-
+    /**
+     * Reset the Allosaur count. Used when a new round of game is called.
+     */
+    public static void resetAllosaurCount(){
+        allosaurCount = 1;
+    }
 }

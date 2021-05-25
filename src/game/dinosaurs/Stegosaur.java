@@ -214,6 +214,15 @@ public class Stegosaur extends Dinosaur {
 		else
 			return new DoNothingAction();
 		}
+
+	/**
+	 * Reset the stegosaur count. Used when a new round of game is called.
+	 */
+	public static void resetStegosaurCount(){
+			stegosaurCount = 1;
+		}
 	}
+
+
 
 

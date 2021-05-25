@@ -315,4 +315,11 @@ public class Pterodactyl extends Dinosaur{
         else
             return new DoNothingAction();
     }
+
+    /**
+     * Reset the Pterodactyl count. Used when a new round of game is called.
+     */
+    public static void resetPterodactylCount(){
+        pterodactylCount = 1;
+    }
 }
