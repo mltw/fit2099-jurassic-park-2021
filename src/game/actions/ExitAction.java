@@ -13,7 +13,7 @@ public class ExitAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         DinosaurWorld.setPlayerExits(true);
-        return null;
+        return "Player exits the game";
     }
 
     @Override
