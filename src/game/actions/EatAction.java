@@ -72,8 +72,9 @@ public class EatAction extends Action {
             // deduct the corpse's edible count
             ((Corpse) itemToBeEaten).setEdibleCount( ((Corpse) itemToBeEaten).getEdibleCount() - 1);
 
-            // remove corpse if it's completely eaten by the pterodactyl
-            if (((Corpse) itemToBeEaten).getEdibleCount() <=0)
+            // remove corpse if it's completely eaten by the pterodactyl, and it's not fed by player
+            // ie Corpse is on the ground
+            if (((Corpse) itemToBeEaten).getEdibleCount() <=0 && !fedByPlayer)
                 map.locationOf(actor).removeItem(itemToBeEaten);
         }
 
