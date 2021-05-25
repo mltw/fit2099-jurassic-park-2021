@@ -45,7 +45,6 @@ public class Egg extends PortableItem {
         // if reach specific count: the dinosaur hatched the eggs & turn into a baby dinosaur
         if (this.getCount() == 50 || this.getCount() == 40 || this.getCount() == 30) {
             try {
-                display.println(this.getCount()+"");
                 if (this.hasCapability(EggType.ALLOSAUR) && this.getCount() == 50) {
                     newBorn = new Allosaur(Status.BABY);
                     hatched = true;
